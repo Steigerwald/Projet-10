@@ -1,0 +1,144 @@
+/* Classe principale de la barre de navigation */
+.container{
+    width: 100%;
+}
+
+body{
+    font-size:1.1em !important;
+}
+.navbar {
+    /* Couleur de fond de la barre de navigation */
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+.liseret {
+    background-color: #ffa64f;
+    height:10px;
+}
+/* Couleur des titres affichés dans la barre */
+.navbar-brand {
+    color: #000000 !important;
+}
+/* Couleur utilisée lors du passage de la souris sur un titre de la barre */
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: #a2a2a2;
+}
+/* Couleur utilisée pour les liens */
+.navbar-nav > li > a {
+    color: #000000 !important;
+}
+/* Couleur utilisée pour les liens lorsque la souris passe dessus */
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+    color: red !important;
+}
+
+.navbar-nav > li {
+    left: auto !important;
+    right: 0 !important;
+}
+
+/* Couleur utilisée pour le lien actif (celui qui est affiché sur la page) */
+/*
+.navbar-default, .navbar-nav > .active > a,
+.navbar-default, .navbar-nav > .active > a:hover,
+.navbar-default, .navbar-nav > .active > a:focus {
+    color: #555;
+    background-color: #E7E7E7;
+}*/
+
+/* Couleur utilisée pour un menu dépliant lorsqu'il est ouvert */
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: white;
+    background-color: #ffa64f;
+}
+/* Caret */
+.navbar-default .navbar-nav > .dropdown > a .caret {
+    border-top-color: #777;
+    border-bottom-color: #777;
+}
+.navbar-default .navbar-nav > .dropdown > a:hover .caret,
+.navbar-default .navbar-nav > .dropdown > a:focus .caret {
+    border-top-color: #333;
+    border-bottom-color: #333;
+}
+.navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .navbar-nav > .open > a:hover .caret,
+.navbar-default .navbar-nav > .open > a:focus .caret {
+    border-top-color: #555;
+    border-bottom-color: #555;
+}
+/* Version mobile, le menu devient une icône qui déroule une liste avec le menu en vertical */
+.navbar-toggler {
+    border-color: #ffa64f !important;
+    background-color: white !important;
+}
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+    background-color: #ff690c !important;
+}
+.navbar-toggler-icon {
+    background-color: transparent !important;
+}
+
+.nav-link {
+    text-align: justify !important;
+    font-size:1.1em !important;
+    margin-left: 30px !important;
+    left: 150px !important;
+}
+/*
+@media only screen and (max-width:480px) {
+    .nav-link {
+        text-align: justify !important;
+        font-size:0.8em !important;
+        margin-left: 10px !important;
+        left: 50px !important;
+    }
+}
+/*
+@media only screen and (max-width:768px) {
+    .navbar-nav .open .dropdown-menu > li > a {
+        color: blue;
+    }
+    .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: red;
+    }
+    .nav-link {
+        text-align: justify !important;
+        font-size:0.8em !important;
+        margin-left: 10px !important;
+        left: 150px !important;
+    }
+    body{
+        font-size:0.8em !important;
+    }
+}
+
+@media only screen and (max-width:1024px) {
+    .navbar-nav .open .dropdown-menu > li > a {
+        color: blue;
+    }
+
+    .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: red;
+    }
+
+    .nav-link {
+        text-align: justify !important;
+        font-size: 0.8em !important;
+        margin-left: 20px !important;
+        left: 150px !important;
+    }
+
+    body {
+        font-size: 0.8em !important;
+    }
+}
+
+ */

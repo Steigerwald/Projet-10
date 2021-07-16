@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <title>Ajouter un livre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/barre.css}" />
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.4.1/css/all.css}" />
+</head>
+
+<body>
+<div th:insert="~{baniere :: fragment }"></div>
+<main>
+    <div class="container my-5">
+        <h3>
+            <span th:text="${titreFormLivre}" ></span>
+        </h3>
+        <div class="form">
+            <div class="col-md-12">
+                <form th:action="@{/livre/createLivre}" th:object="${livre}" method="post">
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-sm-6 col-md-3">
+                            <label for="titre" class="col-form-label">Titre</label>
+                            <input type="text" th:field="*{titre}" class="form-control"
+                                   id="titre" placeholder="Titre du livre"/>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                            <label for="auteur" class="col-form-label">Auteur</label>
+                            <input type="text" th:field="*{auteur}" class="form-control"
+                                   id="auteur" placeholder="nom auteur"/>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-3 col-md-3">
+                            <label for="publication" class="col-form-label">Date de publication</label>
+                            <div class="input-group date">
+                                <input type="date" th:field="*{publication}" class="form-control"
+                                       id="publication" placeholder="date de publication" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-group col-xs-12 col-sm-6 col-md-12">
+                            <label for="resume" class="col-form-label">Description</label>
+                            <input type="text" th:field="*{resume}" class="form-control"
+                                   id="resume" placeholder="résumé du livre" />
+                        </div>-->
+                        <div class="form-group col-xs-12 col-sm-6 col-md-12">
+                            <label for="description">Description:</label>
+                            <textarea type="text" rows="3" id="description" placeholder="Description" class="form-control"
+                                      th:field="*{resume}" autocomplete="off"></textarea>
+                        </div>
+
+
+                        <div class="form-group col-xs-12 col-sm-2 col-md-2">
+                            <label for="pages" class="col-form-label">Nombre pages</label>
+                            <input type="text" th:field="*{nombrePages}" class="form-control"
+                                   id="pages" placeholder="nombre pages" />
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-3 col-md-3">
+                            <label for="nomCategorie" class="col-form-label">Catégorie</label>
+                            <select type="text" th:field="*{nomCategorie}" class="form-control" id="nomCategorie">
+                                <option value="" disabled selected th:text="'Nom catégorie'">Nom catégorie</option>
+                                <!--<option th:value=null></option>-->
+                                <option th:value="'Policier'" th:text="'Policier'"></option>
+                                <option th:value="'Roman'" th:text="'Roman'"></option>
+                                <option th:value="'Nouvelles'" th:text="'Nouvelles'"></option>
+                                <option th:value="'Contes'" th:text="'Contes'"></option>
+                                <option th:value="'Science Fiction'" th:text="'Science Fiction'"></option>
+                                <option th:value="'Scolaire'" th:text="'Scolaire'"></option>
+                                <option th:value="'Medecine'" th:text="'Medecine'"></option>
+                                <option th:value="'Informatique'" th:text="'Informatique'"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-3 col-md-3">
+                            <label for="dateAchat" class="col-form-label">Date achat</label>
+                            <div class="input-group date">
+                                <input type="date" th:field="*{dateAchat}" class="form-control"
+                                       id="dateAchat" placeholder="date" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-2 col-md-2">
+                            <label for="prixLocation" class="col-form-label">Prix location (€)</label>
+                            <input type="text" th:field="*{prixLocation}" class="form-control"
+                                   id="prixLocation" placeholder="prix location en €" />
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-2 col-md-2">
+                            <label for="etat" class="col-form-label">Etat du livre</label>
+                            <select type="text" th:field="*{etatLivre}" class="form-control" id="etat">
+                                <option value="" disabled selected th:text="'Etat du livre'">etat</option>
+                                <!--<option th:value=null></option>-->
+                                <option th:value="'neuf'" th:text="'neuf'"></option>
+                                <option th:value="'normal'" th:text="'normal'"></option>
+                                <option th:value="'vieux'" th:text="'vieux'"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-4 col-md-4">
+                            <label for="bibliotheque1" class="col-form-label">Bibliotheque</label>
+                            <select type="text"th:field="*{bibliotheque}" class="form-control" id="bibliotheque1">
+                                <option th:each="bibli : ${bibliotheques}" th:value="${bibli.getIdBibliotheque()}" th:text="${bibli.nomBibliotheque}">
+                                </option>
+                                <!--<option value="" disabled selected hidden th:text="'Nom bibliotheque'">Bibliotheque</option>
+                                <option th:value=null></option>
+                                <option th:value=1 th:text="'ESPACE DE BRUGES'"></option>
+                                <option th:value=2 th:text="'ESPACE CULTUREL DE BORDEAUX'"></option>
+                                <option th:value=3 th:text="'TECHNOSPACE CULTUREL'"></option>-->
+                            </select>
+                        </div>
+                    </div>
+                    <Br>
+                    <Br>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input type="submit" class="btn btn-success" value=" Enregistrer ">
+                        </div>
+                        <input type="hidden" id="id" th:field="*{idLivre}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <Br>
+    <Footer class="pagination">
+        <nav aria-label="pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/home}" tabindex="-1"><i class="fas fa-undo"></i> Retour</a>
+                </li>
+            </ul>
+        </nav>
+    </Footer>
+</main>
+</body>
+<div th:insert="~{bootstrap :: fragment }"></div>
+</html>

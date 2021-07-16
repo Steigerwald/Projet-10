@@ -1,0 +1,186 @@
+
+body {
+    padding-top: 2rem;
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    font-family:Pier Sans, didactgothic, serif;
+}
+
+main {
+    margin-top: 70px !important;
+}
+
+.starter-template {
+    padding: 1rem 1rem;
+    text-align: center;
+}
+
+h1{
+    color:blue;
+    text-align:center;
+}
+
+h2{
+    color:black;
+}
+
+h3{
+    color:black;
+}
+
+.inter {
+    padding-left: 10px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: center;
+}
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+    background-color: #fff;
+}
+table th {
+    background-color: #ffa64f;
+    color: white;
+    text-align: center;
+}
+img {
+    width: 50%;
+    height: 50%;
+    margin-top: 50px;
+}
+.question{
+    padding-top: 40px;
+}
+#formulaireUser{
+    margin-top: 40px; !important;
+    margin-left:100px;
+}
+.card{
+    display:flex;
+    align-items:center;
+    justify-content:start !important;
+    border-color: white !important;
+    text-align: left !important;
+    /*width:1000px!important;*/
+    padding-left:20px!important;
+}
+
+#carte{
+    height: 250px !important;
+}
+.panel-body{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    /*border: 2mm ridge rgba(170, 50, 220, .6);*/
+    border-radius: 10px;
+    padding-top: 10px;
+}
+Footer{
+    display:flex;
+    align-items: end;
+    margin-top: 40px; !important;
+    margin-left:100px;
+}
+
+
+/*
+@media only screen and (max-width:320px) {
+    body {
+        font-size: 0.9em !important;
+    }
+    h1,h2 {
+        font-size: 1.1em !important;
+    }
+    .card{
+        table-layout: auto!important;
+        width:100%!important;
+        padding-left: 10%!important;
+        margin-left: 10%!Important;
+    }
+
+    .btn{
+        font-size: 0.7em !important;
+    }
+}
+
+ */
+
+@media only screen and (max-width:480px) {
+    body {
+        font-size: 0.9em !important;
+    }
+    h1,h2 {
+        font-size: 1.1em !important;
+    }
+    #listeLivres{
+        max-width: 300px!important;
+    }
+
+    #cardBodyLivres{
+        /*border: 1px solid #fb44ff !important;*/
+        max-width: 350px !important;
+    }
+
+    #autreContainer{
+        max-width: 350px !important;
+    }
+
+    #banniereTaille{
+        max-width: 350px !important;
+    }
+
+    .card{
+        table-layout: auto!important;
+        max-width: 80%!important;
+        font-size: 1.1em !important;
+        padding-left: 10%!important;
+        margin-left: 10%!Important;
+    }
+    .btn{
+        font-size: 0.9em !important;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    body {
+        font-size: 1.2em !important;
+    }
+    h1,h2 {
+        font-size: 1.3em !important;
+    }
+    .card{
+        table-layout: auto!important;
+        width: 100%!important;
+    }
+    .btn{
+        font-size: 0.9em !important;
+    }
+}
+
+@media only screen and (max-width:1024px) {
+    body {
+        font-size: 1.3em !important;
+    }
+
+    h1,h2 {
+        font-size: 1.5em !important;
+    }
+
+    .card{
+        table-layout: auto!important;
+        width: 150px!important;
+    }
+    .btn{
+        font-size: 0.9em !important;
+    }
+}

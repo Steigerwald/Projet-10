@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/barre.css}" />
+    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{https://use.fontawesome.com/releases/v5.4.1/css/all.css}" />
+</head>
+<body>
+<div th:insert="~{baniere :: fragment }"></div>
+<main>
+    <div class="container">
+        <form th:action="@{/user/addUser}"  th:object="${user}" method="post" modelAttribute="user" class="form-signin">
+            <h2 class="form-signin-heading col-12">Créer votre compte</h2>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1" aria-hidden="true"><span class="far fa-envelope"></span></span>
+                    </div>
+                    <input type="email" th:field="*{mailUser}" path="mailUser" class="form-control" placeholder="mail" autofocus="true" aria-describedby="basic-addon1"/>
+                    <span class="fa fa-check-square-o" aria-hidden="true"></span>
+                </div>
+                <errors path="mailUser"></errors>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2" aria-hidden="true"><span class="fas fa-user"></span></span>
+                    </div>
+                    <input type="text" th:field="*{nomUser}" path="nomUser" class="form-control" placeholder="nom" autofocus="true" aria-describedby="basic-addon2"/>
+                    <span class="fa fa-check-square-o" aria-hidden="true"></span>
+                </div>
+                <errors path="nomUser"></errors>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3" aria-hidden="true"><span class="fas fa-user"></span></span>
+                    </div>
+                    <input type="text" th:field="*{prenomUser}" path="prenomUser" class="form-control" placeholder="prenom" autofocus="true" aria-describedby="basic-addon3"/>
+                    <span class="fa fa-check-square-o" aria-hidden="true"></span>
+                </div>
+                <errors path="prenomUser"></errors>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon4" aria-hidden="true"><i class="fa fa-unlock"></i></span>
+                    </div>
+                    <input type="password" th:field="*{motDePasse}" path="motDePasseUser" class="form-control" placeholder="Mot de passe" aria-describedby="basic-addon4"/>
+                    <span class="fa fa-check-square-o" aria-hidden="true"></span>
+                </div>
+                <errors path="motDePasseUser"></errors>
+            </div>
+            <!--<div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon5" aria-hidden="true"><i class="fa fa-unlock"></i></span>
+                    </div>
+                    <input type="password" th:field="*{motDePasseUser}" path="motDePasseUser" class="form-control" placeholder="Confirmez votre mot de passe" aria-describedby="basic-addon5"/>
+                          <span class="fa fa-check-square-o" aria-hidden="true"></span>
+                </div>
+                <errors path="motDePasseUser"></errors>
+            </div>-->
+            <!--<input type="hidden" id="role" th:field="*{role}" th:value=2>-->
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Enregistrer</button>
+        </form>
+    </div>
+    <Footer class="pagination">
+        <nav aria-label="pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/home}" tabindex="-1"><i class="fas fa-undo"></i> Retour</a>
+                </li>
+            </ul>
+        </nav>
+    </Footer>
+</main>
+</body>
+<div th:insert="~{bootstrap :: fragment }"></div>
+</html>
