@@ -7,6 +7,7 @@ TRUNCATE TABLE bibliotheques.TBL_BIBLIOTHEQUE;
 TRUNCATE TABLE bibliotheques.TBL_RESERVATION;
 TRUNCATE TABLE bibliotheques.TBL_USER;
 TRUNCATE TABLE bibliotheques.TBL_ROLE;
+TRUNCATE TABLE bibliotheques.TBL_ATTENTE_RESERVATION;
 
 
 INSERT INTO bibliotheques.TBL_LIVRE (id_livre,titre, auteur, publication,resume,nombre_pages,nom_categorie,date_achat,prix_location,etat_livre,disponibilite,bibliotheque_id_bibliotheque) VALUES
@@ -57,6 +58,12 @@ INSERT INTO bibliotheques.TBL_BIBLIOTHEQUE_USERS (bibliotheques_id_bibliotheque,
 INSERT INTO bibliotheques.TBL_ROLE (id_role, actif_role,nom_role) VALUES
 (1,true, 'ROLE_ADMIN'),
 (2,true, 'ROLE_USER');
+
+INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation,etat_attente_reservation, date_attente_reservation, date_delai_depasse,isactif_attente,user_id_user,livre_id_livre) VALUES
+(1,'pas disponible','2021-06-28 14:45:30',0,1,1,1),
+(2,'pas disponible','2021-07-10 14:45:30',0,1,1,7);
+
+
 
 
 SET FOREIGN_KEY_CHECKS=1;
