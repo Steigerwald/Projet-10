@@ -59,7 +59,7 @@ INSERT INTO bibliotheques.TBL_ROLE (id_role, actif_role,nom_role) VALUES
 (1,true, 'ROLE_ADMIN'),
 (2,true, 'ROLE_USER');
 
-INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation,etat_attente_reservation, date_attente_reservation, date_delai_depasse,isactif_attente,user_id_user,livre_id_livre) VALUES
+INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation, etat_attente_reservation, date_attente_reservation, date_delai_depasse, isactif_attente,user_id_user,livre_id_livre) VALUES
 (1,'pas disponible','2021-06-28 14:45:30',0,1,1,1),
 (2,'pas disponible','2021-07-10 14:45:30',0,1,1,7);
 
