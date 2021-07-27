@@ -95,6 +95,8 @@ public class LivreService {
         }
     }
 
+
+
     /*Methode pour avoir tous les exemplaires disponibles d'un livre*/
     public List<Livre> getAllExemplairesDidponiblesDUnLivre(int id){
         Livre livreRecherche=findById(id);
