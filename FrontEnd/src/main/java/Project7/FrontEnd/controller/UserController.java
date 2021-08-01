@@ -70,7 +70,7 @@ public class UserController {
         authService.setAuthentification(false);
         authService.setMemoireToken(null);
         authService.setUserConnecte(null);
-        return "user/userLogin";
+        return "home/home";
     }
 
     /* controller pour recevoir un mail et mot de passe pour obtenir l'autorisation*/
