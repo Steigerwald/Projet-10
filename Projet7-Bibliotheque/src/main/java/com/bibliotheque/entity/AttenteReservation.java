@@ -35,7 +35,6 @@ public class AttenteReservation {
     private User user;
 
     @ManyToOne
-    @Nullable
     private Livre livre;
 
 

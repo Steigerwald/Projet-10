@@ -47,5 +47,9 @@ public class User {
     @Nullable
     private Collection<Bibliotheque> bibliotheques;
 
+    @OneToMany(mappedBy="user",fetch=FetchType.LAZY,orphanRemoval=true)
+    @Nullable
+    private List<AttenteReservation> attenteReservations;
+
 
 }

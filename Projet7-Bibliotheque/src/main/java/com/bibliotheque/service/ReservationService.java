@@ -21,6 +21,9 @@ public class ReservationService {
     @Autowired
     ReservationRepository reservationRepository;
 
+    @Autowired
+    AttenteReservationService attenteReservationService;
+
     /*Methode pour avoir toutes les reservations actives de la base de données*/
     public List<Reservation> findAll() {
         //return reservationRepository.findAllAndIsactif();
@@ -41,20 +44,26 @@ public class ReservationService {
 
     /*Methode pour creer une reservation dans la base de données*/
     public Reservation createReservation(Reservation entity) throws RecordNotFoundException {
-        Date today = new Date();
-        Reservation newReservation = new Reservation();
-        entity.setIdReservation(newReservation.getIdReservation());
-        entity.setDateDeRetrait(null);
-        entity.setDateReservation(today);
-        entity.setDelaiDeLocation(28);
-        entity.setEtatReservation("En attente confirmation");
-        entity.setProlongation(false);
-        entity.setIsactif(true);
-        entity.setRelance(false);
-        //enregistrement de la reservation dans la basse de données
-        logger.info(" retour de l'entité newReservation de createBReservation qui a été créée et sauvegardée");
-        return reservationRepository.save(entity);
-
+        if (entity.getLivre()!=null){
+            if (entity.getLivre().getDisponibilite()){
+                Date today = new Date();
+                Reservation newReservation = new Reservation();
+                entity.setIdReservation(newReservation.getIdReservation());
+                entity.setDateDeRetrait(null);
+                entity.setDateReservation(today);
+                entity.setDelaiDeLocation(28);
+                entity.setEtatReservation("En attente confirmation");
+                entity.setProlongation(false);
+                entity.setIsactif(true);
+                entity.setRelance(false);
+                //enregistrement de la reservation dans la basse de données
+                logger.info(" retour de l'entité newReservation de createBReservation qui a été créée et sauvegardée");
+                return reservationRepository.save(entity);
+            }else{
+               attenteReservationService.createAttenteReservation(entity.getUser(),entity.getLivre());
+            }
+        }
+        return entity;
     }
 
     /*Methode pour modifier une réservation dans la base de données*/
