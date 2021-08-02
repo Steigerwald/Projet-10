@@ -111,7 +111,6 @@ public class AttenteReservationService {
         }
     }
 
-    /*Methode pour prioriser le premier user de la liste d'attente en cours pour déclencher une réservation*/
 
     /*Methode pour déterminer la premiere attente valide de la liste d'attente selon date*/
     public AttenteReservation trouverPremiereAttenteReservation(Livre livre){
@@ -134,15 +133,19 @@ public class AttenteReservationService {
     /*Methode pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
     public Boolean verifierUserListeDAttente (User user,Livre livre){
         Boolean result = true;
-        List<User> listUsers = new ArrayList<User>();
+        List<User> listUsersPresent = new ArrayList<User>();
         List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
         listeDAttente=findAllAttenteReservationByLivre(livre);
         if (listeDAttente.size()>0) {
             for (int i = 0; i < listeDAttente.size(); i = i + 1) {
-                listUsers.add(listeDAttente.get(i).getUser());
+                if (user.equals(listeDAttente.get(i).getUser())){
+                    listUsersPresent.add(listeDAttente.get(i).getUser());
             }
-            for (int j=0;j<listUsers.size();j=j+1) {
-                result =user.equals(listUsers.get(j));
+                if (listUsersPresent.size()>0){
+                    result=true;
+                }else{
+                    result=false;
+                }
             }
         }else{
             result=false;
@@ -151,14 +154,12 @@ public class AttenteReservationService {
     }
 
 
-
     /*Methode pour vérifier la date de retrait et la date de disponibilité < 48H*/
     public boolean verfierDateDeRetraitAttente (AttenteReservation entity){
         Date today = new Date();
 
         return true;
     }
-
 
 
     /*Methode pour modifier l'etat de l'attente en fonction la validité de la date de retrait d'un livre et de la disponibilté*/
