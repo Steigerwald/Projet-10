@@ -96,7 +96,7 @@ public class ReservationController {
     public String reservationRetourner(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         ReservationDTO reservationARetourner =reservationService.getReservationById(id);
         ReservationDTO reservationRetiree = reservationService.retournerReservation(reservationARetourner);
-        //model.addAttribute("reservation",reservationRetiree);
+        // rajout de la méthode pour reserver le livre pour le user en attente
         return "redirect:/user/EspaceAdministration";
     }
 

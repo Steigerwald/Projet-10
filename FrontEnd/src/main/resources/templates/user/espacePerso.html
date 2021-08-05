@@ -53,11 +53,14 @@
                                                 <td th:text="${dates.get(state.index)}"></td>
                                                 <td th:text="${reservation.toStringProlongation()}"></td>
                                                 <td>
-                                                    <div th:switch="${reservation.prolongation}">
-                                                        <form th:action="@{/reservation/prolonger/{id}(id=${reservation.idReservation})}" method="post">
-                                                            <button class="btn btn-danger my-2 my-sm-0" type="submit" th:case="false" >A prolonger</button>
-                                                            <p th:case="*"> prolongé</p>
-                                                        </form>
+                                                    <div th:if="${reservation.etatReservation=='delai depasse'}">Pas de prolongation</div>
+                                                    <div th:unless="${reservation.etatReservation=='delai depasse'}">
+                                                        <div th:switch="${reservation.prolongation}">
+                                                            <form th:action="@{/reservation/prolonger/{id}(id=${reservation.idReservation})}" method="post">
+                                                                <button class="btn btn-danger my-2 my-sm-0" type="submit" th:case="false" >A prolonger</button>
+                                                                <p th:case="*"> prolongé</p>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td> <a th:href="@{/reservation/detail/{nom} (nom=${reservation.idReservation})}" >plus info</a></td>
