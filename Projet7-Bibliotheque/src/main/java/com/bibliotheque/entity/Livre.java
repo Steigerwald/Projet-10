@@ -54,9 +54,10 @@ public class Livre {
     @OneToMany(mappedBy = "livre",fetch=FetchType.LAZY)
     private List<Reservation> reservations;
 
+    /*
     @OneToMany(mappedBy="livre",fetch=FetchType.LAZY,orphanRemoval=true)
     @Nullable
     private List<AttenteReservation> attenteReservations;
-
+     */
 
 }

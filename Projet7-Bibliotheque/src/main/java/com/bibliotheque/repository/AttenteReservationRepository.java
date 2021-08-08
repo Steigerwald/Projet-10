@@ -16,5 +16,6 @@ public interface AttenteReservationRepository extends JpaRepository<AttenteReser
     List<AttenteReservation> findAllByUser(User user);
     List<AttenteReservation> findAllByUserAndIsactifAttente(User user,Boolean actifAttente);
     List<AttenteReservation> findAllByIsactifAttente(Boolean actifAttente);
-    List<AttenteReservation> findAllByLivreAndIsactifAttente(Livre livre, Boolean actifAttente);
+    //List<AttenteReservation> findAllByLivreAndIsactifAttente(Livre livre, Boolean actifAttente);
+    List<AttenteReservation> findALLByTitreLivreAndIsactifAttente(String titreLivre,Boolean actifAttente);
 }

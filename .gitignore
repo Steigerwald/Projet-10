@@ -1,6 +1,6 @@
 HELP.md
 
-BibliothequeVille/target/
+batchMail/target/
 FrontEnd/target/
 Projet7-Bibliotheque/target/
 
@@ -19,7 +19,7 @@ Projet7-Bibliotheque/target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-BibliothequeVille/.idea
+batchMail/.idea
 FrontEnd/.idea
 Projet7-Bibliotheque/.idea
 *.iws

@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/attenteReservation")
@@ -61,8 +62,8 @@ public class AttenteReservationController {
     @RequestMapping(path ="/livre/{id}",method = RequestMethod.GET)
     public ResponseEntity<List<AttenteReservationDTO>> listOfAttenteReservationsByLivre(@PathVariable int id) {
         Livre livreTrouve = livreService.findById(id);
-        List<AttenteReservation> toutesAttenteReservationsByLivre =attenteReservationService.findAllAttenteReservationByLivre(livreTrouve);
-        return new ResponseEntity<>(attenteReservationMapper.toDto(toutesAttenteReservationsByLivre), HttpStatus.OK);
+        List<AttenteReservation> toutesAttenteReservationsByTitreLivre =attenteReservationService.findAllAttenteReservationByTitreLivre(livreTrouve);
+        return new ResponseEntity<>(attenteReservationMapper.toDto(toutesAttenteReservationsByTitreLivre), HttpStatus.OK);
     }
 
 
@@ -71,7 +72,8 @@ public class AttenteReservationController {
     public ResponseEntity<List<AttenteReservationDTO>> listOfAttenteReservationsByUser(@PathVariable int id) throws RecordNotFoundException {
         User userTrouve = userService.getUserById(id);
         List<AttenteReservation> toutesAttenteReservationsByUser =attenteReservationService.findAllAttenteReservationByUser(userTrouve);
-        return new ResponseEntity<>(attenteReservationMapper.toDto(toutesAttenteReservationsByUser), HttpStatus.OK);
+        //return new ResponseEntity<>(attenteReservationMapper.toDto(toutesAttenteReservationsByUser), HttpStatus.OK);
+        return new ResponseEntity<>(toutesAttenteReservationsByUser.stream().map(x ->attenteReservationMapper.fromEntityToDtoWithoutUser(x)).collect(Collectors.toList()), HttpStatus.OK);
     }
 
 
@@ -88,10 +90,17 @@ public class AttenteReservationController {
 
     /* controller pour ajouter une attente de reservation */
     @RequestMapping(path = "/addAttenteReservation",method = RequestMethod.POST,produces = "application/json")
-    public ResponseEntity<AttenteReservationDTO> newAttenteReservation(@RequestBody UserDTO userDTO, LivreDTO livreDTO) throws RecordNotFoundException {
-        AttenteReservation attenteReservation =attenteReservationService.createAttenteReservation(userMapper.toEntity(userDTO),livreMapper.toEntity(livreDTO));
+    public ResponseEntity<AttenteReservationDTO> newAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationDTO) throws RecordNotFoundException {
+        String titreLivre =attenteReservationMapper.toEntity(attenteReservationDTO).getTitreLivre();
+        List<Livre> listeLivresTrouves =livreService.getAllLivresByTitre(titreLivre);
+        AttenteReservation attenteReservation=new AttenteReservation();
+        if (listeLivresTrouves.size()>0){
+            Livre livreRef=listeLivresTrouves.get(0);
+            attenteReservation =attenteReservationService.createAttenteReservation(attenteReservationMapper.toEntity(attenteReservationDTO).getUser(),livreRef);
+        }
         return new ResponseEntity<>(attenteReservationMapper.toDto(attenteReservation), HttpStatus.OK);
     }
+
 
     /* controller pour effacer une attente de reservation de la base de données */
     @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)

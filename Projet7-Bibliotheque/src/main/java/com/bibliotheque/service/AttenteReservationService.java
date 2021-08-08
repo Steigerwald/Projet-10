@@ -44,9 +44,9 @@ public class AttenteReservationService {
         return attenteReservationRepository.findAllByUserAndIsactifAttente(user,true);
     }
 
-    /*Methode pour avoir toutes les attentes de reservation actives par livre de la base de données*/
-    public List<AttenteReservation> findAllAttenteReservationByLivre(Livre livre) {
-        return attenteReservationRepository.findAllByLivreAndIsactifAttente(livre,true);
+    /*Methode pour avoir toutes les attentes de reservation actives par nom de livre de la base de données*/
+    public List<AttenteReservation> findAllAttenteReservationByTitreLivre(Livre livre) {
+        return attenteReservationRepository.findALLByTitreLivreAndIsactifAttente(livre.getTitre(),true);
     }
 
     /*Methode pour trouver par son id une attente de reservation dans la base de données*/
@@ -62,7 +62,7 @@ public class AttenteReservationService {
         int nombreExemplaire=(livreService.getAllExemplairesDUnLivre(livre.getIdLivre()).size());
         List<Livre> listeDExemplairesDisponibles=livreService.getAllExemplairesDidponiblesDUnLivre(livre.getIdLivre());
         List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
-        listeDAttente=findAllAttenteReservationByLivre(livre);
+        listeDAttente=findAllAttenteReservationByTitreLivre(livre);
         AttenteReservation entity = new AttenteReservation();
         if (!verifierUserListeDAttente(user,livre)){
             if ((listeDAttente.size()<nombreExemplaire*2) && (nombreExemplaire!=0)){
@@ -73,6 +73,7 @@ public class AttenteReservationService {
                     entity.setEtatAttenteReservation("Sur liste d'attente");
                     entity.setDatedelaiDepasse(false);
                     entity.setIsactifAttente(true);
+                    entity.setTitreLivre(livre.getTitre());
                     entity.setUser(user);
                     //enregistrement de la reservation dans la basse de données
                     logger.info(" retour de l'entité newAttenteReservation de createAttenteReservation qui a été créée et sauvegardée");
@@ -115,7 +116,7 @@ public class AttenteReservationService {
     /*Methode pour déterminer la premiere attente valide de la liste d'attente selon date*/
     public AttenteReservation trouverPremiereAttenteReservation(Livre livre){
         List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
-        listeDAttente=findAllAttenteReservationByLivre(livre);
+        listeDAttente=findAllAttenteReservationByTitreLivre(livre);
         AttenteReservation attenteAChoisir=new AttenteReservation();
         for(int i=0;i<listeDAttente.size();i=i+1){
             Date result1=listeDAttente.get(i).getDateAttenteReservation();
@@ -135,7 +136,7 @@ public class AttenteReservationService {
         Boolean result = true;
         List<User> listUsersPresent = new ArrayList<User>();
         List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
-        listeDAttente=findAllAttenteReservationByLivre(livre);
+        listeDAttente=findAllAttenteReservationByTitreLivre(livre);
         if (listeDAttente.size()>0) {
             for (int i = 0; i < listeDAttente.size(); i = i + 1) {
                 if (user.equals(listeDAttente.get(i).getUser())){
@@ -157,6 +158,7 @@ public class AttenteReservationService {
     /*Methode pour vérifier la date de retrait et la date de disponibilité < 48H*/
     public boolean verfierDateDeRetraitAttente (AttenteReservation entity){
         Date today = new Date();
+
 
         return true;
     }

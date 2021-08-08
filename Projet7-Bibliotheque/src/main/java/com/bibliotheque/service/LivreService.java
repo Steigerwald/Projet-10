@@ -185,7 +185,15 @@ public class LivreService {
     }
 
 
-
+    /*Methode pour obtenir tous les exemplaires d'un livre par titre */
+    public List<Livre> getAllLivresByTitre(String titre) throws RecordNotFoundException {
+        List<Livre> listeLivresTrouves = livreRepository.findAllByTitre(titre);
+        if (listeLivresTrouves.size() > 0) {
+            return listeLivresTrouves;
+        } else {
+            return null;
+        }
+    }
 
     /*Methode pour obtenir tous les exemplaires disponibles d'un livre par titre */
     public List<Livre> getLivreDisponibleByTitre(String titre) throws RecordNotFoundException {

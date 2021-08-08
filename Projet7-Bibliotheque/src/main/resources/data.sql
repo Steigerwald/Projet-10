@@ -36,12 +36,12 @@ INSERT INTO bibliotheques.TBL_BIBLIOTHEQUE (id_bibliotheque, adresse, lieu, nom_
 
 
 INSERT INTO bibliotheques.TBL_RESERVATION (id_reservation, date_retrait, date_reservation,delai_location,etat_reservation,prolongation,isactif,relance,user_id_user,livre_id_livre,date_retour) VALUES
-(1,'2020-06-28 14:45:30','2020-06-20 02:45:30',28,'en cours de pret',false,true,false,1,1,null),
+(1,'2021-07-28 14:45:30','2021-07-20 02:45:30',28,'en cours de pret',false,true,false,1,1,null),
 (2,'2020-07-20 09:55:30','2020-07-15 02:45:30',28,'en cours de pret',false,true,false,3,2,null),
 (3,'2020-05-28 11:35:30','2020-05-20 02:45:30',28,'en cours de pret',false,true,false,1,3,null),
 (4,'2020-07-27 16:40:30','2020-07-20 02:45:30',28,'en cours de pret',false,true,false,4,4,null);
 
-INSERT INTO bibliotheques.TBL_USER (id_user,actif_user, mail_user, mot_passe, nom_user,prenom_user,role_id_role) VALUES
+INSERT INTO bibliotheques.TBL_USER (id_user,actif_user, mail_user, mot_passe, nom_user, prenom_user, role_id_role) VALUES
 (1,true, 'admin@gmail.com', '$2a$10$orNTHc4cA9i1.rYJaOC.iub.TGnufPupGjwja3qa5dfXrf7olXjBO', 'Steigerwald','Brice',1),
 (2,true, 'user@gmail.com', '$2a$10$GQXfIS9n2oJuE1lVI70yFeu5iJn/PEm5B0CUrfGEUT7bSRcsuqCnS', 'Steigerwald','Jacques',2),
 (3,true, 'steigerwaldb5@gmail.com', '$2a$10$GQXfIS9n2oJuE1lVI70yFeu5iJn/PEm5B0CUrfGEUT7bSRcsuqCnS', 'Hot','Tara',1),
@@ -59,9 +59,9 @@ INSERT INTO bibliotheques.TBL_ROLE (id_role, actif_role,nom_role) VALUES
 (1,true, 'ROLE_ADMIN'),
 (2,true, 'ROLE_USER');
 
-INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation, etat_attente_reservation, date_attente_reservation, date_delai_depasse, isactif_attente,user_id_user,livre_id_livre) VALUES
-(1,'pas disponible','2021-06-28 14:45:30',0,1,1,1),
-(2,'pas disponible','2021-07-10 14:45:30',0,1,1,7);
+INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation, etat_attente_reservation, date_attente_reservation, date_delai_depasse, isactif_attente, titre_livre, user_id_user) VALUES
+(1,'pas disponible','2021-06-28 14:45:30',0,1,'Dune',1),
+(2,'pas disponible','2021-07-10 14:45:30',0,1,'El Trio de la Dama Negra',1);
 
 
 

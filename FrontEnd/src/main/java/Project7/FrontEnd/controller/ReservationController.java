@@ -103,7 +103,10 @@ public class ReservationController {
     @RequestMapping(value="/prolonger/{id}",method = RequestMethod.POST)
     public String reservationProlonger(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         ReservationDTO reservationAProlonger =reservationService.getReservationById(id);
-        ReservationDTO reservationProlonger = reservationService.prolongerReservation(reservationAProlonger);
+        reservationService.verifierReservation(reservationAProlonger);
+        if (!reservationAProlonger.getProlongation()){
+            ReservationDTO reservationProlonger = reservationService.prolongerReservation(reservationAProlonger);
+        }
         //model.addAttribute("reservation",reservationRetiree);
         return "redirect:/user/EspacePersonnel";
     }

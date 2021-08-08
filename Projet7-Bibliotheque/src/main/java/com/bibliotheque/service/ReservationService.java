@@ -122,7 +122,7 @@ public class ReservationService {
 
 
     /*Methode pour vérifier la validité de la date de location d'un livre*/
-    public boolean verfierDateDeRetrait (Reservation entity){
+    public boolean verifierDateDeRetrait (Reservation entity){
         Date today = new Date();
         int delaiDeRetour =entity.getDelaiDeLocation();
         if (entity.getProlongation()){
@@ -144,8 +144,9 @@ public class ReservationService {
 
     /*Methode pour modifier l'etat de la commande en fonction la validité de la date de location d'un livre*/
     public Reservation verifierEtatReservation (Reservation entity){
-        if (!(verfierDateDeRetrait(entity))){
+        if (!(verifierDateDeRetrait(entity))){
             entity.setEtatReservation("delai depasse");
+            entity.setProlongation(true);
             reservationRepository.save(entity);
         }
         return entity;

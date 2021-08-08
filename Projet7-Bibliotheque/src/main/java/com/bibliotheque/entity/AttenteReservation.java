@@ -31,11 +31,11 @@ public class AttenteReservation {
     @Column(name="ISACTIF_ATTENTE")
     private Boolean isactifAttente;
 
+    @Column(name="TITRE_LIVRE")
+    private String titreLivre;
+
+    //@ManyToOne(fetch =FetchType.LAZY)
     @ManyToOne
     private User user;
-
-    @ManyToOne
-    private Livre livre;
-
 
 }

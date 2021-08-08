@@ -124,7 +124,7 @@ public class ReservationController {
         List<Reservation> reservationsBatch =new ArrayList<>();
         if (!toutesReservations.isEmpty()){
             for (Reservation reservation:toutesReservations){
-                if (!reservationService.verfierDateDeRetrait(reservation)&&(!reservation.getRelance())){
+                if (!reservationService.verifierDateDeRetrait(reservation)&&(!reservation.getRelance())){
                     reservationsBatch.add(reservation);
                 }
             }

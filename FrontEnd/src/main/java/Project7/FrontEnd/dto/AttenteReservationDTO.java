@@ -1,7 +1,9 @@
-package com.bibliotheque.entity.dto;
+package Project7.FrontEnd.dto;
 
 import lombok.Data;
+
 import java.util.Date;
+
 
 @Data
 public class AttenteReservationDTO {
@@ -11,6 +13,6 @@ public class AttenteReservationDTO {
     private Date dateAttenteReservation;
     private Boolean dateDelaiDepasse;
     private Boolean isactifAttente;
-    private String titreLivre;
     private UserDTO user;
+    private LivreDTO livre;
 }
