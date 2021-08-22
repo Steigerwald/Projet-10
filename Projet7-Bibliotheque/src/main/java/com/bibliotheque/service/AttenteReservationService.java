@@ -155,16 +155,22 @@ public class AttenteReservationService {
     }
 
 
-    /*Methode pour vérifier la date de retrait et la date de disponibilité < 48H*/
-    public boolean verfierDateDeRetraitAttente (AttenteReservation entity){
-        Date today = new Date();
-
-
-        return true;
+    /*Methode pour vérifier que le nombre d'attente dans la liste d'attente < 2 fois le nombre d'exemplaires d'un livre*/
+    public boolean verifierNombreListeAttente (Livre livre){
+        boolean result;
+        int nombreExemplaire=(livreService.getAllExemplairesDUnLivre(livre.getIdLivre()).size());
+        List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
+        listeDAttente=findAllAttenteReservationByTitreLivre(livre);
+        if (listeDAttente.size()<2*nombreExemplaire){
+            result=true;
+        }else{
+            result=false;
+        }
+        return result;
     }
 
 
-    /*Methode pour modifier l'etat de l'attente en fonction la validité de la date de retrait d'un livre et de la disponibilté*/
+    /*Methode pour vérifier la date de retrait et la date de disponibilité < 48H*/
 
 
 }
