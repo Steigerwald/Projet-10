@@ -11,23 +11,23 @@ TRUNCATE TABLE bibliotheques.TBL_ATTENTE_RESERVATION;
 
 
 INSERT INTO bibliotheques.TBL_LIVRE (id_livre,titre, auteur, publication,resume,nombre_pages,nom_categorie,date_achat,prix_location,etat_livre,disponibilite,bibliotheque_id_bibliotheque) VALUES
-(1, 'Dune','FRANK HERBERT', '2017-11-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-05-28 19:45:30',10,'neuf',false,1),
-(2, 'Fondation','ISAAC ASIMOV', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-04-28 15:45:30',10,'neuf',false,1),
+(1, 'Dune','HERBERT FRANK', '2017-11-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-05-28 19:45:30',10,'neuf',false,1),
+(2, 'Fondation','ASIMOV ISAAC', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-04-28 15:45:30',10,'neuf',false,1),
 (3, 'Une poignée de seigle','AGATHA CHRISTIE', '2011-04-28 02:45:30','livre d"enquête policière',242,'Policier','2011-04-30 18:45:30',10,'neuf',false,2),
-(4, 'la bicyclette bleue','REGINE DEFORGES', '2015-04-28 02:45:30','Roman qui raconte la vie d"une petite gamine cummulant les fragiltés d"une adolescente et les intrigues',463,'Roman','2015-04-05 10:45:30',15,'normal',false,2),
-(5, 'Le couteau sur la nuque','AGATHA CHRISTIE', '2007-04-28 02:45:30','livre d"enquête policière de Hercule Poirot',247,'Policier','2007-04-29 12:45:30',10,'normal',true,1),
+(4, 'la bicyclette bleue','DEFORGES REGINE', '2015-04-28 02:45:30','Roman qui raconte la vie d"une petite gamine cummulant les fragiltés d"une adolescente et les intrigues',463,'Roman','2015-04-05 10:45:30',15,'normal',false,2),
+(5, 'Le couteau sur la nuque','AGATHA CHRISTIE', '2007-04-28 02:45:30','livre d"enquête policière de Hercule Poirot',247,'Policier','2007-04-29 12:45:30',10,'normal',false,1),
 (6, 'Pourquoi pas Evans?','AGATHA CHRISTIE', '2005-02-28 02:45:30',' livre d"enquête policière',246,'Policier','2005-05-01 16:45:30',10,'normal',true,3),
-(7, 'El Trio de la Dama Negra','IRENE ADLER', '2018-04-28 02:45:30','livre d"enquête policière à la Sherlock',259,'Policier','2018-05-03 09:45:30',10,'normal',true,2),
-(8, 'Histoire d"Aladdin ou la lampe merveilleuse','ANTOINE GALLAND', '2001-03-28 02:45:30','livre pour enfants des contes des Mille et une Nuits',169,'Contes','2001-06-15 19:45:30',10,'normal',true,3),
+(7, 'El Trio de la Dama Negra','ADLER IRENE', '2018-04-28 02:45:30','livre d"enquête policière à la Sherlock',259,'Policier','2018-05-03 09:45:30',10,'normal',false,2),
+(8, 'Histoire d"Aladdin ou la lampe merveilleuse','GALLAND ANTOINE', '2001-03-28 02:45:30','livre pour enfants des contes des Mille et une Nuits',169,'Contes','2001-06-15 19:45:30',10,'normal',true,3),
 (9, 'Colomba et dix autres nouvelles','MERIMEE', '2000-04-28 02:45:30','livre de nouvelles de Mérimée dans l"ambiance du Sud de la France',479,'Nouvelles','2000-04-30 11:45:30',15,'normal',true,3),
 (10, 'SAN ANTONIO Oeuvres Complètes Tome 2','FREDERIC DART', '1980-01-28 02:45:30','livre de 5 histoires de San Antonio',635,'Policier','1980-07-14 16:45:30',20,'vieux',true,2),
-(11, 'Dune','FRANK HERBERT', '2018-02-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-06-30 09:45:30',10,'neuf',true,1),
-(12, 'Dune','FRANK HERBERT', '2018-01-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-06-12 16:45:30',10,'normal',true,2),
-(13, 'Fondation','ISAAC ASIMOV', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-04-28 15:45:30',10,'neuf',true,1),
-(14, 'Fondation','ISAAC ASIMOV', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-04-28 15:45:30',10,'neuf',true,1),
-(15, 'Une poignée de seigle','AGATHA CHRISTIE', '2011-04-28 02:45:30','livre d"enquête policière',242,'Policier','2011-04-30 18:45:30',10,'vieux',true,2),
-(16, 'la bicyclette bleue','REGINE DEFORGES', '2015-04-28 02:45:30','Roman qui raconte la vie d"une petite gamine cummulant les fragiltés d"une adolescente et les intrigues',463,'Roman','2015-04-05 10:45:30',15,'normal',true,2),
-(17, 'Histoire d"Aladdin ou la lampe merveilleuse','ANTOINE GALLAND', '2001-03-28 02:45:30','livre pour enfants des contes des Mille et une Nuits',169,'Contes','2001-06-15 19:45:30',10,'normal',true,3);
+(11, 'Dune','HERBERT FRANK', '2018-02-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-06-30 09:45:30',10,'neuf',false,1),
+(12, 'Dune','HERBERT FRANK', '2018-01-28 02:45:30','livre de science fiction inspirée des space opéras et qui mélangent l"action, les intrigues et amour',320,'Science Fiction','2018-06-12 16:45:30',10,'normal',false,2),
+(13, 'Fondation','ASIMOV ISAAC', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-07-28 15:45:30',10,'neuf',true,1),
+(14, 'Fondation','ASIMOV ISAAC', '2018-09-28 02:45:30','livre de science fiction qui mélange les sciences et les intrigues',290,'Science Fiction','2019-04-28 15:45:30',10,'neuf',true,1),
+(15, 'Une poignée de seigle','AGATHA CHRISTIE', '2011-04-28 02:45:30','livre d"enquête policière',242,'Policier','2011-04-30 18:45:30',10,'vieux',false,2),
+(16, 'la bicyclette bleue','DEFORGES REGINE', '2015-04-28 02:45:30','Roman qui raconte la vie d"une petite gamine cummulant les fragiltés d"une adolescente et les intrigues',463,'Roman','2015-04-05 10:45:30',15,'normal',true,2),
+(17, 'Histoire d"Aladdin ou la lampe merveilleuse','GALLAND ANTOINE', '2001-03-28 02:45:30','livre pour enfants des contes des Mille et une Nuits',169,'Contes','2001-06-15 19:45:30',10,'normal',true,3);
 
 INSERT INTO bibliotheques.TBL_BIBLIOTHEQUE (id_bibliotheque, adresse, lieu, nom_bibliotheque) VALUES
 (1, '140 AVENUE CHARLES DE GAULLE', 'BRUGES', 'ESPACE DE BRUGES'),
@@ -35,11 +35,16 @@ INSERT INTO bibliotheques.TBL_BIBLIOTHEQUE (id_bibliotheque, adresse, lieu, nom_
 (3, '50 AVENUE GENERAL LECLERC', 'LE BOUSCAT', 'TECHNOSPACE CULTUREL');
 
 
-INSERT INTO bibliotheques.TBL_RESERVATION (id_reservation, date_retrait, date_reservation,delai_location,etat_reservation,prolongation,isactif,relance,user_id_user,livre_id_livre,date_retour) VALUES
-(1,'2021-07-28 14:45:30','2021-07-20 02:45:30',28,'en cours de pret',false,true,false,1,1,null),
-(2,'2020-07-20 09:55:30','2020-07-15 02:45:30',28,'en cours de pret',false,true,false,3,2,null),
-(3,'2020-05-28 11:35:30','2020-05-20 02:45:30',28,'en cours de pret',false,true,false,1,3,null),
-(4,'2020-07-27 16:40:30','2020-07-20 02:45:30',28,'en cours de pret',false,true,false,4,4,null);
+INSERT INTO bibliotheques.TBL_RESERVATION (id_reservation, date_retrait, date_mail_info, date_reservation,delai_location,etat_reservation,prolongation,isactif,relance,user_id_user,livre_id_livre,date_retour) VALUES
+(1,'2021-07-28 14:45:30',null,'2021-07-20 02:45:30',28,'en cours de pret',false,true,false,1,1,null),
+(2,'2020-07-20 09:55:30',null,'2020-07-15 02:45:30',28,'en cours de pret',false,true,false,3,2,null),
+(3,'2020-05-28 11:35:30',null,'2020-05-20 02:45:30',28,'en cours de pret',false,true,false,1,3,null),
+(4,'2020-07-27 16:40:30',null,'2020-07-20 02:45:30',28,'en cours de pret',false,true,false,4,4,null),
+(5,'2021-08-07 16:40:30',null,'2021-08-05 02:45:30',28,'en cours de pret',false,true,false,5,7,null),
+(6,'2021-07-27 16:40:30',null,'2021-07-20 02:45:30',28,'en cours de pret',false,true,false,4,11,null),
+(7,'2021-08-07 16:40:30',null,'2021-08-06 02:45:30',28,'en cours de pret',false,true,false,2,5,null),
+(8,'2021-07-27 16:40:30',null,'2021-07-20 02:45:30',28,'en cours de pret',false,true,false,4,15,null),
+(9,'2021-08-09 16:40:30',null,'2021-08-08 02:45:30',28,'en cours de pret',false,true,false,2,12,null);
 
 INSERT INTO bibliotheques.TBL_USER (id_user,actif_user, mail_user, mot_passe, nom_user, prenom_user, role_id_role) VALUES
 (1,true, 'admin@gmail.com', '$2a$10$orNTHc4cA9i1.rYJaOC.iub.TGnufPupGjwja3qa5dfXrf7olXjBO', 'Steigerwald','Brice',1),
@@ -59,11 +64,13 @@ INSERT INTO bibliotheques.TBL_ROLE (id_role, actif_role,nom_role) VALUES
 (1,true, 'ROLE_ADMIN'),
 (2,true, 'ROLE_USER');
 
-INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation, etat_attente_reservation, date_attente_reservation, date_delai_depasse, isactif_attente, titre_livre, user_id_user) VALUES
-(1,'pas disponible','2021-06-28 14:45:30',0,1,'Dune',1),
-(2,'pas disponible','2021-07-10 14:45:30',0,1,'El Trio de la Dama Negra',1);
-
-
+INSERT INTO bibliotheques.TBL_ATTENTE_RESERVATION (id_attente_reservation, etat_attente_reservation, date_attente_reservation, date_delai_depasse, isactif_attente, titre_livre, user_id_user,position_user) VALUES
+(1,'Sur liste d"attente','2021-06-28 14:45:30',0,1,'Dune',4,1),
+(2,'Sur liste d"attente','2021-07-10 14:45:30',0,1,'El Trio de la Dama Negra',1,1),
+(3,'Sur liste d"attente','2021-06-29 14:45:30',0,1,'Dune',5,2),
+(4,'Sur liste d"attente','2021-07-11 14:45:30',0,1,'El Trio de la Dama Negra',2,2),
+(5,'Sur liste d"attente','2021-06-28 14:45:30',0,1,'Le couteau sur la nuque',5,1),
+(6,'Sur liste d"attente','2021-07-10 14:45:30',0,1,'Une poignée de seigle',2,1);
 
 
 SET FOREIGN_KEY_CHECKS=1;

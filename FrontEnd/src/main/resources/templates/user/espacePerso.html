@@ -17,8 +17,10 @@
 <main>
     <h1 th:text="${userConnecte.getNomUser()} +' '+ ${userConnecte.getPrenomUser()}"></h1>
     <Br>
-    <h1>Liste de mes réservations</h1>
-    <h3>Attention! Vous ne pouvez prolonger qu'une seule fois votre location</h3>
+    <h1>Liste de vos réservations et attentes</h1>
+    <Br>
+    <h2>Attention! Vous ne pouvez prolonger la durée de vos emprunts qu'une seule fois si votre délai de location n'est pas dépassé, si ce délai est dépassé il ne sera plus possible de prolonger la durée de votre emprunt de livre !</h2>
+    <Br>
     <div class="container col-lg-12">
         <header class="row">
         </header>
@@ -29,17 +31,17 @@
                         <div class="card-body"id="cardBodyLivres">
                             <div th:switch="${reservationsSize}" class="container">
                                 <div class="table-responsive text-nowrap ncol-md-12">
-                                    <h2 th:case="O">Pas d'enregistrement trouvé !!</h2>
+                                    <h2 th:case="0">Pas de liste de réservations !!</h2>
                                     <div th:case="*">
                                         <table class="table table-striped" >
                                             <thead>
+                                            <tr>Vos Réservations</tr>
                                             <tr>
                                                 <th>N°</th>
                                                 <th>Etat</th>
                                                 <th>Livre</th>
-                                                <th>Date de retrait</th>
                                                 <th>Date de retour limite</th>
-                                                <th>Prolongation</th>
+                                                <th>Bibliothèque</th>
                                                 <th>Prolongation</th>
                                                 <th>Détails</th>
                                             </tr>
@@ -49,9 +51,12 @@
                                                 <td th:text="${reservation.idReservation}"></td>
                                                 <td th:text="${reservation.etatReservation}"></td>
                                                 <td th:text="${reservation.livre.getTitre()}"></td>
-                                                <td th:text="${reservation.toStringDateDeRetrait()}"></td>
-                                                <td th:text="${dates.get(state.index)}"></td>
-                                                <td th:text="${reservation.toStringProlongation()}"></td>
+                                                <!--<td th:text="${dates.get(state.index)}"></td>-->
+                                                <td>
+                                                    <a style ="color: red;" th:style = "${reservation.etatReservation=='delai depasse'} ? 'color: red' : 'color: black' " th:text="${dates.get(state.index)}">
+                                                    </a>
+                                                </td>
+                                                <td th:text="${reservation.livre.bibliotheque.getNomBibliotheque()}"></td>
                                                 <td>
                                                     <div th:if="${reservation.etatReservation=='delai depasse'}">Pas de prolongation</div>
                                                     <div th:unless="${reservation.etatReservation=='delai depasse'}">
@@ -64,6 +69,55 @@
                                                     </div>
                                                 </td>
                                                 <td> <a th:href="@{/reservation/detail/{nom} (nom=${reservation.idReservation})}" >plus info</a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="container col-lg-12">
+        <header class="row">
+        </header>
+        <div class="row">
+            <section class="col-lg-12">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-body"id="cardBodyAttentes">
+                            <div th:switch="${attenteReservationsSize}" class="container">
+                                <div class="table-responsive text-nowrap ncol-md-12">
+                                    <h2 th:case="0">Pas de liste d'attente !!</h2>
+
+                                    <div th:case="*">
+                                        <table class="table table-striped" >
+                                            <thead>
+                                            <tr> Vos attentes de réservation</tr>
+                                            <tr>
+                                                <th>N°</th>
+                                                <th>Livre</th>
+                                                <th>Votre position</th>
+                                                <th>Date Attente</th>
+                                                <th>Etat</th>
+                                                <th>Annulation</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="attenteReservation,state : ${attenteReservations}">
+                                                <td th:text="${attenteReservation.idAttenteReservation}"></td>
+                                                <td th:text="${attenteReservation.getTitreLivre()}"></td>
+                                                <td th:text="${attenteReservation.getPositionUser()}"></td>
+                                                <td th:text="${attenteReservation.toStringDateAttenteReservation()}"></td>
+                                                <td th:text="${attenteReservation.getEtatAttenteReservation()}"></td>
+                                                <td>
+                                                    <form th:action="@{/attenteReservation/annuler/{id}(id=${attenteReservation.idAttenteReservation})}" method="post">
+                                                        <button class="btn btn-danger my-2 my-sm-0" type="submit">A annuler</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>

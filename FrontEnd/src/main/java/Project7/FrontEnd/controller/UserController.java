@@ -1,13 +1,11 @@
 package Project7.FrontEnd.controller;
 
+import Project7.FrontEnd.dto.AttenteReservationDTO;
 import Project7.FrontEnd.dto.ReservationDTO;
 import Project7.FrontEnd.dto.UserDTO;
 import Project7.FrontEnd.form.LoginForm;
 import Project7.FrontEnd.form.UserForm;
-import Project7.FrontEnd.service.AuthService;
-import Project7.FrontEnd.service.ReservationService;
-import Project7.FrontEnd.service.ResponseService;
-import Project7.FrontEnd.service.UserService;
+import Project7.FrontEnd.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,8 @@ public class UserController {
     @Autowired
     public ResponseService responseService;
 
+    @Autowired
+    public AttenteReservationService attenteReservationService;
 
     Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 
@@ -79,6 +79,7 @@ public class UserController {
         logger.info(" on est dans la requete post  du login ");
         logger.info(" le mail de l'uilisateur est: "+utilisateur.getUserName());
         String token =userService.getTokenByMailAndMotDePasse(utilisateur);
+        logger.info(" le token est: "+token);
         switch (token) {
             case "not found" :
                 authService.setAuthentification(false);
@@ -130,6 +131,7 @@ public class UserController {
     public String EspacePersonnel(Model model) throws IOException, InterruptedException {
         logger.info(" on est passe par la avant l'appel de la page EspacePersonnel");
         List<ReservationDTO> listeReservations = reservationService.getAllReservationsEnCoursByUser(authService.getUserConnecte());
+        List<AttenteReservationDTO> listeAttenteReservations=attenteReservationService.getAllAttenteReservationsByIdUser(authService.getUserConnecte().getIdUser());
         listeReservations=reservationService.verifierListeReservations(listeReservations);
         List<String> listeDates =reservationService.calculerDateLimitesDeretraitDUneListeDeReservation(listeReservations);
         if (authService.getUserConnecte() != null) {
@@ -140,6 +142,8 @@ public class UserController {
         }
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("reservations",listeReservations);
+        model.addAttribute("attenteReservations",listeAttenteReservations);
+        model.addAttribute("attenteReservationsSize",listeAttenteReservations.size());
         model.addAttribute("reservationsSize",listeReservations.size());
         model.addAttribute("dates",listeDates);
         return "user/espacePerso";

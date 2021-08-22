@@ -13,4 +13,5 @@ public class AttenteReservationDTO {
     private Boolean isactifAttente;
     private String titreLivre;
     private UserDTO user;
+    private int positionUser;
 }

@@ -17,16 +17,24 @@ main {
 }
 
 h1{
-    color:blue;
-    text-align:center;
+    color:blue !important;
+    text-align:center !important;
 }
 
 h2{
     color:black;
+    margin-left: 20px;
 }
 
 h3{
-    color:black;
+    color:black !important;
+    margin-left: 50px;
+    text-align:center !important;
+}
+
+header {
+    color:red !important;
+
 }
 
 .inter {
@@ -126,7 +134,7 @@ Footer{
         max-width: 300px!important;
     }
 
-    #cardBodyLivres{
+    #cardBodyLivres, #cardBodyAttentes{
         /*border: 1px solid #fb44ff !important;*/
         max-width: 350px !important;
     }

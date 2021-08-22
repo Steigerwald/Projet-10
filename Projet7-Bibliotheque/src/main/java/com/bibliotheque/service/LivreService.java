@@ -212,7 +212,4 @@ public class LivreService {
             throw new RecordNotFoundException("Pas de livre enregistré avec cet Id");
         }
     }
-
-
-
 }

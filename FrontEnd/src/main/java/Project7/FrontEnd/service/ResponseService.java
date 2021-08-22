@@ -13,7 +13,7 @@ public class ResponseService {
 
     private int responseStatut;
 
-    /*Methode pour gérer la réponse négative ou autre réponse en cas de non identificaion*/
+    /*Methode pour gérer la réponse négative ou autre réponse en cas de non identification*/
     public String gestionDeReponseHttp (int reponse,String direction) {
 
         switch (reponse) {

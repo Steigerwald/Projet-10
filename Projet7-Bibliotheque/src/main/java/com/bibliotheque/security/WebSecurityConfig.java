@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/user/**","/users/","/roles","/role/**","/reservation/Encours","/livre/allExemplairesDisponibles/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/user/**","/users/","/roles","/role/**","/reservation/Encours","/livre/allExemplairesDisponibles/**","/attenteReservation/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/reservation/AValider","/reservation/all/batch").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/login","/user/me","/user/addUser").permitAll()
                 .antMatchers(HttpMethod.POST, "/livre/addLivre").hasRole("ADMIN")

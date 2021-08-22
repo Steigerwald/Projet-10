@@ -132,4 +132,12 @@ public class ReservationController {
         logger.info(" taille de la liste les réservations pour batch : "+reservationsBatch.size());
         return new ResponseEntity<>(reservationMapper.toDto(reservationsBatch), HttpStatus.OK);
     }
+
+    /* controller pour vérifier le retrait d'une réservation < 48h*/
+    @RequestMapping(path = "/verifierRetrait",method = RequestMethod.PUT,produces = "application/json")
+    public Boolean verifierRetraitReservation(@RequestBody ReservationDTO reservationModifieDTO) throws RecordNotFoundException {
+        Reservation reservationAVerifier = reservationMapper.toEntity(reservationModifieDTO);
+        Boolean result=reservationService.verifierRetraitReservationApresMail(reservationAVerifier);
+        return result;
+    }
 }

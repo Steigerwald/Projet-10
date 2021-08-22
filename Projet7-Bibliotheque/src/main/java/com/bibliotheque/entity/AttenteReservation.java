@@ -38,4 +38,7 @@ public class AttenteReservation {
     @ManyToOne
     private User user;
 
+    @Column(name="POSITION_USER")
+    private int positionUser;
+
 }

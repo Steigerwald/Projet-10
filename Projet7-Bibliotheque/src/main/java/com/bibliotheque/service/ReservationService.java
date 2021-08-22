@@ -42,14 +42,14 @@ public class ReservationService {
     }
 
 
-    /*Methode pour creer une reservation dans la base de données*/
+    /*Methode pour creer une reservation d'un livre dans la base de données*/
     public Reservation createReservation(Reservation entity) throws RecordNotFoundException {
         if (entity.getLivre()!=null){
-            if (entity.getLivre().getDisponibilite()){
                 Date today = new Date();
                 Reservation newReservation = new Reservation();
                 entity.setIdReservation(newReservation.getIdReservation());
                 entity.setDateDeRetrait(null);
+                entity.setDateMailInfo(null);
                 entity.setDateReservation(today);
                 entity.setDelaiDeLocation(28);
                 entity.setEtatReservation("En attente confirmation");
@@ -59,10 +59,7 @@ public class ReservationService {
                 //enregistrement de la reservation dans la basse de données
                 logger.info(" retour de l'entité newReservation de createBReservation qui a été créée et sauvegardée");
                 return reservationRepository.save(entity);
-            }else{
-               attenteReservationService.createAttenteReservation(entity.getUser(),entity.getLivre());
             }
-        }
         return entity;
     }
 
@@ -150,6 +147,23 @@ public class ReservationService {
             reservationRepository.save(entity);
         }
         return entity;
+    }
+
+    /*Methode pour vérifier que le livre de la réservation a été retiré dans les 48h après l'envoi du mail sinon la réservation est annulée*/
+    public Boolean verifierRetraitReservationApresMail (Reservation entity){
+        Boolean result = false;
+        Date today = new Date();
+        if ((entity.getDateDeRetrait()!=null)&&(entity.getDateMailInfo()!=null)){
+            int diff = (int)(today.getTime()-entity.getDateMailInfo().getTime()/1000/3600);
+            if (diff<48){
+                result=true;
+            }else{
+                result=false;
+            }
+        }else{
+            result=false;
+        }
+        return result;
     }
 
 }

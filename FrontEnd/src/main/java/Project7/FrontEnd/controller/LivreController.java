@@ -67,6 +67,9 @@ public class LivreController {
         return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeExemplaires");
     }
 
+    /* controller pour avoir un exemplaire/{id} d'un livre à mettre sur liste d'attente créer livre/listeAttenteDuLivre*/
+
+
     /* controller pour avoir tous les livres disponibles*/
     @RequestMapping(value="/all/disponibles",method = RequestMethod.GET)
     public String getAllLivresDisponibles(Model model, Principal principal) throws IOException, ParseException, InterruptedException {

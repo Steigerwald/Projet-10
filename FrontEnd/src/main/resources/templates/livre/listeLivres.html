@@ -17,6 +17,7 @@
 <div th:insert="~{baniere :: fragment }"></div>
 <main>
     <h1>Liste des livres</h1>
+    <h2>Cliquez sur la quantité de Exemplaires disponibles pour réserver ou se mettre en liste d'attente !</h2>
     <div class="container col-xs-12 col-sm-12 col-md-12" id="listeLivres">
         <header class="row">
         </header>
@@ -36,7 +37,8 @@
                                                     <th>Titre</th>
                                                     <th>Auteur</th>
                                                     <th>Exemplaires</th>
-                                                    <th>Exemplaires Disponibles</th>
+                                                    <th>Disponible(s)</th>
+                                                    <th>Réservation</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -45,7 +47,26 @@
                                                     <td> <a th:text="${livre.titre}" ></a> </td>
                                                     <td th:text="${livre.auteur}"></td>
                                                     <td> <a th:text="${nombres1.get(state.index)}"></a> </td>
-                                                    <td> <a th:text="${nombres2.get(state.index)}" th:href="@{/livre/exemplaires/{nom} (nom=${livre.idLivre})}" ></a> </td>
+                                                    <td>
+                                                        <a style ="color: green;" th:style = "${nombres2.get(state.index)>0} ? 'color: green' : 'color: black' " th:text="${nombres2.get(state.index)}">
+                                                        </a>
+                                                        <!--<a th:if="${nombres2.get(state.index)>0}" th:text="${nombres2.get(state.index)}" th:href="@{/livre/exemplaires/{nom} (nom=${livre.idLivre})}"></a>
+                                                        <a th:unless="${nombres2.get(state.index)>0}" th:text="${nombres2.get(state.index)}" th:href="@{/livre/exemplaire/{nom}(nom=${livre.idLivre})}"></a>-->
+                                                    </td>
+                                                    <td>
+                                                        <div th:switch="${livre.disponibilite}">
+                                                            <form th:action="@{/livre/exemplaires/{nom}(nom=${livre.idLivre})}" method="get">
+                                                                <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Pour Réserver</button>
+                                                                <p th:case="false" >Réservé</p>
+                                                            </form>
+                                                        </div>
+                                                        <!--<div th:switch="${livre.disponibilite}">
+                                                            <form th:action="@{/reservation/reserver/livre/{id}(id=${livre.idLivre})}" method="post">
+                                                                <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Réserver</button>
+                                                                <p th:case="false" >Réservé</p>
+                                                            </form>
+                                                        </div>-->
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

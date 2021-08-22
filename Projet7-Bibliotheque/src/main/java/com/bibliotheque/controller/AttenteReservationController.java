@@ -16,6 +16,8 @@ import com.bibliotheque.exception.RecordNotFoundException;
 import com.bibliotheque.service.AttenteReservationService;
 import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,7 @@ public class AttenteReservationController {
     @Autowired
     UserService userService;
 
+    Logger logger = (Logger) LoggerFactory.getLogger(AttenteReservationController.class);
 
     /* controller pour avoir toutes les attentes de reservation*/
     @RequestMapping(path ="/",method = RequestMethod.GET)
@@ -114,6 +117,34 @@ public class AttenteReservationController {
         AttenteReservation attenteReservationAnnulee = attenteReservationMapper.toEntity(attenteReservationAnnuleeDTO);
         AttenteReservationDTO dto=attenteReservationMapper.toDto(attenteReservationService.annulerAttenteReservation(attenteReservationAnnulee));
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    /* controller pour avoir la liste d'attente des users pour un livre*/
+    @RequestMapping(path ="/Users/livre/{id}",method = RequestMethod.GET)
+    public ResponseEntity<List<UserDTO>> listOfAttenteReservationsofUsersByLivre(@PathVariable int id) {
+        Livre livreTrouve = livreService.findById(id);
+        List<User> tousLesUsersEnAttente =attenteReservationService.ordonnerlisteAttenteUsers(livreTrouve);
+        return new ResponseEntity<>(userMapper.toDto(tousLesUsersEnAttente), HttpStatus.OK);
+    }
+
+    /* controller pour avoir la position d'un user dans une liste d'attente d'un livre*/
+    @RequestMapping(path ="/User/Position/livre/{id}&&{idUser}",method = RequestMethod.GET)
+    public int positionUserListeDAtente(@PathVariable int id,@PathVariable int idUser) throws RecordNotFoundException {
+        Livre livreTrouve = livreService.findById(id);
+        User user =userService.getUserById(idUser);
+        int position =attenteReservationService.avoirPositionUser(user,livreTrouve);
+        //String j= String.valueOf(position);
+        //return j;
+        return position;
+        //return new ResponseEntity<>(userMapper.toDto(tousLesUsersEnAttente), HttpStatus.OK);
+    }
+
+    /* controller pour vérifier que le nombre d'attentes de la liste d'attente d'un livre < 2 fois le nombre d'exemplaires*/
+    @RequestMapping(path ="/nombre/livre/{id}",method = RequestMethod.GET)
+    public Boolean verifierTailleListeDAttenteEtNombreExemplaires(@PathVariable int id) {
+        Livre livreTrouve = livreService.findById(id);
+        Boolean verification = attenteReservationService.verifierNombreListeAttente(livreTrouve);
+        return verification;
     }
 
 

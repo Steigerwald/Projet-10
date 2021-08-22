@@ -19,14 +19,17 @@
     <h1>Réservation d'un livre</h1>
     <div class="inter">
         <h2>
-        <span>Vous avez demandé de réserver le livre : </span><a th:text="${livre.titre}"></a><span> de </span><a th:text="${livre.auteur}"></a><br>
+        <span>Vous avez demandé de réserver le livre : </span><a th:text="${livre.titre}"></a><span> de </span><a th:text="${livre.auteur}"></a><span> , </span><br>
         <span></span><br>
-        <span>Votre réservation N°: </span> <a th:text="${reservation.idReservation}"></a> <br>
-        <span> Pour le prix de location de  </span><a th:text="${livre.prixLocation}"></a> <span> € </span><br>
-        <span>Vous avez 5 jours pour retirer votre livre</span><br>
-        <span>Le prêt durera </span><a th:text="${reservation.delaiDeLocation}"></a><span> jours et ne pourra être renouvelé qu'une fois </span><br>
-        <span> Maintenant venez chercher votre livre dans votre bibliothèque préférée :  </span><a th:text="${livre.bibliotheque.getNomBibliotheque()}"></a>
+        <span>Votre réservation N°: </span> <a th:text="${reservation.idReservation}"></a><span> et le prix de location es de  </span><a th:text="${livre.prixLocation}"></a> <span> € , </span><br>
+        <span>Vous avez 2 jours maxi pour retirer votre livre à partir de votre date de demande ou du mail de confirmation,</span><br>
+        <span>Le prêt durera </span><a th:text="${reservation.delaiDeLocation}"></a><span> jours et ne pourra être renouvelé qu'une fois, </span><br>
+        <span> Attention ne dépassez pas la date limite de retour ou pour prolonger car dans ce cas vous n'aurrez plus accès à l'option prolonger !  </span><br>
+        <span> Maintenant venez chercher votre livre dans votre bibliothèque préférée :</span><br>
+        </h2>
+            <h1 th:text="${livre.bibliotheque.getNomBibliotheque()}"></h1>
         <span></span><br>
+        <h2>
         <span> Bonne lecture !! </span>
         </h2>
     </div>

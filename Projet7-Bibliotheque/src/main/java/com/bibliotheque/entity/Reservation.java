@@ -28,6 +28,11 @@ public class Reservation {
     private Date dateDeRetrait;
 
     @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name="DATE_MAIL_INFO")
+    @Nullable
+    private Date dateMailInfo;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="DATE_RETOUR")
     @Nullable
     private Date dateDeRetour;

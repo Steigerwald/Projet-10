@@ -2,6 +2,7 @@ package Project7.FrontEnd.dto;
 
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -13,6 +14,13 @@ public class AttenteReservationDTO {
     private Date dateAttenteReservation;
     private Boolean dateDelaiDepasse;
     private Boolean isactifAttente;
+    private String titreLivre;
+    private int positionUser;
     private UserDTO user;
-    private LivreDTO livre;
+
+    public String toStringDateAttenteReservation() {
+        SimpleDateFormat simpleDateFormat01 = new SimpleDateFormat("dd-MM-yyyy");
+        return simpleDateFormat01.format(dateAttenteReservation);
+    }
+
 }
