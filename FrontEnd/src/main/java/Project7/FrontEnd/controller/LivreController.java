@@ -55,10 +55,22 @@ public class LivreController {
         return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeLivres");
     }
 
-    /* controller pour avoir tous les exemplaires d'un livre*/
+    /* controller pour avoir tous les exemplaires disponibles d'un livre*/
     @RequestMapping(value="/exemplaires/{id}",method = RequestMethod.GET)
-    public String getAllExeemplaires(Model model, Principal principal,@PathVariable("id") int id) throws IOException, ParseException, InterruptedException {
+    public String getAllExeemplairesDisponibles(Model model, Principal principal,@PathVariable("id") int id) throws IOException, ParseException, InterruptedException {
         List<LivreDTO> livresExemplaires = livreService.getAllExemplairesDisponiblesById(id);
+        userService.verifierUserConnecte(model);
+        model.addAttribute("isAuthentified",authService.getAuthentification());
+        model.addAttribute("nombre",livresExemplaires.size());
+        model.addAttribute("livresExemplaires",livresExemplaires);
+        model.addAttribute("livresExemplairesSize",livresExemplaires.size());
+        return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeExemplairesDisponibles");
+    }
+
+    /* controller pour avoir tous les exemplaires d'un livre*/
+    @RequestMapping(value="/livres/{id}",method = RequestMethod.GET)
+    public String getAllExeemplaires(Model model, Principal principal,@PathVariable("id") int id) throws IOException, ParseException, InterruptedException {
+        List<LivreDTO> livresExemplaires = livreService.getAllExemplairesById(id);
         userService.verifierUserConnecte(model);
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("nombre",livresExemplaires.size());
@@ -66,8 +78,6 @@ public class LivreController {
         model.addAttribute("livresExemplairesSize",livresExemplaires.size());
         return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeExemplaires");
     }
-
-    /* controller pour avoir un exemplaire/{id} d'un livre à mettre sur liste d'attente créer livre/listeAttenteDuLivre*/
 
 
     /* controller pour avoir tous les livres disponibles*/

@@ -15,7 +15,7 @@
 <body>
 <div th:insert="~{baniere :: fragment }"></div>
 <main>
-    <h1 th:text="'Liste de ou des exemplaire(s) de '+ ${livresExemplaires.get(0).titre}+' que vous pouvez reserver : '"></h1>
+    <h1 th:text="'Liste de '+ ${nombre}+' '+'exemplaire(s) de '+ ${livresExemplaires.get(0).titre}+' disponible(s) '"></h1>
     <div class="container col-lg-12">
         <header class="row">
         </header>
@@ -36,7 +36,7 @@
                                                 <th>Auteur</th>
                                                 <th>Bibliothèque</th>
                                                 <th>Autres Informations</th>
-                                                <th>Réservation</th>
+                                                <th>Location</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -47,10 +47,10 @@
                                                 <td th:text="${livre.bibliotheque.getNomBibliotheque()}"></td>
                                                 <td> <a th:href="@{/livre/details/{nom} (nom=${livre.idLivre})}" >détails</a> </td>
                                                 <td>
-                                                    <div th:switch="${!livre.disponibilite}">
+                                                    <div th:switch="${livre.disponibilite}">
                                                         <form th:action="@{/reservation/reserver/livre/{id}(id=${livre.idLivre})}" method="post">
-                                                            <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Réserver</button>
-                                                            <p th:case="false" >A Emprunter</p>
+                                                            <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Emprunter</button>
+                                                            <p th:case="false" >Réservé</p>
                                                         </form>
                                                     </div>
                                                 </td>

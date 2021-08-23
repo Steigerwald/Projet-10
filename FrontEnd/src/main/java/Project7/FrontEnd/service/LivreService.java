@@ -114,7 +114,6 @@ public class LivreService {
     }
 
 
-
     /*Methode pour obtenir tous les livres disponibles de la base de données de l'API rest*/
     public List<LivreDTO> getAllLivresDisponibles() throws IOException, ParseException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();

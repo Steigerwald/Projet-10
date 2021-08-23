@@ -38,7 +38,7 @@
                                                     <th>Auteur</th>
                                                     <th>Exemplaires</th>
                                                     <th>Disponible(s)</th>
-                                                    <th>Réservation</th>
+                                                    <th>Votre souhait</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -53,13 +53,24 @@
                                                         <!--<a th:if="${nombres2.get(state.index)>0}" th:text="${nombres2.get(state.index)}" th:href="@{/livre/exemplaires/{nom} (nom=${livre.idLivre})}"></a>
                                                         <a th:unless="${nombres2.get(state.index)>0}" th:text="${nombres2.get(state.index)}" th:href="@{/livre/exemplaire/{nom}(nom=${livre.idLivre})}"></a>-->
                                                     </td>
+
                                                     <td>
-                                                        <div th:switch="${livre.disponibilite}">
+                                                        <div th:if="${nombres2.get(state.index)>0}">
                                                             <form th:action="@{/livre/exemplaires/{nom}(nom=${livre.idLivre})}" method="get">
-                                                                <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Pour Réserver</button>
-                                                                <p th:case="false" >Réservé</p>
+                                                                <button class="btn btn-success my-2 my-sm-0" type="submit" >Louer</button>
                                                             </form>
                                                         </div>
+                                                        <div th:unless="${nombres2.get(state.index)>0}">
+                                                            <form th:action="@{/livre/livres/{nom}(nom=${livre.idLivre})}" method="get">
+                                                                <button class="btn btn-primary my-2 my-sm-0" type="submit" >Reserver</button>
+                                                            </form>
+                                                        </div>
+                                                        <!--<div th:switch="${livre.disponibilite}">
+                                                            <form th:action="@{/livre/exemplaires/{nom}(nom=${livre.idLivre})}" method="get">
+                                                                <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Pour louer</button>
+                                                                <p th:case="false" >Loué</p>
+                                                            </form>
+                                                        </div>-->
                                                         <!--<div th:switch="${livre.disponibilite}">
                                                             <form th:action="@{/reservation/reserver/livre/{id}(id=${livre.idLivre})}" method="post">
                                                                 <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Réserver</button>
