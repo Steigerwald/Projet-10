@@ -140,7 +140,7 @@ public class AttenteReservationController {
     }
 
     /* controller pour vérifier que le nombre d'attentes de la liste d'attente d'un livre < 2 fois le nombre d'exemplaires*/
-    @RequestMapping(path ="/nombre/livre/{id}",method = RequestMethod.GET)
+    @RequestMapping(path ="/nombreAttente/livre/{id}",method = RequestMethod.GET)
     public Boolean verifierTailleListeDAttenteEtNombreExemplaires(@PathVariable int id) {
         Livre livreTrouve = livreService.findById(id);
         Boolean verification = attenteReservationService.verifierNombreListeAttente(livreTrouve);

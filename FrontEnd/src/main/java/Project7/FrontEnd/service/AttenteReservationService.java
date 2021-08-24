@@ -239,4 +239,28 @@ public class AttenteReservationService {
         }
     }
 
+    /* méthode pour vérifier que le nombre d'attentes de la liste d'attente d'un livre < 2 fois le nombre d'exemplaires*/
+    public Boolean getVerificationNombreAttentesByIdLivre(int id) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/attenteReservation/nombreAttente/livre/"+id))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        ObjectMapper mapper = new ObjectMapper();
+        //int verification = Integer.parseInt(response.body());
+        Boolean verification=false;
+        if (response.body().compareTo("true")==0) {
+            verification = true;
+        }else{
+            verification=false;
+        }
+            return verification;
+    }
+
 }
