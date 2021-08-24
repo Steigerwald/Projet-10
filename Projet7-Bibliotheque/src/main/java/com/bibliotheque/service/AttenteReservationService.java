@@ -49,7 +49,11 @@ public class AttenteReservationService {
         return attenteReservationRepository.findAllByTitreLivreAndIsactifAttenteOrderByDateAttenteReservation(livre.getTitre(),true);
     }
 
-    /*Methode pour trouver par son id une attente de reservation dans la base de données*/
+    /*Methode pour trouver une attente par id du livre et son user une attente de reservation dans la base de données*/
+    public AttenteReservation findAllAttenteReservationByTitreLivreAndIsactifAndUser(Livre livre, User user) {
+        return attenteReservationRepository.findByTitreLivreAndIsactifAttenteAndUser(livre.getTitre(),true,user);
+    }
+
 
     /*Methode pour trouver par son id une reservation dans la base de données*/
     public AttenteReservation findAttenteReservationById(int id) {

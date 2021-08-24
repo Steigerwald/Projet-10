@@ -69,18 +69,23 @@ public class AttenteReservationController {
     /* controller pour creer une attente de réservation d'un livre pour l'API*/
     @RequestMapping(value="/creerAttente/livre/{id}",method = RequestMethod.POST)
     public String reservationLivre(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
-
         UserDTO userConnecte =authService.getUserConnecte();
+        LivreDTO livreConcerne = livreService.getLivreById(id);
+        model.addAttribute("isAuthentified",authService.getAuthentification());
+        model.addAttribute("livre",livreConcerne);
+        Boolean userDansListeAttente =attenteReservationService.getVerificationUserIsPresentInListeAttente(id,userConnecte.getIdUser());
+        if (userDansListeAttente){
         AttenteReservationDTO newAttentereservation = new AttenteReservationDTO();
         newAttentereservation.setUser(userConnecte);
-        LivreDTO livreConcerne = livreService.getLivreById(id);
         newAttentereservation.setTitreLivre(livreConcerne.getTitre());
         AttenteReservationDTO attenteReservation =attenteReservationService.createAttenteReservation(newAttentereservation);
         userService.verifierUserConnecte(model);
-        model.addAttribute("isAuthentified",authService.getAuthentification());
-        model.addAttribute("livre",livreConcerne);
         model.addAttribute("attenteReservation",attenteReservation);
         return "attenteReservation/demandeAttenteReservation";
+        }else{
+        AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
+        model.addAttribute("attenteReservation",attenteReservationTrouvee);
+        return "attenteReservation/demandeAttenteReservationRefusee";
+        }
     }
-
 }

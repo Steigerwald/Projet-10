@@ -133,6 +133,24 @@ public class AttenteReservationService {
         }
     }
 
+    /*Methode pour obtenir une attente de reservation par IdLivre et par IdUser*/
+    public AttenteReservationDTO getAttenteReservationByIdLivreAndByIdUser(int idLivre, int idUser) throws IOException, ParseException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/attenteReservation/user/livre/"+idLivre+"&&"+idUser))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(response.body(), new TypeReference<AttenteReservationDTO>(){});
+    }
+
+
     /*Methode pour creer une attente de reservation */
     public AttenteReservationDTO createAttenteReservation(AttenteReservationDTO attenteReservation) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();

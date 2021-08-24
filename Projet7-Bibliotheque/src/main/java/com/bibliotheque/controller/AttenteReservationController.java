@@ -156,14 +156,16 @@ public class AttenteReservationController {
         return result;
     }
 
+    /* controller pour avoir l'attente de reservation d'un user concernant un titre de livre*/
+    @RequestMapping(path ="/user/livre/{idLivre}&&{idUser}",method = RequestMethod.GET)
+    public ResponseEntity<AttenteReservationDTO> attenteReservationsByLivreAndByUser(@PathVariable int idLivre,@PathVariable int idUser) throws RecordNotFoundException {
+        Livre livreTrouve = livreService.findById(idLivre);
+        User userTrouve = userService.getUserById(idUser);
+        AttenteReservation attenteReservation =attenteReservationService.findAllAttenteReservationByTitreLivreAndIsactifAndUser(livreTrouve,userTrouve);
+        return new ResponseEntity<>(attenteReservationMapper.toDto(attenteReservation), HttpStatus.OK);
 
-
-
-
-
+    }
 
     /* controller pour avoir toutes les attentes de réservation à relancer 1 fois qui sont à traiter par le batch*/
-
-
 
 }
