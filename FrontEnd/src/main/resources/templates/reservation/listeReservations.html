@@ -35,6 +35,7 @@
                                                 <th>N°de reservation</th>
                                                 <th>Etat</th>
                                                 <th>Locataire</th>
+                                                <th>Livre</th>
                                                 <th>Date de retrait</th>
                                                 <th>Détails</th>
                                             </tr>
@@ -44,6 +45,7 @@
                                                 <td th:text="${reservation.idReservation}"></td>
                                                 <td th:text="${reservation.etatReservation}"></td>
                                                 <td th:text="${reservation.user.prenomUser}+' '+${reservation.user.nomUser}"></td>
+                                                <td th:text="${reservation.livre.titre}"></td>
                                                 <td th:text="${reservation.toStringDateDeRetrait()}"></td>
                                                 <td> <a th:href="@{/reservation/detail/{nom} (nom=${reservation.idReservation})}" >plus info</a></td>
                                             </tr>
@@ -54,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>g
             </section>
         </div>
     </div>

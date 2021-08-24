@@ -104,6 +104,14 @@ public class AttenteReservationController {
         return new ResponseEntity<>(attenteReservationMapper.toDto(attenteReservation), HttpStatus.OK);
     }
 
+    /* controller pour modifier une attente reservation */
+    @RequestMapping(path = "/",method = RequestMethod.PUT,produces = "application/json")
+    public ResponseEntity<AttenteReservationDTO> updateAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationModifieDTO) throws RecordNotFoundException {
+        AttenteReservation attenteReservationModifie = attenteReservationMapper.toEntity(attenteReservationModifieDTO);
+        AttenteReservation attenteReservation=attenteReservationService.updateAttenteReservation(attenteReservationModifie);
+        AttenteReservationDTO dto = attenteReservationMapper.toDto(attenteReservation);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 
     /* controller pour effacer une attente de reservation de la base de données */
     @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
@@ -113,7 +121,7 @@ public class AttenteReservationController {
 
     /* controller pour annuler une attente de reservation */
     @RequestMapping(path = "/annulerAttenteReservation",method = RequestMethod.PUT,produces = "application/json")
-    public ResponseEntity<AttenteReservationDTO> updateAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationAnnuleeDTO) throws RecordNotFoundException {
+    public ResponseEntity<AttenteReservationDTO> annulerAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationAnnuleeDTO) throws RecordNotFoundException {
         AttenteReservation attenteReservationAnnulee = attenteReservationMapper.toEntity(attenteReservationAnnuleeDTO);
         AttenteReservationDTO dto=attenteReservationMapper.toDto(attenteReservationService.annulerAttenteReservation(attenteReservationAnnulee));
         return new ResponseEntity<>(dto, HttpStatus.OK);

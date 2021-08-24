@@ -34,6 +34,8 @@ public class AttenteReservationService {
     UserService userService;
 
 
+
+
     /*Methode pour avoir toutes les attentes de reservation actives de la base de données*/
     public List<AttenteReservation> findAllAttenteReservation() {
         return attenteReservationRepository.findAllByIsactifAttente(true);
@@ -80,6 +82,20 @@ public class AttenteReservationService {
         attenteReservationRepository.save(entity);
         return entity;
     }
+
+    /*Methode pour modifier une attente de réservation dans la base de données*/
+    public AttenteReservation updateAttenteReservation(AttenteReservation entity) throws RecordNotFoundException {
+        AttenteReservation reservationAttenteAModifier = findAttenteReservationById((entity.getIdAttenteReservation()));
+        if (reservationAttenteAModifier != null) {
+            logger.info(" l'entité attente réservation à modifier a été trouvée et peut être modifiée");
+            //enregistrement de la reservation dans la basse de données
+            logger.info(" retour de la nouvelle entité site de UpdateReservation qui a été sauvegardée et la reservationAModifier était existante");
+            return attenteReservationRepository.save(entity);
+        } else {
+            throw new RecordNotFoundException("Pas d'attente de reservation trouvée avec l'id de l'entité et elle ne peut être modifiée");
+        }
+    }
+
 
     /*Methode pour effacer une attente de réservation dans la base de données*/
     public void deleteAttenteReservationById(int id) throws RecordNotFoundException {

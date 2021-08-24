@@ -1,10 +1,12 @@
 package Project7.FrontEnd.service;
 
+import Project7.FrontEnd.dto.AttenteReservationDTO;
 import Project7.FrontEnd.dto.ReservationDTO;
 import Project7.FrontEnd.dto.UserDTO;
 import Project7.FrontEnd.form.ReservationForm;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.jni.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class ReservationService {
 
     @Autowired
     public ResponseService responseService;
+
+    @Autowired
+    public AttenteReservationService attenteReservationService;
 
     Logger logger = (Logger) LoggerFactory.getLogger(ReservationService.class);
 
@@ -216,33 +221,59 @@ public class ReservationService {
             return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
         }
 
-    /*Methode pour enregistrer un retour d'une reservation de la base de données de l'API rest*/
-    public ReservationDTO retournerReservation(ReservationDTO reservation) throws IOException, InterruptedException {
+    /*Methode pour enregistrer un retour d'une réservation de la base de données de l'API rest*/
+    public ReservationDTO retournerReservation(ReservationDTO reservation) throws IOException, InterruptedException, ParseException {
+        List<AttenteReservationDTO> listeAttente =attenteReservationService.getAllAttenteReservationsByIdLivre(reservation.getLivre().getIdLivre());
         Date today = new Date();
         reservation.setDateDeRetour(today);
         reservation.setEtatReservation("retournée");
         reservation.setIsactif(false);
-        reservation.getLivre().setDisponibilite(true);
-        HttpClient client = HttpClient.newHttpClient();
-        String token = authService.getMemoireToken();
-        var objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
+        if (listeAttente.size()>0) {
+            reservation.getLivre().setDisponibilite(false);
+            List<UserDTO> listeUsers = attenteReservationService.getAllAttenteUsersByIdLivre(reservation.getLivre().getIdLivre());
+            AttenteReservationDTO attenteReservationConcernee=attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(reservation.getLivre().getIdLivre(),listeUsers.get(0).getIdUser());
+            attenteReservationConcernee.setEtatAttenteReservation("en attente du retrait");
+            attenteReservationConcernee.setIsactifAttente(false);
+            ReservationDTO newReservation = new ReservationDTO();
+            newReservation.setLivre(reservation.getLivre());
+            newReservation.setUser(listeUsers.get(0));
+            createReservation(newReservation);
+            HttpClient client = HttpClient.newHttpClient();
+            String token = authService.getMemoireToken();
+            var objectMapper = new ObjectMapper();
+            String requestBody = objectMapper
+                    .writeValueAsString(attenteReservationConcernee);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:9090/attenteReservation/"))
+                    .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
+                    .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            responseService.setResponseStatut(response.statusCode());
+
+        }else {
+            reservation.getLivre().setDisponibilite(true);
+        }
+            HttpClient client = HttpClient.newHttpClient();
+            String token = authService.getMemoireToken();
+            var objectMapper = new ObjectMapper();
+            String requestBody = objectMapper
                 .writeValueAsString(reservation);
-        HttpRequest request = HttpRequest.newBuilder()
+            HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9090/reservation/"))
                 .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
                 .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        responseService.setResponseStatut(response.statusCode());
-        String requestBody02=objectMapper
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            responseService.setResponseStatut(response.statusCode());
+            String requestBody02=objectMapper
                 .writeValueAsString(reservation.getLivre());
-        HttpRequest request02 = HttpRequest.newBuilder()
+            HttpRequest request02 = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9090/livre/"))
                 .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
                 .PUT(HttpRequest.BodyPublishers.ofString(requestBody02))
                 .build();
-        HttpResponse<String> response02 = client.send(request02, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response02 = client.send(request02, HttpResponse.BodyHandlers.ofString());
         responseService.setResponseStatut(response.statusCode());
         logger.info(" reponse du body "+response.body());
         System.out.println(response.body());
