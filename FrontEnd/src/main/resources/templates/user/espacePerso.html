@@ -62,8 +62,8 @@
                                                     <div th:unless="${reservation.etatReservation=='delai depasse'}">
                                                         <div th:switch="${reservation.prolongation}">
                                                             <form th:action="@{/reservation/prolonger/{id}(id=${reservation.idReservation})}" method="post">
-                                                                <button class="btn btn-danger my-2 my-sm-0" type="submit" th:case="false" >A prolonger</button>
-                                                                <p th:case="*"> prolongé</p>
+                                                                <button class="btn btn-danger my-2 my-sm-0" type="submit" th:case="false" >Prolonger</button>
+                                                                <p th:case="*">prolongé</p>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -115,7 +115,7 @@
                                                 <td th:text="${attenteReservation.getEtatAttenteReservation()}"></td>
                                                 <td>
                                                     <form th:action="@{/attenteReservation/annuler/{id}(id=${attenteReservation.idAttenteReservation})}" method="post">
-                                                        <button class="btn btn-danger my-2 my-sm-0" type="submit">A annuler</button>
+                                                        <button class="btn btn-danger my-2 my-sm-0" type="submit">Annuler</button>
                                                     </form>
                                                 </td>
                                             </tr>
