@@ -252,9 +252,7 @@ public class AttenteReservationService {
         logger.info(" reponse du body " + response.body());
         responseService.setResponseStatut(response.statusCode());
         System.out.println(response.body());
-        ObjectMapper mapper = new ObjectMapper();
-        //int verification = Integer.parseInt(response.body());
-        Boolean verification=false;
+        Boolean verification;
         if (response.body().compareTo("true")==0) {
             verification = true;
         }else{
@@ -262,5 +260,32 @@ public class AttenteReservationService {
         }
             return verification;
     }
+
+    /* méthode pour que le user est présent dans liste d'attente*/
+    public Boolean getVerificationUserIsPresentInListeAttente(int idLivre,int idUser) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/attenteReservation/User/VerifierAttenteReservation/livre/"+idLivre+"&&"+idUser))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        Boolean verification;
+        if (response.body().compareTo("true")==0) {
+            verification = true;
+        }else{
+            verification=false;
+        }
+        return verification;
+    }
+
+
+
+
+
 
 }

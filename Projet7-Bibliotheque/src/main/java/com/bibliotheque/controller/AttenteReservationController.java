@@ -136,7 +136,6 @@ public class AttenteReservationController {
         //String j= String.valueOf(position);
         //return j;
         return position;
-        //return new ResponseEntity<>(userMapper.toDto(tousLesUsersEnAttente), HttpStatus.OK);
     }
 
     /* controller pour vérifier que le nombre d'attentes de la liste d'attente d'un livre < 2 fois le nombre d'exemplaires*/
@@ -147,8 +146,17 @@ public class AttenteReservationController {
         return verification;
     }
 
+    /*Controller pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
+    @RequestMapping(path ="/User/VerifierAttenteReservation/livre/{idLivre}&&{idUser}",method = RequestMethod.GET)
+    public Boolean verifierAttenteReservationByUserAndLivre(@PathVariable int idLivre,@PathVariable int idUser) throws RecordNotFoundException {
+        Livre livreTrouve = livreService.findById(idLivre);
+        User user = userService.getUserById(idUser);
+        Boolean result = attenteReservationService.verifierUserListeDAttente(user, livreTrouve);
+        return result;
+    }
 
-    /* controller pour avoir toutes les attentes de réservation à relancer 1 fois qui sont à traiter par le batch*/
+
+        /* controller pour avoir toutes les attentes de réservation à relancer 1 fois qui sont à traiter par le batch*/
 
 
 
