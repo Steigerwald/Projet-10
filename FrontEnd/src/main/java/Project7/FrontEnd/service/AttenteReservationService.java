@@ -238,5 +238,4 @@ public class AttenteReservationService {
             return position;
         }
     }
-
 }
