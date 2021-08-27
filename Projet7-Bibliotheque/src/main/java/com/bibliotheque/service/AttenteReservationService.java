@@ -132,27 +132,40 @@ public class AttenteReservationService {
 
 
     /*Methode pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
-    public Boolean verifierUserListeDAttente (User user,Livre livre){
+    /*public Boolean verifierUserListeDAttente (User user,Livre livre){
         Boolean result = true;
-        List<User> listUsersPresent = new ArrayList<User>();
         List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
         listeDAttente=findAllAttenteReservationByTitreLivre(livre);
+        List<User> listUsersPresent = new ArrayList<User>();
         if (listeDAttente.size()>0) {
             for (int i = 0; i < listeDAttente.size(); i = i + 1) {
-                if (user.equals(listeDAttente.get(i).getUser())){
+                if (user.equals(listeDAttente.get(i).getUser())) {
                     listUsersPresent.add(listeDAttente.get(i).getUser());
-            }
-                if (listUsersPresent.size()>0){
-                    result=true;
-                }else{
-                    result=false;
                 }
             }
+        }
+        if (listUsersPresent.size()>0){
+            result=true;
         }else{
             result=false;
         }
         return result;
     }
+
+     */
+
+    /*Methode pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
+    public Boolean verifierUserListeDAttente (User user,Livre livre){
+        Boolean result;
+        int position =avoirPositionUser(user,livre);
+        if (position==0){
+            result=false;
+        }else{
+            result=true;
+        }
+        return result;
+    }
+
 
     /*Methode pour avoir la position d'user sur une liste d'attente d'un livre*/
     public int avoirPositionUser (User user, Livre livre){

@@ -66,24 +66,33 @@ public class AttenteReservationController {
         return "redirect:/user/EspacePersonnel";
     }
 
+
     /* controller pour creer une attente de réservation d'un livre pour l'API*/
     @RequestMapping(value="/creerAttente/livre/{id}",method = RequestMethod.POST)
     public String reservationLivre(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
+        logger.info(" on est passé par là creerAttente/livre/  "+id);
         UserDTO userConnecte =authService.getUserConnecte();
         LivreDTO livreConcerne = livreService.getLivreById(id);
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("livre",livreConcerne);
+        logger.info(" on est passé par là creerAttente/livre/  suite1 "+id);
         Boolean userDansListeAttente =attenteReservationService.getVerificationUserIsPresentInListeAttente(id,userConnecte.getIdUser());
-        if (userDansListeAttente){
+        logger.info(" on est passé par là creerAttente/livre/  suite2 "+id);
+        logger.info(" valeur de userDansListeAttente "+userDansListeAttente);
+        if (!userDansListeAttente){
+            logger.info(" on est passé par là creerAttente/livre/  suite3 "+id);
         AttenteReservationDTO newAttentereservation = new AttenteReservationDTO();
         newAttentereservation.setUser(userConnecte);
         newAttentereservation.setTitreLivre(livreConcerne.getTitre());
         AttenteReservationDTO attenteReservation =attenteReservationService.createAttenteReservation(newAttentereservation);
         userService.verifierUserConnecte(model);
         model.addAttribute("attenteReservation",attenteReservation);
+            logger.info(" OK on est dans demandeAttenteReservation #############");
         return "attenteReservation/demandeAttenteReservation";
         }else{
+            logger.info(" on est passé par là creerAttente/livre/  suite4 "+id);
         AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
+            logger.info(" refusée on est dans demandeAttenteReservationRefusee #############");
         model.addAttribute("attenteReservation",attenteReservationTrouvee);
         return "attenteReservation/demandeAttenteReservationRefusee";
         }

@@ -37,7 +37,7 @@
                                                 <th>Auteur</th>
                                                 <th>Disponible</th>
                                                 <th>Bibliothèque</th>
-                                                <th>Reservation</th>
+                                                <th>Votre souhait</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -48,10 +48,14 @@
                                                 <td th:text="${livre.toStringDisponibilite()}"></td>
                                                 <td th:text="${livre.getBibliotheque().getNomBibliotheque()}"></td>
                                                 <td>
-                                                    <div th:switch="${livre.disponibilite}">
+                                                    <div th:if="${livre.disponibilite}">
                                                         <form th:action="@{/reservation/reserver/livre/{id}(id=${livre.idLivre})}" method="post">
-                                                            <button class="btn btn-success my-2 my-sm-0" type="submit" th:case="true" >Réserver</button>
-                                                            <p th:case="false" >Réservé</p>
+                                                            <button class="btn btn-success my-2 my-sm-0" type="submit">Louer</button>
+                                                        </form>
+                                                    </div>
+                                                    <div th:unless="${livre.disponibilite}">
+                                                        <form th:action="@{/attenteReservation/creerAttente/livre/{id}(id=${livre.idLivre})}" method="post">
+                                                            <button class="btn btn-primary my-2 my-sm-0" type="submit">Réserver</button>
                                                         </form>
                                                     </div>
                                                 </td>
