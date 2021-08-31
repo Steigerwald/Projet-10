@@ -1,7 +1,7 @@
-package com.bibliotheque.entity.dto;
+package Projet7.batchMail.dto;
 
 import lombok.Data;
-        import java.util.Date;
+import java.util.Date;
 
 @Data
 public class AttenteReservationDTO {

@@ -140,4 +140,12 @@ public class ReservationController {
         Boolean result=reservationService.verifierRetraitReservationApresMail(reservationAVerifier);
         return result;
     }
+
+    /* controller pour avoir toutes les reservations à relancer <48h car elles n'ont pas été retirées qui sont à traiter par le batch*/
+    /*@RequestMapping(path ="/all/batch2",method = RequestMethod.GET)
+    public ResponseEntity<List<ReservationDTO> >listOfReservationsForBatch2(){
+        List<Reservation> toutesReservations =reservationService.findAll();
+    }*/
+
+
 }

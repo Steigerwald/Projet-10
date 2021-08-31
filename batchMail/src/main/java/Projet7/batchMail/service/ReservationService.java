@@ -26,11 +26,14 @@ public class ReservationService {
     Logger logger = (Logger) LoggerFactory.getLogger(ReservationService.class);
 
     private List<ReservationDTO> itemReservations = new ArrayList<ReservationDTO>();
+
     private List<ReservationDTO> reservationsRelancees = new ArrayList<ReservationDTO>();
 
     @Autowired
     public AuthService authService;
 
+
+    /*Methode pour obtenir une reservation par son id de la base de données de l'API rest*/
     public ReservationDTO getReservationById(int id) throws IOException, ParseException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         String token = authService.getMemoireToken();
@@ -54,7 +57,7 @@ public class ReservationService {
         }
     }
 
-    /*Methode pour obtenir toutes les reservations du batch de la base de données de l'API rest*/
+    /*Methode pour obtenir toutes les reservations du batch à relancer de la base de données de l'API rest*/
     public List<ReservationDTO> getAllReservationsBatch() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         String token = authService.getMemoireToken();
@@ -99,7 +102,25 @@ public class ReservationService {
     }
 
 
+    /*Methode pour creer une réservation à l'API rest*/
+    public ReservationDTO createReservation(ReservationDTO reservation) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writeValueAsString(reservation);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/addReservation"))
+                .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body "+response.body());
+        System.out.println(response.body());
 
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
+    }
 
 
 }

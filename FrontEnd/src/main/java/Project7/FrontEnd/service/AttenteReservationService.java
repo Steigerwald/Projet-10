@@ -278,5 +278,28 @@ public class AttenteReservationService {
         return verification;
     }
 
+    /* méthode pour vérifier la liste d'attente est suffisante par rapport aux nombre d'exemplaires*/
+    public Boolean getVerificationListeAttenteSuffisante(int idLivre) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/attenteReservation/nombre/livre/"+idLivre))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        Boolean verification;
+        if (response.body().compareTo("true")==0) {
+            verification = true;
+        }else{
+            verification=false;
+        }
+        return verification;
+    }
+
+
 
 }

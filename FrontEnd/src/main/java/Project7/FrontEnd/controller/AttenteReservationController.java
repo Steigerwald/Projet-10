@@ -77,9 +77,10 @@ public class AttenteReservationController {
         model.addAttribute("livre",livreConcerne);
         logger.info(" on est passé par là creerAttente/livre/  suite1 "+id);
         Boolean userDansListeAttente =attenteReservationService.getVerificationUserIsPresentInListeAttente(id,userConnecte.getIdUser());
+        Boolean listeAttenteSuffisante = attenteReservationService.getVerificationListeAttenteSuffisante(livreConcerne.getIdLivre());
         logger.info(" on est passé par là creerAttente/livre/  suite2 "+id);
         logger.info(" valeur de userDansListeAttente "+userDansListeAttente);
-        if (!userDansListeAttente){
+        if ((!userDansListeAttente)&&(listeAttenteSuffisante)){
             logger.info(" on est passé par là creerAttente/livre/  suite3 "+id);
         AttenteReservationDTO newAttentereservation = new AttenteReservationDTO();
         newAttentereservation.setUser(userConnecte);
@@ -90,11 +91,17 @@ public class AttenteReservationController {
             logger.info(" OK on est dans demandeAttenteReservation #############");
         return "attenteReservation/demandeAttenteReservation";
         }else{
-            logger.info(" on est passé par là creerAttente/livre/  suite4 "+id);
-        AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
-            logger.info(" refusée on est dans demandeAttenteReservationRefusee #############");
-        model.addAttribute("attenteReservation",attenteReservationTrouvee);
-        return "attenteReservation/demandeAttenteReservationRefusee";
+            if(userDansListeAttente){
+                logger.info(" on est passé par là creerAttente/livre/  suite4 "+id);
+                AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
+                logger.info(" refusée on est dans demandeAttenteReservationRefusee #############");
+                model.addAttribute("attenteReservation",attenteReservationTrouvee);
+                return "attenteReservation/demandeAttenteReservationRefusee";
+            }else{
+                logger.info(" on est passé par là creerAttente/livre/  suite5 "+id);
+                logger.info(" refusée on est dans demandeAttenteReservationRefusee à cause d'une liste d'attente insuffisante#############");
+                return "attenteReservation/demandeAttenteReservationRefuseeListeInsuffisante";
+            }
         }
     }
 }

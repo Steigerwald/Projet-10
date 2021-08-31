@@ -67,20 +67,24 @@ public class AttenteReservationService {
     public AttenteReservation createAttenteReservation(User user,Livre livre) throws RecordNotFoundException {
         AttenteReservation entity = new AttenteReservation();
         List<AttenteReservation> listeAttenteReservationDeCeLivre =findAllAttenteReservationByTitreLivre(livre);
-        int nouvellePosition = listeAttenteReservationDeCeLivre.size()+1;
-        logger.info(" création de l'attente dans la liste d'attente");
-        Date today = new Date();
-        entity.setDateAttenteReservation(today);
-        entity.setEtatAttenteReservation("Sur liste d'attente");
-        entity.setDatedelaiDepasse(false);
-        entity.setIsactifAttente(true);
-        entity.setTitreLivre(livre.getTitre());
-        entity.setPositionUser(nouvellePosition);
-        entity.setUser(user);
-        //enregistrement de la reservation dans la basse de données
-        logger.info(" retour de l'entité newAttenteReservation de createAttenteReservation qui a été créée et sauvegardée");
-        attenteReservationRepository.save(entity);
-        return entity;
+        if(verifierUserListeDAttente(user,livre)&&(verifierNombreListeAttente(livre))){
+            int nouvellePosition = listeAttenteReservationDeCeLivre.size()+1;
+            logger.info(" création de l'attente dans la liste d'attente");
+            Date today = new Date();
+            entity.setDateAttenteReservation(today);
+            entity.setEtatAttenteReservation("Sur liste d'attente");
+            entity.setDatedelaiDepasse(false);
+            entity.setIsactifAttente(true);
+            entity.setTitreLivre(livre.getTitre());
+            entity.setPositionUser(nouvellePosition);
+            entity.setUser(user);
+            //enregistrement de la reservation dans la basse de données
+            logger.info(" retour de l'entité newAttenteReservation de createAttenteReservation qui a été créée et sauvegardée");
+            attenteReservationRepository.save(entity);
+            return entity;
+        }else {
+            return null;
+        }
     }
 
     /*Methode pour modifier une attente de réservation dans la base de données*/

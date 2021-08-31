@@ -68,7 +68,6 @@ public class JobConfiguration {
                 .build();
     }
 
-
     @Bean
     public Step connectingStep(){
         return stepBuilderFactory.get("Step2")
@@ -108,5 +107,18 @@ public class JobConfiguration {
                 .next(userStep())
                 .build();
     }
+/*
+    @Bean
+    public Job livreDispoJob(){
+        return jobBuilderFactory.get("LivreDispoJob")
+                .start(helloWordStep())
+                .next(connectingStep())
+                .next(reservationStep())
+                .next(userStep())
+                .build();
+    }
+
+ */
+
 
 }

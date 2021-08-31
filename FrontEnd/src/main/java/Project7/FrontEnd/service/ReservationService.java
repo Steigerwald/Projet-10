@@ -228,7 +228,7 @@ public class ReservationService {
         reservation.setDateDeRetour(today);
         reservation.setEtatReservation("retournée");
         reservation.setIsactif(false);
-        if (listeAttente.size()>0) {
+        /*if (listeAttente.size()>0) {
             reservation.getLivre().setDisponibilite(false);
             List<UserDTO> listeUsers = attenteReservationService.getAllAttenteUsersByIdLivre(reservation.getLivre().getIdLivre());
             AttenteReservationDTO attenteReservationConcernee=attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(reservation.getLivre().getIdLivre(),listeUsers.get(0).getIdUser());
@@ -250,10 +250,10 @@ public class ReservationService {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             responseService.setResponseStatut(response.statusCode());
-
         }else {
+
+         */
             reservation.getLivre().setDisponibilite(true);
-        }
             HttpClient client = HttpClient.newHttpClient();
             String token = authService.getMemoireToken();
             var objectMapper = new ObjectMapper();
@@ -280,7 +280,6 @@ public class ReservationService {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
     }
-
 
     /*Methode pour vérifier la date limite de prêt d'une reservation de la base de données de l'API rest*/
     public ReservationDTO verifierReservation(ReservationDTO reservation) throws IOException, InterruptedException {

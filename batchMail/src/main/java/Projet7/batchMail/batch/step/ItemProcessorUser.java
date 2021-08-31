@@ -16,6 +16,7 @@ public class ItemProcessorUser implements ItemProcessor<ReservationDTO,Reservati
     @Autowired
     private EmailService emailService;
 
+    /* Step pour le mail de relance pour la location lorsque la date est dépassée*/
     @Override
     public ReservationDTO process(ReservationDTO s) throws Exception {
             System.out.println("ceci est le processor de " + s.getUser().getNomUser());
@@ -24,4 +25,9 @@ public class ItemProcessorUser implements ItemProcessor<ReservationDTO,Reservati
             //reservationService.getReservationsRelancees().add(s);
             return s;
     }
+
+
+
+
+
 }

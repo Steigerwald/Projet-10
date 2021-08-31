@@ -171,6 +171,8 @@ public class AttenteReservationController {
 
     }
 
+
+
     /* controller pour avoir toutes les attentes de réservation à relancer 1 fois qui sont à traiter par le batch*/
 
 }
