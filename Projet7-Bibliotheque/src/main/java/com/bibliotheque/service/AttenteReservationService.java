@@ -67,7 +67,9 @@ public class AttenteReservationService {
     public AttenteReservation createAttenteReservation(User user,Livre livre) throws RecordNotFoundException {
         AttenteReservation entity = new AttenteReservation();
         List<AttenteReservation> listeAttenteReservationDeCeLivre =findAllAttenteReservationByTitreLivre(livre);
-        if(verifierUserListeDAttente(user,livre)&&(verifierNombreListeAttente(livre))){
+        logger.info(" valeur de verifierUserListeDAttente "+verifierUserListeDAttente(user,livre));
+        logger.info(" valeur de verifierNombreListeAttente "+verifierNombreListeAttente(livre));
+        if(!verifierUserListeDAttente(user,livre)&&(verifierNombreListeAttente(livre))){
             int nouvellePosition = listeAttenteReservationDeCeLivre.size()+1;
             logger.info(" création de l'attente dans la liste d'attente");
             Date today = new Date();

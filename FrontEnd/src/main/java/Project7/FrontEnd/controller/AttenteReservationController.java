@@ -72,7 +72,9 @@ public class AttenteReservationController {
     public String reservationLivre(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         logger.info(" on est passé par là creerAttente/livre/  "+id);
         UserDTO userConnecte =authService.getUserConnecte();
+        logger.info(" userConnecte est  "+userConnecte);
         LivreDTO livreConcerne = livreService.getLivreById(id);
+        logger.info(" le livreConcerné est  "+livreConcerne.getTitre());
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("livre",livreConcerne);
         logger.info(" on est passé par là creerAttente/livre/  suite1 "+id);
@@ -82,10 +84,12 @@ public class AttenteReservationController {
         logger.info(" valeur de userDansListeAttente "+userDansListeAttente);
         if ((!userDansListeAttente)&&(listeAttenteSuffisante)){
             logger.info(" on est passé par là creerAttente/livre/  suite3 "+id);
-        AttenteReservationDTO newAttentereservation = new AttenteReservationDTO();
-        newAttentereservation.setUser(userConnecte);
-        newAttentereservation.setTitreLivre(livreConcerne.getTitre());
-        AttenteReservationDTO attenteReservation =attenteReservationService.createAttenteReservation(newAttentereservation);
+        AttenteReservationDTO newAttenteReservation = new AttenteReservationDTO();
+        newAttenteReservation.setUser(userConnecte);
+        newAttenteReservation.setTitreLivre(livreConcerne.getTitre());
+            logger.info(" on est passé par là creerAttente/livre/  suite3bis "+livreConcerne.getTitre());
+        AttenteReservationDTO attenteReservation =attenteReservationService.createAttenteReservation(newAttenteReservation);
+            logger.info(" valeur de attenteReservation"+attenteReservation);
         userService.verifierUserConnecte(model);
         model.addAttribute("attenteReservation",attenteReservation);
             logger.info(" OK on est dans demandeAttenteReservation #############");

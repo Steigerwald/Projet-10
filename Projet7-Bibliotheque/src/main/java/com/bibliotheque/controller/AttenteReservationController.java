@@ -88,15 +88,21 @@ public class AttenteReservationController {
         }
     }
 
+
     /* controller pour ajouter une attente de reservation */
     @RequestMapping(path = "/addAttenteReservation",method = RequestMethod.POST,produces = "application/json")
-    public ResponseEntity<AttenteReservationDTO> newAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationDTO) throws RecordNotFoundException {
-        String titreLivre =attenteReservationMapper.toEntity(attenteReservationDTO).getTitreLivre();
+    public ResponseEntity<AttenteReservationDTO> createAttenteReservation(@RequestBody AttenteReservationDTO attenteReservationDTO) throws RecordNotFoundException {
+        AttenteReservation attenteReservation=attenteReservationMapper.toEntity(attenteReservationDTO);
+        User userConcerne = attenteReservation.getUser();
+        String titreLivre =attenteReservation.getTitreLivre();
+        logger.info(" passé sur controller addAttenteReservation ");
         List<Livre> listeLivresTrouves =livreService.getAllLivresByTitre(titreLivre);
-        AttenteReservation attenteReservation=new AttenteReservation();
         if (listeLivresTrouves.size()>0){
+            logger.info(" taille listeLivresTrouvés > 0 ");
             Livre livreRef=listeLivresTrouves.get(0);
-            attenteReservation =attenteReservationService.createAttenteReservation(attenteReservationMapper.toEntity(attenteReservationDTO).getUser(),livreRef);
+            logger.info(" livre de référence "+listeLivresTrouves.get(0).getTitre());
+            attenteReservation =attenteReservationService.createAttenteReservation(userConcerne,livreRef);
+            logger.info(" l'attente a été créee !! ");
         }
         return new ResponseEntity<>(attenteReservationMapper.toDto(attenteReservation), HttpStatus.OK);
     }

@@ -164,6 +164,7 @@ public class AttenteReservationService {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" on est passé par la méthode du front end");
         logger.info(" reponse du body "+response.body());
         responseService.setResponseStatut(response.statusCode());
         System.out.println(response.body());
