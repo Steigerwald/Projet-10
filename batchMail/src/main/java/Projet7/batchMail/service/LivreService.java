@@ -1,6 +1,7 @@
 package Projet7.batchMail.service;
 
 import Projet7.batchMail.dto.LivreDTO;
+import Projet7.batchMail.dto.ReservationDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class LivreService {
 
 
     Logger logger = (Logger) LoggerFactory.getLogger(LivreService.class);
+
+    private List<LivreDTO> itemLivresDisponibles = new ArrayList<LivreDTO>();
+
 
     @Autowired
     public AuthService authService;
@@ -54,4 +58,30 @@ public class LivreService {
             return new ArrayList<LivreDTO>();
         }
     }
+
+    /*Methode pour modifier un livre à l'API rest*/
+    public LivreDTO modifierUnLivre(LivreDTO livre) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writeValueAsString(livre);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/livre/"))
+                .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        System.out.println(response.body());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(response.body(), new TypeReference<LivreDTO>() {
+        });
+
+    }
+
+
+
+
+
 }

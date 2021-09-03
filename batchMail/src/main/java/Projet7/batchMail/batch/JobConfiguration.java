@@ -1,7 +1,9 @@
 package Projet7.batchMail.batch;
 
 import Projet7.batchMail.batch.step.HelloWordTaskLet;
+import Projet7.batchMail.batch.step.ItemReaderLivreDisponible;
 import Projet7.batchMail.batch.step.ItemReaderLogin;
+import Projet7.batchMail.dto.LivreDTO;
 import Projet7.batchMail.dto.ReservationDTO;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -37,6 +39,10 @@ public class JobConfiguration {
     @Autowired
     private ItemReader<ReservationDTO> userDTOItemReader;
 
+    @Qualifier("itemReaderLivreDisponible")
+    @Autowired
+    private ItemReader<LivreDTO> livreDTOItemReader;
+
     @Autowired
     private ItemProcessor<String,String> itemProcessor;
 
@@ -46,6 +52,10 @@ public class JobConfiguration {
     @Autowired
     private ItemProcessor<ReservationDTO,ReservationDTO> itemProcessorUser;
 
+    @Qualifier("itemProcessorLivreDisponible")
+    @Autowired
+    private ItemProcessor<LivreDTO,ReservationDTO> livreItemProcessor;
+
     @Autowired
     private ItemWriter<String> itemWriter;
 
@@ -54,6 +64,10 @@ public class JobConfiguration {
 
     @Autowired
     private ItemWriter<ReservationDTO> itemWriterUser;
+
+    @Qualifier("itemWriterLivreDisponible")
+    @Autowired
+    private ItemWriter<ReservationDTO> livreItemWriter;
 
 
     @Bean
@@ -98,6 +112,17 @@ public class JobConfiguration {
                 .build();
     }
 
+
+    @Bean
+    public Step livreStep(){
+        return stepBuilderFactory.get("StepLivre1")
+                .<LivreDTO,ReservationDTO>chunk(3)
+                .reader(livreDTOItemReader)
+                .processor(livreItemProcessor)
+                .writer(livreItemWriter)
+                .build();
+    }
+
     @Bean
     public Job helloWordJob(){
         return jobBuilderFactory.get("Job")
@@ -105,15 +130,16 @@ public class JobConfiguration {
                 .next(connectingStep())
                 .next(reservationStep())
                 .next(userStep())
+                //.next(livreStep())
                 .build();
     }
+
+
 /*
     @Bean
     public Job livreDispoJob(){
         return jobBuilderFactory.get("LivreDispoJob")
-                .start(helloWordStep())
-                .next(connectingStep())
-                .next(reservationStep())
+                .start(livreStep())
                 .next(userStep())
                 .build();
     }

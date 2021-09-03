@@ -17,15 +17,17 @@
 <main>
     <Br>
     <h1><span>Votre demande d'être sur la liste d'attente pour le livre </span><a th:text="${livre.titre}"></a> <span> n'a pas pu être prise en compte</span></h1>
+    <br>
     <div class="inter">
         <h2>
             <span>Vous avez demandé de réserver le livre : </span><a th:text="${livre.titre}"></a><span> de </span><a th:text="${livre.auteur}"></a><span> , </span><br>
             <span></span><br>
-            <span>Cependant, liste d'attente est complète et vous devrez attendre qu'une place se libère </span>
+            <br>
+            <span>Cependant, la liste d'attente est complète à ce jour et vous devez attendre qu'une place se libère </span>
         </h2>
         <span></span><br>
         <h2>
-            <span> Merci pour votre compréhension et de votre fidélité ! </span>
+            <span> Merci de vérifier demain la possibilité de réserver, sincères salutations ! </span>
         </h2>
     </div>
     <Footer class="pagination">
