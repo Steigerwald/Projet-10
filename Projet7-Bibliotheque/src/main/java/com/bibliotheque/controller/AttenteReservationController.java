@@ -102,7 +102,6 @@ public class AttenteReservationController {
             Livre livreRef=listeLivresTrouves.get(0);
             logger.info(" livre de référence "+listeLivresTrouves.get(0).getTitre());
             attenteReservation =attenteReservationService.createAttenteReservation(userConcerne,livreRef);
-            logger.info(" l'attente a été créee !! ");
         }
         return new ResponseEntity<>(attenteReservationMapper.toDto(attenteReservation), HttpStatus.OK);
     }

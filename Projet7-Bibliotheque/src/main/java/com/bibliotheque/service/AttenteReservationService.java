@@ -69,7 +69,7 @@ public class AttenteReservationService {
         List<AttenteReservation> listeAttenteReservationDeCeLivre =findAllAttenteReservationByTitreLivre(livre);
         logger.info(" valeur de verifierUserListeDAttente "+verifierUserListeDAttente(user,livre));
         logger.info(" valeur de verifierNombreListeAttente "+verifierNombreListeAttente(livre));
-        if(!verifierUserListeDAttente(user,livre)&&(verifierNombreListeAttente(livre))){
+        if(!verifierUserListeDAttente(user,livre)&&(verifierNombreListeAttente(livre))&&(!reservationService.verifierReservationByUserBylivre(user,livre))){
             int nouvellePosition = listeAttenteReservationDeCeLivre.size()+1;
             logger.info(" création de l'attente dans la liste d'attente");
             Date today = new Date();
@@ -83,9 +83,11 @@ public class AttenteReservationService {
             //enregistrement de la reservation dans la basse de données
             logger.info(" retour de l'entité newAttenteReservation de createAttenteReservation qui a été créée et sauvegardée");
             attenteReservationRepository.save(entity);
+            logger.info(" l'attente a été créee !! ");
             return entity;
         }else {
-            return null;
+            logger.info(" l'attente n'a pas été créee !! ");
+            return entity;
         }
     }
 
@@ -136,29 +138,6 @@ public class AttenteReservationService {
         return listeAttenteUser;
     }
 
-
-    /*Methode pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
-    /*public Boolean verifierUserListeDAttente (User user,Livre livre){
-        Boolean result = true;
-        List<AttenteReservation> listeDAttente = new ArrayList<AttenteReservation>();
-        listeDAttente=findAllAttenteReservationByTitreLivre(livre);
-        List<User> listUsersPresent = new ArrayList<User>();
-        if (listeDAttente.size()>0) {
-            for (int i = 0; i < listeDAttente.size(); i = i + 1) {
-                if (user.equals(listeDAttente.get(i).getUser())) {
-                    listUsersPresent.add(listeDAttente.get(i).getUser());
-                }
-            }
-        }
-        if (listUsersPresent.size()>0){
-            result=true;
-        }else{
-            result=false;
-        }
-        return result;
-    }
-
-     */
 
     /*Methode pour vérifier que le user n'est pas dans la liste d'attente pour ce livre*/
     public Boolean verifierUserListeDAttente (User user,Livre livre){

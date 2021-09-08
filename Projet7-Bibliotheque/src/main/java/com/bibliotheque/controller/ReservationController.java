@@ -1,9 +1,12 @@
 package com.bibliotheque.controller;
 
+import com.bibliotheque.entity.Livre;
 import com.bibliotheque.entity.Reservation;
 import com.bibliotheque.entity.User;
+import com.bibliotheque.entity.dto.LivreDTO;
 import com.bibliotheque.entity.dto.ReservationDTO;
 import com.bibliotheque.entity.dto.UserDTO;
+import com.bibliotheque.entity.mapper.LivreMapper;
 import com.bibliotheque.entity.mapper.ReservationMapper;
 import com.bibliotheque.entity.mapper.UserMapper;
 import com.bibliotheque.exception.RecordNotFoundException;
@@ -32,6 +35,9 @@ public class ReservationController {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    LivreMapper livreMapper;
 
     Logger logger = (Logger) LoggerFactory.getLogger(ReservationController.class);
 
@@ -115,7 +121,6 @@ public class ReservationController {
         return new ResponseEntity<>(reservationMapper.toDto(toutesReservationsByUser), HttpStatus.OK);
     }
 
-
     /* controller pour avoir toutes les reservations à relancer 1 fois qui sont à traiter par le batch*/
     @RequestMapping(path ="/all/batch",method = RequestMethod.GET)
     public ResponseEntity<List<ReservationDTO> >listOfReservationsForBatch() {
@@ -133,6 +138,15 @@ public class ReservationController {
         return new ResponseEntity<>(reservationMapper.toDto(reservationsBatch), HttpStatus.OK);
     }
 
+    /* controller pour verifier qu'un user a une reservation d'un livre*/
+    @RequestMapping(path="/verifierUserLivre",method=RequestMethod.GET)
+    public Boolean verifierReservationByUserByLivre (@RequestBody UserDTO userConcerneDTO, LivreDTO livreConcerneDTO){
+        User user = userMapper.toEntity(userConcerneDTO);
+        Livre livre =livreMapper.toEntity(livreConcerneDTO);
+        Boolean reservationTrouvee=reservationService.verifierReservationByUserBylivre(user,livre);
+        return reservationTrouvee;
+    }
+
     /* controller pour vérifier le retrait d'une réservation < 48h*/
     @RequestMapping(path = "/verifierRetrait",method = RequestMethod.PUT,produces = "application/json")
     public Boolean verifierRetraitReservation(@RequestBody ReservationDTO reservationModifieDTO) throws RecordNotFoundException {
@@ -140,6 +154,14 @@ public class ReservationController {
         Boolean result=reservationService.verifierRetraitReservationApresMail(reservationAVerifier);
         return result;
     }
+
+    /* controller pour avoir toutes les reservations pour informer par mail du retrait de la date limite avant annulation*/
+    @RequestMapping(path ="/all/infoReservation",method = RequestMethod.GET)
+    public ResponseEntity<List<ReservationDTO> >listOfReservationsForInfoReservation() {
+        List<Reservation> reservationsAInformer =reservationService.findAllReservationByEtatRservationAndByDateMail();
+        return new ResponseEntity<>(reservationMapper.toDto(reservationsAInformer), HttpStatus.OK);
+    }
+
 
     /* controller pour avoir toutes les reservations à relancer <48h car elles n'ont pas été retirées qui sont à traiter par le batch*/
     /*@RequestMapping(path ="/all/batch2",method = RequestMethod.GET)

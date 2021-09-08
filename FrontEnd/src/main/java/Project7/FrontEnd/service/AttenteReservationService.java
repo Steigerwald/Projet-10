@@ -2,6 +2,7 @@ package Project7.FrontEnd.service;
 
 
 import Project7.FrontEnd.dto.AttenteReservationDTO;
+import Project7.FrontEnd.dto.LivreDTO;
 import Project7.FrontEnd.dto.UserDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -300,6 +301,11 @@ public class AttenteReservationService {
         }
         return verification;
     }
+
+
+    /* méthode pour vérifier que le user n'a pas déjà une reservation du livre*/
+
+
 
 
 

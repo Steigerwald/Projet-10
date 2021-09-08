@@ -1,7 +1,7 @@
 package Projet7.batchMail.batch;
 
 import Projet7.batchMail.batch.step.HelloWordTaskLet;
-import Projet7.batchMail.batch.step.ItemReaderLivreDisponible;
+import Projet7.batchMail.batch.step.InfoReservationTaskLet;
 import Projet7.batchMail.batch.step.ItemReaderLogin;
 import Projet7.batchMail.dto.LivreDTO;
 import Projet7.batchMail.dto.ReservationDTO;
@@ -39,12 +39,16 @@ public class JobConfiguration {
     @Autowired
     private ItemReader<ReservationDTO> userDTOItemReader;
 
-    @Qualifier("itemReaderLivreDisponible")
+    @Qualifier("itemReaderInfoReservation")
     @Autowired
-    private ItemReader<LivreDTO> livreDTOItemReader;
+    private ItemReader<ReservationDTO> infoReservationDTOItemReader;
 
     @Autowired
     private ItemProcessor<String,String> itemProcessor;
+
+    @Qualifier("itemProcessorInfoReservation")
+    @Autowired
+    private ItemProcessor<ReservationDTO,ReservationDTO> itemProcessorInfoReservation;
 
     @Autowired
     private ItemProcessor<ReservationDTO,ReservationDTO> itemProcessorReservation;
@@ -52,22 +56,18 @@ public class JobConfiguration {
     @Autowired
     private ItemProcessor<ReservationDTO,ReservationDTO> itemProcessorUser;
 
-    @Qualifier("itemProcessorLivreDisponible")
-    @Autowired
-    private ItemProcessor<LivreDTO,ReservationDTO> livreItemProcessor;
-
     @Autowired
     private ItemWriter<String> itemWriter;
+
+    @Qualifier("itemWriterInfoReservation")
+    @Autowired
+    private ItemWriter<ReservationDTO> itemWriterInfoReservation;
 
     @Autowired
     private ItemWriter<ReservationDTO> itemWriterReservation;
 
     @Autowired
     private ItemWriter<ReservationDTO> itemWriterUser;
-
-    @Qualifier("itemWriterLivreDisponible")
-    @Autowired
-    private ItemWriter<ReservationDTO> livreItemWriter;
 
 
     @Bean
@@ -82,6 +82,22 @@ public class JobConfiguration {
                 .build();
     }
 
+    @Bean
+    public Step infoReservationStep(){
+        return stepBuilderFactory.get("StepInfo1")
+                .tasklet(new InfoReservationTaskLet())
+                .build();
+    }
+
+    @Bean
+    public Step reservationInfoStep(){
+        return stepBuilderFactory.get("StepInfo2")
+                .<ReservationDTO,ReservationDTO>chunk(1)
+                .reader(infoReservationDTOItemReader)
+                .processor(itemProcessorInfoReservation)
+                .writer(itemWriterInfoReservation)
+                .build();
+    }
     @Bean
     public Step connectingStep(){
         return stepBuilderFactory.get("Step2")
@@ -114,37 +130,24 @@ public class JobConfiguration {
 
 
     @Bean
-    public Step livreStep(){
-        return stepBuilderFactory.get("StepLivre1")
-                .<LivreDTO,ReservationDTO>chunk(3)
-                .reader(livreDTOItemReader)
-                .processor(livreItemProcessor)
-                .writer(livreItemWriter)
-                .build();
-    }
-
-    @Bean
     public Job helloWordJob(){
-        return jobBuilderFactory.get("Job")
+        return jobBuilderFactory.get("Job1")
                 .start(helloWordStep())
                 .next(connectingStep())
                 .next(reservationStep())
                 .next(userStep())
-                //.next(livreStep())
                 .build();
     }
 
-
-/*
     @Bean
-    public Job livreDispoJob(){
-        return jobBuilderFactory.get("LivreDispoJob")
-                .start(livreStep())
-                .next(userStep())
+    public Job InfoReservationJob(){
+        return jobBuilderFactory.get("Job2")
+                .start(infoReservationStep())
+                .next(connectingStep())
+                .next(reservationInfoStep())
                 .build();
     }
 
- */
 
 
 }

@@ -1,9 +1,11 @@
 package Project7.FrontEnd.service;
 
 import Project7.FrontEnd.dto.AttenteReservationDTO;
+import Project7.FrontEnd.dto.LivreDTO;
 import Project7.FrontEnd.dto.ReservationDTO;
 import Project7.FrontEnd.dto.UserDTO;
 import Project7.FrontEnd.form.ReservationForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.jni.User;
@@ -28,6 +30,9 @@ public class ReservationService {
 
     @Autowired
     public UserService userService;
+
+    @Autowired
+    public LivreService livreService;
 
     @Autowired
     public AuthService authService;
@@ -225,35 +230,47 @@ public class ReservationService {
     public ReservationDTO retournerReservation(ReservationDTO reservation) throws IOException, InterruptedException, ParseException {
         Date today = new Date();
         reservation.setDateDeRetour(today);
-        reservation.setEtatReservation("retournée");
+        reservation.setEtatReservation("retournee");
         reservation.setIsactif(false);
-        reservation.getLivre().setDisponibilite(true);
+        List<UserDTO> listeAttenteUsers=attenteReservationService.getAllAttenteUsersByIdLivre(reservation.getLivre().getIdLivre());
+        if (listeAttenteUsers.size()>0){
+            reservation.getLivre().setDisponibilite(false);
+            ReservationDTO newReservation = new ReservationDTO();
+            newReservation.setUser(listeAttenteUsers.get(0));
+            newReservation.setLivre(reservation.getLivre());
+            createReservation(newReservation);
+        }else{
+            reservation.getLivre().setDisponibilite(true);
+        }
+        ReservationDTO reservationModifiee =modifyReservation(reservation);
+        logger.info(" modifier reservation ");
+        LivreDTO livreModifie = livreService.modifierUnLivre(reservation.getLivre());
+        logger.info(" rmodifier livre ");
+        return reservationModifiee;
+    }
+
+
+    /*Methode pur modifier une réservation de la base de données de l'API rest*/
+    public ReservationDTO modifyReservation(ReservationDTO reservation) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         String token = authService.getMemoireToken();
         var objectMapper = new ObjectMapper();
         String requestBody = objectMapper
-            .writeValueAsString(reservation);
+                .writeValueAsString(reservation);
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:9090/reservation/"))
-            .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
-            .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
-            .build();
+                .uri(URI.create("http://localhost:9090/reservation/"))
+                .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         responseService.setResponseStatut(response.statusCode());
-        String requestBody02=objectMapper
-            .writeValueAsString(reservation.getLivre());
-        HttpRequest request02 = HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:9090/livre/"))
-            .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
-            .PUT(HttpRequest.BodyPublishers.ofString(requestBody02))
-            .build();
-        HttpResponse<String> response02 = client.send(request02, HttpResponse.BodyHandlers.ofString());
-        responseService.setResponseStatut(response.statusCode());
-        logger.info(" reponse du body "+response.body());
-        System.out.println(response.body());
+        logger.info(" reponse du body de modifyReservation " + response.body());
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
     }
+
+
+
 
     /*Methode pour vérifier la date limite de prêt d'une reservation de la base de données de l'API rest*/
     public ReservationDTO verifierReservation(ReservationDTO reservation) throws IOException, InterruptedException {

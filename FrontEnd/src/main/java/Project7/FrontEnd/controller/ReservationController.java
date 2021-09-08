@@ -84,6 +84,8 @@ public class ReservationController {
         return "reservation/reservationDetail"; //view
     }
 
+
+    /* controller pour le retrait du livre à la bibliiothèque */
     @RequestMapping(value="/retirer/{id}",method = RequestMethod.POST)
     public String reservationRetirer(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         ReservationDTO reservationARetirer =reservationService.getReservationById(id);
@@ -92,6 +94,8 @@ public class ReservationController {
         return "redirect:/user/EspaceAdministration";
     }
 
+
+    /* controller pour le retour du livre à la bibliiothèque */
     @RequestMapping(value="/retourDeLocation/{id}",method = RequestMethod.POST)
     public String reservationRetourner(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         ReservationDTO reservationARetourner =reservationService.getReservationById(id);
@@ -100,6 +104,8 @@ public class ReservationController {
         return "redirect:/user/EspaceAdministration";
     }
 
+
+    /* controller pour prolonger la location limité à une fois si le délai n'est pas dépassé */
     @RequestMapping(value="/prolonger/{id}",method = RequestMethod.POST)
     public String reservationProlonger(Model model,Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         ReservationDTO reservationAProlonger =reservationService.getReservationById(id);

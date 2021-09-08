@@ -1,5 +1,6 @@
 package com.bibliotheque.service;
 
+import com.bibliotheque.entity.Livre;
 import com.bibliotheque.entity.Reservation;
 import com.bibliotheque.entity.User;
 import com.bibliotheque.exception.RecordNotFoundException;
@@ -41,6 +42,17 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    /*Methode pour vérifier qu'un User a une reservation d'un livre dans la base de données*/
+    public Boolean verifierReservationByUserBylivre(User user, Livre livre){
+        Reservation reservationTrouvee = reservationRepository.findByUserAndLivre(user,livre);
+        Boolean result;
+        if (reservationTrouvee==null){
+            result=false;
+        }else{
+            result=true;
+        }
+        return result;
+    }
 
     /*Methode pour creer une reservation d'un livre dans la base de données*/
     public Reservation createReservation(Reservation entity) throws RecordNotFoundException {
@@ -52,7 +64,7 @@ public class ReservationService {
                 entity.setDateMailInfo(null);
                 entity.setDateReservation(today);
                 entity.setDelaiDeLocation(28);
-                entity.setEtatReservation("En attente confirmation");
+                entity.setEtatReservation("En attente retrait");
                 entity.setProlongation(false);
                 entity.setIsactif(true);
                 entity.setRelance(false);
@@ -100,9 +112,9 @@ public class ReservationService {
         }
     }
 
-    /*Methode pour avoir toutes les reservations à valider de la base de données*/
+    /*Methode pour avoir toutes les reservations en attente de retrait de la base de données*/
     public List<Reservation> findAllAValider() {
-        String etatEnCours = "En attente confirmation";
+        String etatEnCours = "En attente retrait";
         return reservationRepository.findAllByEtatReservation(etatEnCours);
     }
 
@@ -165,5 +177,13 @@ public class ReservationService {
         }
         return result;
     }
+
+
+    /*Methode pour avoir toutes les réservation en attente et qui ont une dateMail nulle*/
+    public List<Reservation> findAllReservationByEtatRservationAndByDateMail() {
+        return reservationRepository.findAllByEtatReservationAndBOrderByDateMailInfo("En attente retrait",null);
+    }
+
+
 
 }

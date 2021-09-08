@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ItemWriterUser implements ItemWriter<ReservationDTO> {
+public class ItemWriterInfoReservation implements ItemWriter<ReservationDTO> {
 
     @Autowired
     private ReservationService reservationService;
 
     @Override
     public void write(List<? extends ReservationDTO> list) throws Exception {
-    for (int i=0; i<list.size(); i=i+1){
-            list.get(i).setRelance(true);
+        for (int i=0; i<list.size(); i=i+1){
             reservationService.modifyReservationBatch(list.get(i));
-            System.out.println("la réservation N° " + list.get(i).getIdReservation() + " a été relancée");
+            System.out.println("la réservation N° " + list.get(i).getIdReservation() + " a été prévenue");
         }
-    System.out.println("l'enregistrement de ItemWriterUser est terminé");
+        System.out.println("l'enregistrement de ItemWriterInfoReservation est terminé");
     }
 }
