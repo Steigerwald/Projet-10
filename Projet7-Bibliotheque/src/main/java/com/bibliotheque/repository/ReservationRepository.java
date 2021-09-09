@@ -12,8 +12,9 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     List<Reservation> findAllByEtatReservation(String etatReservation);
-    List<Reservation> findAllByEtatReservationOrIsactif(String etatReservation,Boolean actif);
+    List<Reservation> findAllByEtatReservationAndIsactif(String etatReservation,Boolean actif);
+    List<Reservation> findAllByEtatReservationOrEtatReservationAndIsactif(String etat1,String etat2,Boolean actif);
     List<Reservation> findAllByUser(User user);
     Reservation findByUserAndLivre(User user, Livre livre);
-    List<Reservation> findAllByEtatReservationAndBOrderByDateMailInfo(String etatReservation, Date dateMail);
+    List<Reservation> findAllByEtatReservationAndInfoIsNull(String etatReservation);
 }

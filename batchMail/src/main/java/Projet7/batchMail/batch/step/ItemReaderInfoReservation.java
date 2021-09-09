@@ -20,11 +20,30 @@ public class ItemReaderInfoReservation implements ItemReader<ReservationDTO> {
     @Autowired
     ReservationService reservationService;
 
+    int i =0;
+
     @Override
-    public ReservationDTO read() throws IOException, InterruptedException, ParseException {
-        reservationService.setItemReservations(reservationService.getAllReservationsEnAttenteInfoMail());
-        return null;
+    public ReservationDTO read () throws IOException, InterruptedException {
+
+        reservationService.setItemInfoReservations(reservationService.getAllReservationsEnAttenteInfoMail());
+
+        if (i==reservationService.getItemReservations().size()){
+            i=0;
+            return null;
+        }
+        ReservationDTO reservationDTO =reservationService.getItemReservations().get(i);
+        System.out.println(reservationDTO);
+        System.out.println(i);
+
+        i++;
+        return reservationDTO;
     }
+
+
+
+
+
+
 
 
 }

@@ -21,7 +21,7 @@ public class ItemProcessorUser implements ItemProcessor<ReservationDTO,Reservati
     public ReservationDTO process(ReservationDTO s) throws Exception {
             System.out.println("ceci est le processor de " + s.getUser().getNomUser());
             System.out.println("le mail est: " + s.getUser().getMailUser());
-            emailService.sendSimpleMessage(s.getUser().getMailUser(),"relance pour votre location de livre","votre date de location du livre "+s.getLivre().getTitre()+" est dépassé, merci de vous rapporocher de votre librairie pour retourner votre livre ou prolonger votre location !");
+            emailService.sendSimpleMessage(s.getUser().getMailUser(),"relance pour votre location de livre","votre date de location du livre "+s.getLivre().getTitre()+" est dépassé, merci de vous rapprocher de votre librairie pour retourner votre livre ou prolonger votre location !");
             //reservationService.getReservationsRelancees().add(s);
             return s;
     }

@@ -92,7 +92,7 @@ public class JobConfiguration {
     @Bean
     public Step reservationInfoStep(){
         return stepBuilderFactory.get("StepInfo2")
-                .<ReservationDTO,ReservationDTO>chunk(1)
+                .<ReservationDTO,ReservationDTO>chunk(3)
                 .reader(infoReservationDTOItemReader)
                 .processor(itemProcessorInfoReservation)
                 .writer(itemWriterInfoReservation)
@@ -128,26 +128,15 @@ public class JobConfiguration {
                 .build();
     }
 
-
     @Bean
     public Job helloWordJob(){
-        return jobBuilderFactory.get("Job1")
+        return jobBuilderFactory.get("Job")
                 .start(helloWordStep())
                 .next(connectingStep())
                 .next(reservationStep())
                 .next(userStep())
-                .build();
-    }
-
-    @Bean
-    public Job InfoReservationJob(){
-        return jobBuilderFactory.get("Job2")
-                .start(infoReservationStep())
-                .next(connectingStep())
                 .next(reservationInfoStep())
                 .build();
     }
-
-
 
 }

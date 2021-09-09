@@ -28,9 +28,9 @@ public class Reservation {
     private Date dateDeRetrait;
 
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name="DATE_MAIL_INFO")
+    @Column(name="INFO")
     @Nullable
-    private Date dateMailInfo;
+    private Date info;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="DATE_RETOUR")

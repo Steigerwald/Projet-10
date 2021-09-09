@@ -27,6 +27,8 @@ public class ReservationService {
 
     private List<ReservationDTO> itemReservations = new ArrayList<ReservationDTO>();
 
+    private List<ReservationDTO> itemInfoReservations = new ArrayList<ReservationDTO>();
+
     private List<ReservationDTO> reservationsRelancees = new ArrayList<ReservationDTO>();
 
     @Autowired

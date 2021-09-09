@@ -35,7 +35,7 @@ INSERT INTO bibliotheques.TBL_BIBLIOTHEQUE (id_bibliotheque, adresse, lieu, nom_
 (3, '50 AVENUE GENERAL LECLERC', 'LE BOUSCAT', 'TECHNOSPACE CULTUREL');
 
 
-INSERT INTO bibliotheques.TBL_RESERVATION (id_reservation, date_retrait, date_mail_info, date_reservation,delai_location,etat_reservation,prolongation,isactif,relance,user_id_user,livre_id_livre,date_retour) VALUES
+INSERT INTO bibliotheques.TBL_RESERVATION (id_reservation, date_retrait, info, date_reservation,delai_location,etat_reservation,prolongation,isactif,relance,user_id_user,livre_id_livre,date_retour) VALUES
 (1,'2021-07-28 14:45:30',null,'2021-07-20 02:45:30',28,'en cours de pret',false,true,false,1,1,null),
 (2,'2020-07-20 09:55:30',null,'2020-07-15 02:45:30',28,'en cours de pret',false,true,false,3,2,null),
 (3,'2020-05-28 11:35:30',null,'2020-05-20 02:45:30',28,'en cours de pret',false,true,false,1,3,null),

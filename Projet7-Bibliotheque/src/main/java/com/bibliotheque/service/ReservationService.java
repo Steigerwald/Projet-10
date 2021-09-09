@@ -61,7 +61,7 @@ public class ReservationService {
                 Reservation newReservation = new Reservation();
                 entity.setIdReservation(newReservation.getIdReservation());
                 entity.setDateDeRetrait(null);
-                entity.setDateMailInfo(null);
+                entity.setInfo(null);
                 entity.setDateReservation(today);
                 entity.setDelaiDeLocation(28);
                 entity.setEtatReservation("En attente retrait");
@@ -120,8 +120,9 @@ public class ReservationService {
 
     /*Methode pour avoir toutes les reservations en cours de la base de données*/
     public List<Reservation> findAllEnCours() {
-        String etatEnCours = "En cours de pret";
-        return reservationRepository.findAllByEtatReservationOrIsactif(etatEnCours,true);
+        String etatEnCours1 = "En cours de pret";
+        String etatEnCours2 = "delai depasse";
+        return reservationRepository.findAllByEtatReservationOrEtatReservationAndIsactif(etatEnCours1,etatEnCours2,true);
     }
 
     /*Methode pour avoir toutes les reservations d'un user en cours de la base de données*/
@@ -165,8 +166,8 @@ public class ReservationService {
     public Boolean verifierRetraitReservationApresMail (Reservation entity){
         Boolean result = false;
         Date today = new Date();
-        if ((entity.getDateDeRetrait()!=null)&&(entity.getDateMailInfo()!=null)){
-            int diff = (int)(today.getTime()-entity.getDateMailInfo().getTime()/1000/3600);
+        if ((entity.getDateDeRetrait()!=null)&&(entity.getInfo()!=null)){
+            int diff = (int)(today.getTime()-entity.getInfo().getTime()/1000/3600);
             if (diff<48){
                 result=true;
             }else{
@@ -180,8 +181,8 @@ public class ReservationService {
 
 
     /*Methode pour avoir toutes les réservation en attente et qui ont une dateMail nulle*/
-    public List<Reservation> findAllReservationByEtatRservationAndByDateMail() {
-        return reservationRepository.findAllByEtatReservationAndBOrderByDateMailInfo("En attente retrait",null);
+    public List<Reservation> findAllReservationByEtatReservationAndByDateMail() {
+        return reservationRepository.findAllByEtatReservationAndInfoIsNull("En attente retrait");
     }
 
 

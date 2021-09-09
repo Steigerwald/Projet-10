@@ -9,7 +9,7 @@ public class ReservationDTO {
     private String etatReservation;
     private Date dateReservation;
     private Date dateDeRetrait;
-    private Date dateMailInfo;
+    private Date info;
     private Date dateDeRetour;
     private int delaiDeLocation;
     private Boolean prolongation;

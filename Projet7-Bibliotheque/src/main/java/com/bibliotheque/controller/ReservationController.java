@@ -158,9 +158,12 @@ public class ReservationController {
     /* controller pour avoir toutes les reservations pour informer par mail du retrait de la date limite avant annulation*/
     @RequestMapping(path ="/all/infoReservation",method = RequestMethod.GET)
     public ResponseEntity<List<ReservationDTO> >listOfReservationsForInfoReservation() {
-        List<Reservation> reservationsAInformer =reservationService.findAllReservationByEtatRservationAndByDateMail();
+        List<Reservation> reservationsAInformer =reservationService.findAllReservationByEtatReservationAndByDateMail();
+        logger.info(" taille de reservationsainformer: "+reservationsAInformer.size());
         return new ResponseEntity<>(reservationMapper.toDto(reservationsAInformer), HttpStatus.OK);
     }
+
+
 
 
     /* controller pour avoir toutes les reservations à relancer <48h car elles n'ont pas été retirées qui sont à traiter par le batch*/

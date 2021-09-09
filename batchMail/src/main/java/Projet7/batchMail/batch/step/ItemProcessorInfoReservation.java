@@ -23,9 +23,9 @@ public class ItemProcessorInfoReservation implements ItemProcessor<ReservationDT
         System.out.println("ceci est le processor de " + s.getUser().getNomUser());
         System.out.println("le mail est: " + s.getUser().getMailUser());
         Date today = new Date();
-        s.setDateMailInfo(today);
+        s.setInfo(today);
         Date dateLimite = new Date(today.getTime()+2*(1000*60*60*24));
-        emailService.sendSimpleMessage(s.getUser().getMailUser(),"Vous pouvez désormais retirer votre livre "+s.getLivre().getTitre(),"à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " et vous devez le retirer avant le "+dateLimite);
+        emailService.sendSimpleMessage(s.getUser().getMailUser(),"confirmation de votre location de livre","Vous pouvez désormais retirer votre livre "+s.getLivre().getTitre()+" à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " et vous devez le retirer avant le "+dateLimite);
         return s;
     }
 }
