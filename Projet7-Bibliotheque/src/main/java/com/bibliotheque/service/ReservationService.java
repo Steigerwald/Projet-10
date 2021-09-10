@@ -186,5 +186,10 @@ public class ReservationService {
     }
 
 
+    /*Methode pour avoir toutes les réservation en attente et qui ont une dateRetrait nulle*/
+    public List<Reservation> findAllReservationByEtatReservationAndByDateRetrait() {
+        return reservationRepository.findAllByEtatReservationAndDateDeRetraitIsNull("En attente retrait");
+    }
+
 
 }

@@ -31,6 +31,8 @@ public class ReservationService {
 
     private List<ReservationDTO> reservationsRelancees = new ArrayList<ReservationDTO>();
 
+    private List<ReservationDTO> itemFinReservations = new ArrayList<ReservationDTO>();
+
     @Autowired
     public AuthService authService;
 
@@ -146,5 +148,30 @@ public class ReservationService {
             return new ArrayList<ReservationDTO>();
         }
     }
+
+    /*Methode pour avoir toutes les réservation en attente retrait et qui n'ont pas été retirée et dont la date de retrait est dépassé*/
+    public List<ReservationDTO> getAllReservationsEnAttenteDateRetraitNull() throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/all/dateRetraitNull"))
+                .header("Authorization", "Bearer" + " " + token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body de getAllReservationsEnAttenteDateRetraitNull " + response.body());
+        System.out.println(response.body());
+        ObjectMapper mapper = new ObjectMapper();
+        List<ReservationDTO> toutesReservationsDateRetrait = mapper.readValue(response.body(), new TypeReference<List<ReservationDTO>>() {
+        });
+        if (toutesReservationsDateRetrait.size() > 0) {
+            logger.info(" retour liste toutesReservationsDateRetrait car la taille de laliste DateRetraitNull >0 " + toutesReservationsDateRetrait);
+            return toutesReservationsDateRetrait;
+        } else {
+            logger.info(" retour d'une nouvelle liste car pas d'élément dans la liste DateRetraitNull ");
+            return new ArrayList<ReservationDTO>();
+        }
+    }
+
 
 }

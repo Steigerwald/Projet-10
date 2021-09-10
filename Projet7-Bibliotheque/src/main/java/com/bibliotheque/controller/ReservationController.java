@@ -163,7 +163,13 @@ public class ReservationController {
         return new ResponseEntity<>(reservationMapper.toDto(reservationsAInformer), HttpStatus.OK);
     }
 
-
+    /* controller pour avoir toutes les reservations pour informer par mail que la date de retrait est dépassée et l'annulation de la réservation*/
+    @RequestMapping(path ="/all/dateRetraitNull",method = RequestMethod.GET)
+    public ResponseEntity<List<ReservationDTO> >listOfReservationsWithDateRetraitNull() {
+        List<Reservation> reservationsAAnnuler =reservationService.findAllReservationByEtatReservationAndByDateRetrait();
+        logger.info(" taille de reservationsAAnnuler: "+reservationsAAnnuler.size());
+        return new ResponseEntity<>(reservationMapper.toDto(reservationsAAnnuler), HttpStatus.OK);
+    }
 
 
     /* controller pour avoir toutes les reservations à relancer <48h car elles n'ont pas été retirées qui sont à traiter par le batch*/
