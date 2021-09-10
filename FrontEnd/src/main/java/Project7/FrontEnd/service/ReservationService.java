@@ -239,6 +239,8 @@ public class ReservationService {
             newReservation.setUser(listeAttenteUsers.get(0));
             newReservation.setLivre(reservation.getLivre());
             createReservation(newReservation);
+            AttenteReservationDTO attenteTreservationAAnnuler =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(reservation.getLivre().getIdLivre(),listeAttenteUsers.get(0).getIdUser());
+            attenteReservationService.annulerAttenteReservation(attenteTreservationAAnnuler);
         }else{
             reservation.getLivre().setDisponibilite(true);
         }
@@ -268,8 +270,6 @@ public class ReservationService {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
     }
-
-
 
 
     /*Methode pour vérifier la date limite de prêt d'une reservation de la base de données de l'API rest*/
