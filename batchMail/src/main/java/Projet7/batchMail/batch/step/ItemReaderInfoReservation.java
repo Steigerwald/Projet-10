@@ -27,11 +27,11 @@ public class ItemReaderInfoReservation implements ItemReader<ReservationDTO> {
 
         reservationService.setItemInfoReservations(reservationService.getAllReservationsEnAttenteInfoMail());
 
-        if (i==reservationService.getItemReservations().size()){
+        if (i==reservationService.getItemInfoReservations().size()){
             i=0;
             return null;
         }
-        ReservationDTO reservationDTO =reservationService.getItemReservations().get(i);
+        ReservationDTO reservationDTO =reservationService.getItemInfoReservations().get(i);
         System.out.println(reservationDTO);
         System.out.println(i);
 
