@@ -2,17 +2,15 @@ package Projet7.batchMail.batch.step;
 
 import Projet7.batchMail.dto.ReservationDTO;
 import Projet7.batchMail.service.EmailService;
-import Projet7.batchMail.service.ReservationService;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
 public class ItemProcessorInfoReservation implements ItemProcessor<ReservationDTO,ReservationDTO>  {
-    @Autowired
-    private ReservationService reservationService;
 
     @Autowired
     private EmailService emailService;
@@ -25,7 +23,9 @@ public class ItemProcessorInfoReservation implements ItemProcessor<ReservationDT
         Date today = new Date();
         s.setInfo(today);
         Date dateLimite = new Date(today.getTime()+2*(1000*60*60*24));
-        emailService.sendSimpleMessage(s.getUser().getMailUser(),"confirmation de votre location de livre","Vous pouvez désormais retirer votre livre "+s.getLivre().getTitre()+" à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " et vous devez le retirer avant le "+dateLimite);
+        SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+
+        emailService.sendSimpleMessage(s.getUser().getMailUser(),"confirmation de votre location de livre","Vous pouvez désormais retirer votre livre "+s.getLivre().getTitre()+" à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " et vous devez le retirer avant le "+simpleDateFormat02.format(dateLimite));
         return s;
     }
 }

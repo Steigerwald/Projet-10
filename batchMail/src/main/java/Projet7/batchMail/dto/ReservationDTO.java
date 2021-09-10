@@ -1,6 +1,8 @@
 package Projet7.batchMail.dto;
 
 import lombok.Data;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -17,4 +19,14 @@ public class ReservationDTO {
     private Boolean relance;
     private UserDTO user;
     private LivreDTO livre;
+
+    public String toStringInfo() {
+        if (info != null) {
+            SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+            return simpleDateFormat02.format(info);
+        } else {
+            return "pas encore retiré";
+        }
+    }
+
 }
