@@ -6,7 +6,6 @@ import com.bibliotheque.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -18,4 +17,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     Reservation findByUserAndLivre(User user, Livre livre);
     List<Reservation> findAllByEtatReservationAndInfoIsNull(String etatReservation);
     List<Reservation> findAllByEtatReservationAndDateDeRetraitIsNull(String etatReservation);
+    List<Reservation> findAllByLivreAndIsactif(Livre livre,Boolean actif);
+    Reservation findFirstByLivreOrderByDateDeRetraitAscIsactif(Livre livre);
+    List<Reservation> findAllByLivreOrderByDateDeRetraitAscIsactif(Livre livre);
 }

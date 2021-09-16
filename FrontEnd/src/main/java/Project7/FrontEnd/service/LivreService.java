@@ -2,6 +2,7 @@ package Project7.FrontEnd.service;
 
 import Project7.FrontEnd.dto.BibliothequeDTO;
 import Project7.FrontEnd.dto.LivreDTO;
+import Project7.FrontEnd.dto.ReservationDTO;
 import Project7.FrontEnd.dto.SearchDTO;
 import Project7.FrontEnd.form.LivreForm;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -32,6 +33,9 @@ public class LivreService {
 
     @Autowired
     public ResponseService responseService;
+
+    @Autowired
+    public ReservationService reservationService;
 
     Logger logger = (Logger) LoggerFactory.getLogger(LivreService.class);
 
@@ -370,6 +374,30 @@ public class LivreService {
             nombres.add(tousLesExemplairesDisponibles.size());
         }
         return nombres;
+    }
+
+    /*Methode pour avoir la liste des réservations en rapport à une liste de livre*/
+    public List<String> obtenirListeDateDispoPlusProche(List<LivreDTO> livres) throws IOException, InterruptedException {
+        List<String> datesDeRetrait = new ArrayList<String>();
+        for(LivreDTO elem: livres)
+        {
+            logger.info(" titre du livre dans liste  " + elem.getTitre());
+        }
+        for (LivreDTO livre : livres){
+            ReservationDTO reservationByDateRetraitPlusAncienneActive =reservationService.getReservationByLivreWithDateRetraitPlusAnncienne(livre);
+            logger.info(" la reservation la plus ancienne   " + reservationByDateRetraitPlusAncienneActive.getIdReservation());
+            if (reservationByDateRetraitPlusAncienneActive.getProlongation()){
+                Date DatePlusProche = new Date(reservationByDateRetraitPlusAncienneActive.getDateDeRetrait().getTime()+2*(1000*60*60*24));
+                SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+                datesDeRetrait.add(simpleDateFormat02.format(DatePlusProche));
+            }else{
+                Date DatePlusProche =new Date(reservationByDateRetraitPlusAncienneActive.getDateDeRetrait().getTime()+2*(1000*60*60*24));
+                SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+                datesDeRetrait.add(simpleDateFormat02.format(DatePlusProche));
+            }
+        }
+        logger.info(" premier de la liste datesDeRetrait " + datesDeRetrait.get(0));
+        return datesDeRetrait;
     }
 
 

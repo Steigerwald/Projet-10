@@ -10,6 +10,7 @@ import com.bibliotheque.entity.mapper.LivreMapper;
 import com.bibliotheque.entity.mapper.ReservationMapper;
 import com.bibliotheque.entity.mapper.UserMapper;
 import com.bibliotheque.exception.RecordNotFoundException;
+import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,9 @@ public class ReservationController {
     ReservationService reservationService;
 
     @Autowired
+    LivreService livreService;
+
+    @Autowired
     ReservationMapper reservationMapper;
 
 
@@ -47,6 +51,18 @@ public class ReservationController {
     public ResponseEntity<List<ReservationDTO> >listOfReservations() {
         List<Reservation> toutesReservations =reservationService.findAll();
         return new ResponseEntity<>(reservationMapper.toDto(toutesReservations), HttpStatus.OK);
+    }
+
+    /* controller pour avoir la reservation avec la date de retrait la plus ancienne par livre*/
+    @RequestMapping(path ="/byLivreByDateRetraitAncienne/{id}",method = RequestMethod.GET)
+    public ResponseEntity<List<ReservationDTO>>getListReservationOrdonnee(@PathVariable int id) throws RecordNotFoundException {
+        Livre leLivre =livreService.findById(id);
+        List<Reservation> listReservationsOrdonnees = reservationService.findReservationByLivreWithDateRetraitLaPlusAncienne(leLivre);
+        if (listReservationsOrdonnees.size()>0){
+            return new ResponseEntity<>(reservationMapper.toDto(listReservationsOrdonnees), HttpStatus.OK);
+        }else {
+            return null;
+        }
     }
 
     /* controller pour obtenir une reservation */
@@ -170,13 +186,5 @@ public class ReservationController {
         logger.info(" taille de reservationsAAnnuler: "+reservationsAAnnuler.size());
         return new ResponseEntity<>(reservationMapper.toDto(reservationsAAnnuler), HttpStatus.OK);
     }
-
-
-    /* controller pour avoir toutes les reservations à relancer <48h car elles n'ont pas été retirées qui sont à traiter par le batch*/
-    /*@RequestMapping(path ="/all/batch2",method = RequestMethod.GET)
-    public ResponseEntity<List<ReservationDTO> >listOfReservationsForBatch2(){
-        List<Reservation> toutesReservations =reservationService.findAll();
-    }*/
-
 
 }

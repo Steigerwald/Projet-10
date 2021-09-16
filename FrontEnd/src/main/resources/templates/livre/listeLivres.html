@@ -36,8 +36,9 @@
                                                     <th> N°</th>
                                                     <th>Titre</th>
                                                     <th>Auteur</th>
-                                                    <th>Exemplaires</th>
-                                                    <th>Disponible(s)</th>
+                                                    <th>Qté ex</th>
+                                                    <th>Dispo</th>
+                                                    <th>Date Dispo</th>
                                                     <th>Votre souhait</th>
                                                 </tr>
                                             </thead>
@@ -50,6 +51,15 @@
                                                     <td>
                                                         <a style ="color: green;" th:style = "${nombres2.get(state.index)>0} ? 'color: green' : 'color: black' " th:text="${nombres2.get(state.index)}">
                                                         </a>
+                                                    </td>
+                                                    <td>
+                                                        <div th:if="${nombres2.get(state.index)>0}">
+                                                            <a>Immédiat</a>
+                                                        </div>
+                                                        <div th:unless="${nombres2.get(state.index)>0}">
+                                                            <!--<a th:text="${datesRetrait.get(state.index)}"></a>-->
+                                                        </div>
+                                                    </td>
                                                     <td>
                                                         <div th:if="${nombres2.get(state.index)>0}">
                                                             <form th:action="@{/livre/exemplaires/{nom}(nom=${livre.idLivre})}" method="get">

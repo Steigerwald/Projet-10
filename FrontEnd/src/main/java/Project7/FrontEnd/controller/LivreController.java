@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -45,12 +46,14 @@ public class LivreController {
         List<LivreDTO> livres = livreService.getAllLivres();
         List<Integer> nombres1=livreService.obtenirNombreExempalaires(livres);
         List<Integer> nombres2=livreService.obtenirNombreExempalairesDisponibles(livres);
+        List<String> datesRetrait=livreService.obtenirListeDateDispoPlusProche(livres);
         logger.info(" retour valeur des livres du controller "+livres.get(0));
         userService.verifierUserConnecte(model);
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("livres",livres);
         model.addAttribute("nombres1",nombres1);
         model.addAttribute("nombres2",nombres2);
+        //model.addAttribute("datesRetrait",datesRetrait);
         model.addAttribute("livresSize",livres.size());
         return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeLivres");
     }

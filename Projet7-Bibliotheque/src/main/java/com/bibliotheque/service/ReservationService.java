@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -21,6 +19,9 @@ public class ReservationService {
 
     @Autowired
     ReservationRepository reservationRepository;
+
+    @Autowired
+    LivreService livreService;
 
     @Autowired
     AttenteReservationService attenteReservationService;
@@ -192,4 +193,21 @@ public class ReservationService {
     }
 
 
+    /*Methode pour avoir toutes les réservations actives d'un livre*/
+    public List<Reservation> findAllReservationsByLivre(Livre livre){
+        return reservationRepository.findAllByLivreAndIsactif(livre,true);
+    }
+
+    /*Methode pour avoir les réservations dans l'ordre des dates de retrait et actives d'un livre*/
+    public List<Reservation> findReservationByLivreWithDateRetraitLaPlusAncienne(Livre livre) throws RecordNotFoundException {
+        List<Livre> tousLesLivres = livreService.getAllLivresByTitre(livre.getTitre());
+        List<Reservation> listReservationExemplaire=new ArrayList<>();
+        if (tousLesLivres.size()>0) {
+            for (Livre l : tousLesLivres) {
+                List<Reservation> listReservation = reservationRepository.findAllByLivreOrderByDateDeRetraitAscIsactif(l);
+                listReservationExemplaire.addAll(listReservation);
+            }
+        }
+        return listReservationExemplaire;
+    }
 }

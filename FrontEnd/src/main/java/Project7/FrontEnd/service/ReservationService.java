@@ -70,6 +70,32 @@ public class ReservationService {
         }
     }
 
+    /*Methode pour obtenir la reservation avec la date de retrait la plus ancienne  par livre de la base de données de l'API rest*/
+    public ReservationDTO getReservationByLivreWithDateRetraitPlusAnncienne(LivreDTO livre) throws IOException, InterruptedException {
+        int id = livre.getIdLivre();
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/byLivreByDateRetraitAncienne/"+id))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        ObjectMapper mapper = new ObjectMapper();
+        ReservationDTO reservationById = mapper.readValue(response.body(), new TypeReference<ReservationDTO>() {
+        });
+        if(reservationById!=null) {
+            logger.info(" l'id de la reservation trouvée est :  "+reservationById.getIdReservation());
+            return reservationById;
+        } else {
+            logger.info(" retour de nul car pas d'élément et de reservation trouvée ");
+            return null;
+        }
+    }
+
     /*Methode pour transformer une reservationForm en reservationDTO*/
     public ReservationDTO transformerReservationFormEnReservationDTO(ReservationForm reservationForm,UserDTO userDTO) throws ParseException, IOException {
         ReservationDTO reservationDTO = new ReservationDTO ();
