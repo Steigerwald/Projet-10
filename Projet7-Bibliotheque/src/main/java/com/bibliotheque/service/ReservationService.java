@@ -204,7 +204,7 @@ public class ReservationService {
         List<Reservation> listReservationExemplaire=new ArrayList<>();
         if (tousLesLivres.size()>0) {
             for (Livre l : tousLesLivres) {
-                List<Reservation> listReservation = reservationRepository.findAllByLivreOrderByDateDeRetraitAscIsactif(l);
+                List<Reservation> listReservation = reservationRepository.findAllByLivreAndDateDeRetraitIsNotNullAndIsactif(l,true);
                 listReservationExemplaire.addAll(listReservation);
             }
         }

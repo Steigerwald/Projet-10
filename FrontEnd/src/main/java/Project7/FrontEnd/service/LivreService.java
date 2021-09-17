@@ -376,32 +376,40 @@ public class LivreService {
         return nombres;
     }
 
-    /*Methode pour avoir la liste des réservations en rapport à une liste de livre*/
+    /*Methode pour avoir la liste des dates en rapport à une liste de livre*/
     public List<String> obtenirListeDateDispoPlusProche(List<LivreDTO> livres) throws IOException, InterruptedException {
-        List<String> datesDeRetrait = new ArrayList<String>();
+
+        List<String> plusProcheDates = new ArrayList<String>();
         for(LivreDTO elem: livres)
         {
             logger.info(" titre du livre dans liste  " + elem.getTitre());
-        }
-        for (LivreDTO livre : livres){
-            ReservationDTO reservationByDateRetraitPlusAncienneActive =reservationService.getReservationByLivreWithDateRetraitPlusAnncienne(livre);
-            logger.info(" la reservation la plus ancienne   " + reservationByDateRetraitPlusAncienneActive.getIdReservation());
-            if (reservationByDateRetraitPlusAncienneActive.getProlongation()){
-                Date DatePlusProche = new Date(reservationByDateRetraitPlusAncienneActive.getDateDeRetrait().getTime()+2*(1000*60*60*24));
-                SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
-                datesDeRetrait.add(simpleDateFormat02.format(DatePlusProche));
-            }else{
-                Date DatePlusProche =new Date(reservationByDateRetraitPlusAncienneActive.getDateDeRetrait().getTime()+2*(1000*60*60*24));
-                SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
-                datesDeRetrait.add(simpleDateFormat02.format(DatePlusProche));
+            List<ReservationDTO> listReservationDTO = new ArrayList<>();
+            listReservationDTO =reservationService.getAllReservationByLivre(elem);
+            List<Date> datesDeRetrait = new ArrayList<Date>();
+            for(ReservationDTO r:listReservationDTO){
+                SimpleDateFormat simpleDateFormat03 = new SimpleDateFormat("dd-MM-yyyy");
+                logger.info(" date de retrait 1  " + simpleDateFormat03.format(r.getDateDeRetrait()));
+                datesDeRetrait.add(r.getDateDeRetrait());
+                logger.info(" datesDeRetrait  " + datesDeRetrait);
             }
+            if (datesDeRetrait.size()>0){
+                Collections.sort(datesDeRetrait);
+                logger.info(" datesDeRetrait ordonné  " + datesDeRetrait);
+                logger.info(" première datesDeRetrait ordonné  " + datesDeRetrait.get(0));
+                Date DatePlusProche = new Date(datesDeRetrait.get(0).getTime()+24*(1000*60*60*24));
+                SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+                plusProcheDates.add(simpleDateFormat02.format(DatePlusProche));
+
+            } else{
+                plusProcheDates.add("NON");
+            }
+
         }
-        logger.info(" premier de la liste datesDeRetrait " + datesDeRetrait.get(0));
-        return datesDeRetrait;
+
+        logger.info(" liste des dates  " + plusProcheDates);
+
+        return plusProcheDates;
     }
-
-
-
 
 
 }

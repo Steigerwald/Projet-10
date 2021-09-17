@@ -61,7 +61,8 @@ public class ReservationController {
         if (listReservationsOrdonnees.size()>0){
             return new ResponseEntity<>(reservationMapper.toDto(listReservationsOrdonnees), HttpStatus.OK);
         }else {
-            return null;
+            List<ReservationDTO> newList =new ArrayList<>();
+            return new ResponseEntity<>(newList, HttpStatus.OK);
         }
     }
 

@@ -18,6 +18,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> findAllByEtatReservationAndInfoIsNull(String etatReservation);
     List<Reservation> findAllByEtatReservationAndDateDeRetraitIsNull(String etatReservation);
     List<Reservation> findAllByLivreAndIsactif(Livre livre,Boolean actif);
-    Reservation findFirstByLivreOrderByDateDeRetraitAscIsactif(Livre livre);
-    List<Reservation> findAllByLivreOrderByDateDeRetraitAscIsactif(Livre livre);
+    List<Reservation> findAllByLivreAndDateDeRetraitIsNotNullAndIsactif(Livre livre,Boolean actif);
 }

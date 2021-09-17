@@ -70,8 +70,8 @@ public class ReservationService {
         }
     }
 
-    /*Methode pour obtenir la reservation avec la date de retrait la plus ancienne  par livre de la base de données de l'API rest*/
-    public ReservationDTO getReservationByLivreWithDateRetraitPlusAnncienne(LivreDTO livre) throws IOException, InterruptedException {
+    /*Methode pour obtenir toutes les reservations  par livre de la base de données de l'API rest*/
+    public List<ReservationDTO> getAllReservationByLivre(LivreDTO livre) throws IOException, InterruptedException {
         int id = livre.getIdLivre();
         HttpClient client = HttpClient.newHttpClient();
         String token = authService.getMemoireToken();
@@ -85,14 +85,15 @@ public class ReservationService {
         responseService.setResponseStatut(response.statusCode());
         System.out.println(response.body());
         ObjectMapper mapper = new ObjectMapper();
-        ReservationDTO reservationById = mapper.readValue(response.body(), new TypeReference<ReservationDTO>() {
+        List<ReservationDTO> listReservationById = mapper.readValue(response.body(), new TypeReference<List<ReservationDTO>>() {
         });
-        if(reservationById!=null) {
-            logger.info(" l'id de la reservation trouvée est :  "+reservationById.getIdReservation());
-            return reservationById;
+        if(listReservationById.size()>0) {
+            logger.info(" une liste de reservation a été trouvée :  ");
+            return listReservationById;
         } else {
-            logger.info(" retour de nul car pas d'élément et de reservation trouvée ");
-            return null;
+            logger.info(" retour d'une nouvelle liste car pas de réservation newList");
+            List<ReservationDTO> newList = new ArrayList<>();
+            return newList;
         }
     }
 
