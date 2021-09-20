@@ -12,6 +12,7 @@ import com.bibliotheque.entity.mapper.UserMapper;
 import com.bibliotheque.exception.RecordNotFoundException;
 import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
+import com.bibliotheque.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class ReservationController {
 
     @Autowired
     LivreService livreService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     ReservationMapper reservationMapper;
@@ -156,19 +160,32 @@ public class ReservationController {
     }
 
     /* controller pour verifier qu'un user a une reservation d'un livre*/
-    @RequestMapping(path="/verifierUserLivre",method=RequestMethod.GET)
-    public Boolean verifierReservationByUserByLivre (@RequestBody UserDTO userConcerneDTO, LivreDTO livreConcerneDTO){
-        User user = userMapper.toEntity(userConcerneDTO);
-        Livre livre =livreMapper.toEntity(livreConcerneDTO);
+
+    /*@RequestMapping(path="/verifierUserLivre",method = RequestMethod.PUT,produces = "application/json")
+    public Boolean verifierReservationByUserByLivre (@RequestBody ReservationDTO reservationModifieDTO){
+        User user = userMapper.toEntity(reservationModifieDTO.getUser());
+        Livre livre =livreMapper.toEntity(reservationModifieDTO.getLivre());
         Boolean reservationTrouvee=reservationService.verifierReservationByUserBylivre(user,livre);
         return reservationTrouvee;
     }
 
+     */
+
     /* controller pour vérifier le retrait d'une réservation < 48h*/
     @RequestMapping(path = "/verifierRetrait",method = RequestMethod.PUT,produces = "application/json")
-    public Boolean verifierRetraitReservation(@RequestBody ReservationDTO reservationModifieDTO) throws RecordNotFoundException {
+    public Boolean verifierRetraitReservation(@RequestBody ReservationDTO reservationModifieDTO) {
         Reservation reservationAVerifier = reservationMapper.toEntity(reservationModifieDTO);
         Boolean result=reservationService.verifierRetraitReservationApresMail(reservationAVerifier);
+        return result;
+    }
+
+
+    /* controller pour vérifier que le user n'a pas de reservation du livre*/
+    @RequestMapping(path ="/verifierPossessionLivreForUser/{idLivre}&&{idUser}",method = RequestMethod.GET)
+    public Boolean getVerifierPossessionLivreForUser(@PathVariable int idLivre,@PathVariable int idUser) throws RecordNotFoundException {
+        Livre livre = livreService.findById(idLivre);
+        User user = userService.getUserById(idUser);
+        Boolean result=reservationService.verifierPossessionLivreForUser(livre,user);
         return result;
     }
 

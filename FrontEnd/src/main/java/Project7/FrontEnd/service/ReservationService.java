@@ -402,4 +402,56 @@ public class ReservationService {
         }
         return result;
     }
+
+    /*Methode pour vérifier que le user n'a pas déjà réservé un exemplaire de ce livre pour la création de l'attenteReservation*/
+    public Boolean verifierPossessionLivre(ReservationDTO reservationDTO) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writeValueAsString(reservationDTO);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/verifierPossessionLivreForUser"))
+                .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        Boolean result = false;
+        if (response.body().compareTo("true")==0) {
+            result = true;
+        }else {
+            result = false;
+        }
+        return result;
+    }
+
+    /*Methode pour vérifier que le user n'a pas déjà réservé un exemplaire de ce livre pour la création de l'attenteReservation*/
+    public Boolean getAllVerificationUserPossessionLivre(UserDTO user,LivreDTO livre) throws IOException, InterruptedException {
+        int idLivre = livre.getIdLivre();
+        int idUser = user.getIdUser();
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/verifierPossessionLivreForUser/"+idLivre+"&&"+idUser))
+                .header("Authorization","Bearer"+" "+token)
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        responseService.setResponseStatut(response.statusCode());
+        System.out.println(response.body());
+        Boolean result = false;
+        if (response.body().compareTo("true")==0) {
+            result = true;
+        }else {
+            result = false;
+        }
+        return result;
+    }
+
+
+
 }

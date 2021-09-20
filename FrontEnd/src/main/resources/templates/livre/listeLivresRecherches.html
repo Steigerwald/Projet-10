@@ -35,7 +35,8 @@
                                                 <th>N°</th>
                                                 <th>Titre</th>
                                                 <th>Auteur</th>
-                                                <th>Disponible</th>
+                                                <th>Dispo</th>
+                                                <th>Date Dispo</th>
                                                 <th>Bibliothèque</th>
                                                 <th>Votre souhait</th>
                                             </tr>
@@ -46,6 +47,14 @@
                                                 <td> <a th:text="${livre.titre}" th:href="@{/livre/details/{nom} (nom=${livre.idLivre})}" ></a> </td>
                                                 <td th:text="${livre.auteur}"></td>
                                                 <td th:text="${livre.toStringDisponibilite()}"></td>
+                                                <td>
+                                                    <div th:if="${livre.disponibilite}">
+                                                        <a>Immédiat</a>
+                                                    </div>
+                                                    <div th:unless="${livre.disponibilite}">
+                                                        <a th:text="${datesPlusProches.get(state.index)}"></a>
+                                                    </div>
+                                                </td>
                                                 <td th:text="${livre.getBibliotheque().getNomBibliotheque()}"></td>
                                                 <td>
                                                     <div th:if="${livre.disponibilite}">

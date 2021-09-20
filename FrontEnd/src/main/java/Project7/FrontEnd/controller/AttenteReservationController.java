@@ -29,6 +29,9 @@ public class AttenteReservationController {
     AttenteReservationService attenteReservationService;
 
     @Autowired
+    public ReservationService reservationService;
+
+    @Autowired
     public LivreService livreService;
 
     @Autowired
@@ -80,9 +83,15 @@ public class AttenteReservationController {
         logger.info(" on est passé par là creerAttente/livre/  suite1 "+id);
         Boolean userDansListeAttente =attenteReservationService.getVerificationUserIsPresentInListeAttente(id,userConnecte.getIdUser());
         Boolean listeAttenteSuffisante = attenteReservationService.getVerificationListeAttenteSuffisante(livreConcerne.getIdLivre());
+        ReservationDTO newReservation = new ReservationDTO();
+        newReservation.setUser(userConnecte);
+        newReservation.setLivre(livreConcerne);
+        Boolean userPossedeDejaLivre = reservationService.verifierPossessionLivre(newReservation);
         logger.info(" on est passé par là creerAttente/livre/  suite2 "+id);
+        logger.info(" valeur boolean userPossedeDejaLivre "+userPossedeDejaLivre);
         logger.info(" valeur de userDansListeAttente "+userDansListeAttente);
-        if ((!userDansListeAttente)&&(listeAttenteSuffisante)){
+        logger.info(" valeur de listeAttenteSuffisante "+listeAttenteSuffisante);
+        if ((!userDansListeAttente)&&(listeAttenteSuffisante)&&(!userPossedeDejaLivre)){
             logger.info(" on est passé par là creerAttente/livre/  suite3 "+id);
         AttenteReservationDTO newAttenteReservation = new AttenteReservationDTO();
         newAttenteReservation.setUser(userConnecte);

@@ -109,10 +109,12 @@ public class LivreController {
     public String getSearchLivre(SearchDTO search, Model model, Principal principal) throws IOException, ParseException, InterruptedException {
         List<LivreDTO> listeLivresRecherches =livreService.sendSearchLivre(search);
         logger.info(" retour valeur de search du controller "+search.getAuteur()+" "+search.getNomCategorie()+" "+search.getTitre());
+        List<String> datesPlusProches=livreService.obtenirListeDateDispoPlusProche(listeLivresRecherches);
         userService.verifierUserConnecte(model);
         model.addAttribute("isAuthentified",authService.getAuthentification());
         model.addAttribute("livresRecherches", listeLivresRecherches);
         model.addAttribute("livresRecherchesSize", listeLivresRecherches.size());
+        model.addAttribute("datesPlusProches",datesPlusProches);
         return responseService.gestionDeReponseHttp(responseService.getResponseStatut(),"livre/listeLivresRecherches");
     }
 

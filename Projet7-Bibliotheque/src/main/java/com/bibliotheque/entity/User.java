@@ -37,6 +37,7 @@ public class User {
     private Boolean actifUser;
 
     @ManyToOne
+    @Nullable
     private Role role;
 
     @OneToMany(mappedBy="user",fetch=FetchType.LAZY,orphanRemoval=true)

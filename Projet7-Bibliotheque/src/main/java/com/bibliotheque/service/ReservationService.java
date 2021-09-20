@@ -26,6 +26,9 @@ public class ReservationService {
     @Autowired
     AttenteReservationService attenteReservationService;
 
+    @Autowired
+    UserService userService;
+
     /*Methode pour avoir toutes les reservations actives de la base de données*/
     public List<Reservation> findAll() {
         //return reservationRepository.findAllAndIsactif();
@@ -44,10 +47,17 @@ public class ReservationService {
     }
 
     /*Methode pour vérifier qu'un User a une reservation d'un livre dans la base de données*/
-    public Boolean verifierReservationByUserBylivre(User user, Livre livre){
-        Reservation reservationTrouvee = reservationRepository.findByUserAndLivre(user,livre);
+    public Boolean verifierReservationByUserBylivre(User user, Livre livre) throws RecordNotFoundException {
+        List<Livre> listLivreMemeTitre = livreService.getAllLivresByTitre(livre.getTitre());
+        Collection<Reservation> toutesReservations = new ArrayList<>();
+        for (Livre livreT: listLivreMemeTitre){
+            Collection<Reservation> reservationTrouvee = reservationRepository.findAllByUserAndLivre(user,livreT);
+            if (!reservationTrouvee.isEmpty()){
+                toutesReservations.addAll(reservationTrouvee);
+            }
+        }
         Boolean result;
-        if (reservationTrouvee==null){
+        if (toutesReservations.isEmpty()){
             result=false;
         }else{
             result=true;
@@ -210,4 +220,14 @@ public class ReservationService {
         }
         return listReservationExemplaire;
     }
+
+    /*Methode pour vérifier qu'un user n'a pas de réservation d'un livre*/
+    public Boolean verifierPossessionLivreForUser(Livre livre,User user) throws RecordNotFoundException {
+        Boolean result=false;
+        if ((livre!=null)&&(user!=null)){
+            result=verifierReservationByUserBylivre(user, livre);
+        }
+        return result;
+    }
+
 }
