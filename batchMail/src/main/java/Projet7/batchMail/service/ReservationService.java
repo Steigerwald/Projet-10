@@ -8,6 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
 import java.net.URI;
@@ -123,6 +127,21 @@ public class ReservationService {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(response.body(), new TypeReference<ReservationDTO>(){});
+    }
+
+    /*Methode pour effacer une reservation de la base de données */
+    public void effacerUneReservation(ReservationDTO reservation) throws IOException, InterruptedException {
+        int id = reservation.getIdReservation();
+        HttpClient client = HttpClient.newHttpClient();
+        String token = authService.getMemoireToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/reservation/"+id))
+                .header("Authorization","Bearer"+" "+token)
+                .DELETE()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        logger.info(" reponse du body " + response.body());
+        System.out.println(response.body());
     }
 
     /*Methode pour avoir toutes les réservation en attente retrait et qui n'ont pas de date d'infoMail*/

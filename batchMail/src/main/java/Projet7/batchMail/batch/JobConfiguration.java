@@ -43,6 +43,10 @@ public class JobConfiguration {
     @Autowired
     private ItemReader<ReservationDTO> infoReservationDTOItemReader;
 
+    @Qualifier("itemReaderFinReservation")
+    @Autowired
+    private ItemReader<ReservationDTO> finReservationItemReader;
+
     @Autowired
     private ItemProcessor<String,String> itemProcessor;
 
@@ -56,6 +60,10 @@ public class JobConfiguration {
     @Autowired
     private ItemProcessor<ReservationDTO,ReservationDTO> itemProcessorUser;
 
+    @Qualifier("itemProcessorFinReservation")
+    @Autowired
+    private ItemProcessor<ReservationDTO,ReservationDTO> finReservationItemProcessor;
+
     @Autowired
     private ItemWriter<String> itemWriter;
 
@@ -68,6 +76,10 @@ public class JobConfiguration {
 
     @Autowired
     private ItemWriter<ReservationDTO> itemWriterUser;
+
+    @Qualifier("itemWriterFinReservation")
+    @Autowired
+    private ItemWriter<ReservationDTO> finReservationItemWriter;
 
 
     @Bean
@@ -129,6 +141,17 @@ public class JobConfiguration {
     }
 
     @Bean
+    public Step retardRetrait(){
+        return stepBuilderFactory.get("Step5")
+                .<ReservationDTO,ReservationDTO>chunk(3)
+                .reader(finReservationItemReader)
+                .processor(finReservationItemProcessor)
+                .writer(finReservationItemWriter)
+                .build();
+    }
+
+
+    @Bean
     public Job helloWordJob(){
         return jobBuilderFactory.get("Job")
                 .start(helloWordStep())
@@ -136,6 +159,7 @@ public class JobConfiguration {
                 .next(reservationStep())
                 .next(userStep())
                 .next(reservationInfoStep())
+                .next(retardRetrait())
                 .build();
     }
 

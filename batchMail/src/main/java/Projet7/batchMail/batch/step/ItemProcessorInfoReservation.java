@@ -18,7 +18,7 @@ public class ItemProcessorInfoReservation implements ItemProcessor<ReservationDT
     /* Step pour le mail de relance pour la location lorsque la date est dépassée*/
     @Override
     public ReservationDTO process(ReservationDTO s) throws Exception {
-        System.out.println("ceci est le processor de " + s.getUser().getNomUser());
+        System.out.println("ceci est le processor de itemPRocessorInfoReservation de " + s.getUser().getNomUser());
         System.out.println("le mail est: " + s.getUser().getMailUser());
         Date today = new Date();
         s.setInfo(today);
