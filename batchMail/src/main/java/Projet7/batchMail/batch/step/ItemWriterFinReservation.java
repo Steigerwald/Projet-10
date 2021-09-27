@@ -29,9 +29,9 @@ public class ItemWriterFinReservation implements ItemWriter<ReservationDTO> {
             Date dateLimite = new Date(list.get(i).getInfo().getTime()+2*(1000*60));
             //Date dateLimite = new Date(list.get(i).getInfo().getTime()+2*(1000*60*60*24));
             if (today.after(dateLimite)) {
-                List<UserDTO> listeUsersEnAttente=attenteReservationService.getAllAttenteUsersByIdLivre(list.get(i).getLivre().getIdLivre());
-                reservationService.modifyReservationBatch(list.get(i));
                 reservationService.effacerUneReservation(list.get(i));
+                List<UserDTO> listeUsersEnAttente=attenteReservationService.getAllAttenteUsersByIdLivre(list.get(i).getLivre().getIdLivre());
+                //reservationService.modifyReservationBatch(list.get(i));
                 if (listeUsersEnAttente.size()>0){
                     ReservationDTO newReservation=new ReservationDTO();
                     newReservation.setUser(listeUsersEnAttente.get(0));

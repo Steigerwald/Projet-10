@@ -108,9 +108,16 @@ public class AttenteReservationService {
     /*Methode pour effacer une attente de réservation dans la base de données*/
     public void deleteAttenteReservationById(int id) throws RecordNotFoundException {
         Optional<AttenteReservation> attenteReservationAEffacer = attenteReservationRepository.findById(id);
+
         if (attenteReservationAEffacer.isPresent()){
+            List<Livre> livresConcernes = livreService.getAllLivresByTitre(attenteReservationAEffacer.get().getTitreLivre());
             AttenteReservation attenteReservationTrouve = attenteReservationAEffacer.get();
             attenteReservationRepository.deleteById(attenteReservationTrouve.getIdAttenteReservation());
+            List<AttenteReservation> listAttenteReservation = findAllAttenteReservationByTitreLivre(livresConcernes.get(0));
+            for (int i=0;i<listAttenteReservation.size();i=i+1){
+                listAttenteReservation.get(i).setPositionUser(i);
+                attenteReservationRepository.save(listAttenteReservation.get(i));
+            }
         }else{
             throw new RecordNotFoundException("Pas d'attente enregistrée avec cet Id");
         }
