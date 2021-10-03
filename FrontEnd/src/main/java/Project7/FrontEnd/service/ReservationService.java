@@ -267,7 +267,7 @@ public class ReservationService {
             newReservation.setLivre(reservation.getLivre());
             createReservation(newReservation);
             AttenteReservationDTO attenteTreservationAAnnuler =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(reservation.getLivre().getIdLivre(),listeAttenteUsers.get(0).getIdUser());
-            attenteReservationService.annulerAttenteReservation(attenteTreservationAAnnuler);
+            attenteReservationService.annulerAttenteReservation(attenteTreservationAAnnuler.getIdAttenteReservation());
         }else{
             reservation.getLivre().setDisponibilite(true);
         }

@@ -35,22 +35,17 @@ public class AttenteReservationService {
 
 
     /*Methode pour annuler une attente de reservation */
-    public AttenteReservationDTO annulerAttenteReservation(AttenteReservationDTO attenteReservation) throws IOException, InterruptedException {
+    public void annulerAttenteReservation(int id) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         String token = authService.getMemoireToken();
-        var objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writeValueAsString(attenteReservation);
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9090/attenteReservation/annulerAttenteReservation"))
-                .headers("Content-Type", "application/json","Authorization","Bearer"+" "+token)
-                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .uri(URI.create("http://localhost:9090/attenteReservation/"+id))
+                .header("Authorization","Bearer"+" "+token)
+                .DELETE()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         logger.info(" reponse du body "+response.body());
         System.out.println(response.body());
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(response.body(), new TypeReference<AttenteReservationDTO>(){});
     }
 
     /*Methode pour avoir la liste d'attente des users pour un livre*/

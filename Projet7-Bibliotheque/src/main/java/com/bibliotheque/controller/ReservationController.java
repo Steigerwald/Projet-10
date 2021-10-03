@@ -138,8 +138,8 @@ public class ReservationController {
     @RequestMapping(path ="/byUser",method = RequestMethod.POST)
     public ResponseEntity<List<ReservationDTO> >listOfReservationsByUser(@RequestBody UserDTO userDTO) {
         User user =userMapper.toEntity(userDTO);
-        List<Reservation> toutesReservationsByUser =reservationService.findAllByUser(user);
-        return new ResponseEntity<>(reservationMapper.toDto(toutesReservationsByUser), HttpStatus.OK);
+        List<Reservation> toutesReservationsByUserEnCours =reservationService.findAllByUser(user);
+        return new ResponseEntity<>(reservationMapper.toDto(toutesReservationsByUserEnCours), HttpStatus.OK);
     }
 
     /* controller pour avoir toutes les reservations à relancer 1 fois qui sont à traiter par le batch*/

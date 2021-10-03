@@ -14,11 +14,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> findAllByEtatReservation(String etatReservation);
     List<Reservation> findAllByEtatReservationAndIsactif(String etatReservation,Boolean actif);
     List<Reservation> findAllByEtatReservationOrEtatReservationAndIsactif(String etat1,String etat2,Boolean actif);
-    List<Reservation> findAllByUser(User user);
+    List<Reservation> findAllByUserAndIsactif(User user,Boolean actif);
     Collection<Reservation> findAllByUserAndLivre(User user, Livre livre);
     //Reservation findByUserAndLivre(User user, Livre livre);
     List<Reservation> findAllByEtatReservationAndInfoIsNull(String etatReservation);
-    List<Reservation> findAllByEtatReservationAndDateDeRetraitIsNull(String etatReservation);
+    List<Reservation> findAllByEtatReservationAndIsactifAndDateDeRetraitIsNull(String etatReservation,Boolean actif);
     List<Reservation> findAllByLivreAndIsactif(Livre livre,Boolean actif);
     List<Reservation> findAllByLivreAndDateDeRetraitIsNotNullAndIsactif(Livre livre,Boolean actif);
 }

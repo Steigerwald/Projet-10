@@ -138,7 +138,7 @@ public class ReservationService {
 
     /*Methode pour avoir toutes les reservations d'un user en cours de la base de données*/
     public List<Reservation> findAllByUser(User user) {
-        return reservationRepository.findAllByUser(user);
+        return reservationRepository.findAllByUserAndIsactif(user,true);
     }
 
 
@@ -199,7 +199,7 @@ public class ReservationService {
 
     /*Methode pour avoir toutes les réservation en attente et qui ont une dateRetrait nulle*/
     public List<Reservation> findAllReservationByEtatReservationAndByDateRetrait() {
-        return reservationRepository.findAllByEtatReservationAndDateDeRetraitIsNull("En attente retrait");
+        return reservationRepository.findAllByEtatReservationAndIsactifAndDateDeRetraitIsNull("En attente retrait",true);
     }
 
 

@@ -64,7 +64,7 @@ public class AttenteReservationController {
     @RequestMapping(value="/annuler/{id}",method = RequestMethod.POST)
     public String attenteReservationAnnuler(Model model, Principal principal, @PathVariable("id") int id) throws IOException, InterruptedException, ParseException {
         AttenteReservationDTO attenteReservationAAnnuler =attenteReservationService.getAttenteReservationById(id);
-        AttenteReservationDTO attenteReservationAnnulee = attenteReservationService.annulerAttenteReservation(attenteReservationAAnnuler);
+        attenteReservationService.annulerAttenteReservation(attenteReservationAAnnuler.getIdAttenteReservation());
         //model.addAttribute("reservation",reservationRetiree);
         return "redirect:/user/EspacePersonnel";
     }

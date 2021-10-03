@@ -52,5 +52,12 @@ public class ReservationDTO {
         }
     }
 
+    public String toStringIsactif(){
+        if (isactif){
+            return "oui";
+        }else{
+            return "non";
+        }
+    }
 
 }
