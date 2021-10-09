@@ -25,13 +25,15 @@ public class ItemProcessorFinReservation implements ItemProcessor<ReservationDTO
         System.out.println("ceci est le processor ItemProcessorFinReservation de " + s.getUser().getNomUser());
         System.out.println("le mail est: " + s.getUser().getMailUser());
         Date today = new Date();
-        Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60));
-        //Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60*60*24));
-        SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
-        if(today.after(dateLimite)){
-            s.setIsactif(false);
-            emailService.sendSimpleMessage(s.getUser().getMailUser(),"annulation de votre location de livre","Vous n'avez pas retiré votre livre "+s.getLivre().getTitre()+" à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " avant le "+simpleDateFormat02.format(dateLimite)+" votre résevation est annulée");
-        }
+       if (s.getInfo()!=null){
+           Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60));
+           //Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60*60*24));
+           SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
+           if(today.after(dateLimite)){
+               s.setIsactif(false);
+               emailService.sendSimpleMessage(s.getUser().getMailUser(),"annulation de votre location de livre","Vous n'avez pas retiré votre livre "+s.getLivre().getTitre()+" à la bibliothèque "+s.getLivre().getBibliotheque().getNomBibliotheque()+ " avant le "+simpleDateFormat02.format(dateLimite)+" votre résevation est annulée");
+           }
+       }
         return s;
     }
 }

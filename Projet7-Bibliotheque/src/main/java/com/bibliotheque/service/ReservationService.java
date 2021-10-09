@@ -225,7 +225,14 @@ public class ReservationService {
     public Boolean verifierPossessionLivreForUser(Livre livre,User user) throws RecordNotFoundException {
         Boolean result=false;
         if ((livre!=null)&&(user!=null)){
-            result=verifierReservationByUserBylivre(user, livre);
+            List<Livre> tousLivresMemeTitre=livreService.getAllLivresByTitre(livre.getTitre());
+            if(tousLivresMemeTitre.size()>0){
+                for (Livre l : tousLivresMemeTitre){
+                    if (verifierReservationByUserBylivre(user, l)){
+                        result =true;
+                    };
+                }
+            }
         }
         return result;
     }

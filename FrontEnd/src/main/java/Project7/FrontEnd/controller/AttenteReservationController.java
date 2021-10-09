@@ -83,10 +83,11 @@ public class AttenteReservationController {
         logger.info(" on est passé par là creerAttente/livre/  suite1 "+id);
         Boolean userDansListeAttente =attenteReservationService.getVerificationUserIsPresentInListeAttente(id,userConnecte.getIdUser());
         Boolean listeAttenteSuffisante = attenteReservationService.getVerificationListeAttenteSuffisante(livreConcerne.getIdLivre());
-        ReservationDTO newReservation = new ReservationDTO();
-        newReservation.setUser(userConnecte);
-        newReservation.setLivre(livreConcerne);
-        Boolean userPossedeDejaLivre = reservationService.verifierPossessionLivre(newReservation);
+        //ReservationDTO newReservation = new ReservationDTO();
+        //newReservation.setUser(userConnecte);
+        //newReservation.setLivre(livreConcerne);
+        //Boolean userPossedeDejaLivre = reservationService.verifierPossessionLivre(newReservation);
+        Boolean userPossedeDejaLivre = reservationService.getAllVerificationUserPossessionLivre(userConnecte,livreConcerne);
         logger.info(" on est passé par là creerAttente/livre/  suite2 "+id);
         logger.info(" valeur boolean userPossedeDejaLivre "+userPossedeDejaLivre);
         logger.info(" valeur de userDansListeAttente "+userDansListeAttente);
@@ -104,11 +105,11 @@ public class AttenteReservationController {
             logger.info(" OK on est dans demandeAttenteReservation #############");
         return "attenteReservation/demandeAttenteReservation";
         }else{
-            if(userDansListeAttente){
+            if((userDansListeAttente)||(userPossedeDejaLivre)){
                 logger.info(" on est passé par là creerAttente/livre/  suite4 "+id);
-                AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
+                //AttenteReservationDTO attenteReservationTrouvee =attenteReservationService.getAttenteReservationByIdLivreAndByIdUser(livreConcerne.getIdLivre(),userConnecte.getIdUser());
                 logger.info(" refusée on est dans demandeAttenteReservationRefusee #############");
-                model.addAttribute("attenteReservation",attenteReservationTrouvee);
+                //model.addAttribute("attenteReservation",attenteReservationTrouvee);
                 return "attenteReservation/demandeAttenteReservationRefusee";
             }else{
                 logger.info(" on est passé par là creerAttente/livre/  suite5 "+id);
