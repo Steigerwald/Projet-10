@@ -189,7 +189,4 @@ public class AttenteReservationService {
         return result;
     }
 
-
-    /*Methode pour vérifier la date de retrait et la date de disponibilité < 48H*/
-
 }
