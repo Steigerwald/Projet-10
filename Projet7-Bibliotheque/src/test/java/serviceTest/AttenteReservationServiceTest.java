@@ -5,11 +5,7 @@ import com.bibliotheque.entity.Livre;
 import com.bibliotheque.entity.User;
 import com.bibliotheque.repository.AttenteReservationRepository;
 import com.bibliotheque.service.AttenteReservationService;
-import com.bibliotheque.service.LivreService;
-import com.bibliotheque.service.ReservationService;
-import com.bibliotheque.service.UserService;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -21,13 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import javax.persistence.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -51,7 +46,7 @@ public class AttenteReservationServiceTest {
     private AttenteReservation attenteReservation;
 
 
-    @Before
+    @BeforeEach
     public void init () throws ParseException {
 
         newUser = new User();
@@ -63,6 +58,7 @@ public class AttenteReservationServiceTest {
         newLivre.setDisponibilite(false);
 
         attenteReservation = new AttenteReservation();
+        attenteReservation.setIdAttenteReservation(12);
         attenteReservation.setIsactifAttente(true);
         attenteReservation.setDatedelaiDepasse(false);
         attenteReservation.setPositionUser(1);
@@ -71,25 +67,6 @@ public class AttenteReservationServiceTest {
         attenteReservation.setDateAttenteReservation(simpleDateFormat);
         attenteReservation.setTitreLivre(newLivre.getTitre());
         attenteReservation.setUser(newUser);
-
-
-        /*
-        Mockito.when(newUser.getPrenomUser()).thenReturn("Pierre");
-        Mockito.when(newUser.getNomUser()).thenReturn("Jean");
-        Mockito.when(newLivre.getTitre()).thenReturn("Dune");
-        Mockito.when(newLivre.getEtatLivre()).thenReturn("normal");
-        Mockito.when(newLivre.getDisponibilite()).thenReturn(false);
-
-        Mockito.when(attenteReservation.getIsactifAttente()).thenReturn(true);
-        Mockito.when(attenteReservation.getDatedelaiDepasse()).thenReturn(false);
-        Mockito.when(attenteReservation.getPositionUser()).thenReturn(1);
-        Mockito.when(attenteReservation.getEtatAttenteReservation()).thenReturn("Sur liste attente");
-        Date simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd").parse("2021-10-15");
-        Mockito.when(attenteReservation.getDateAttenteReservation()).thenReturn(simpleDateFormat);
-        Mockito.when(attenteReservation.getTitreLivre()).thenReturn(newLivre.getTitre());
-        Mockito.when(attenteReservation.getUser()).thenReturn(newUser);
-
- */
 
         logger.info(" valeur de attenteReservation "+attenteReservation.toString());
     }
@@ -137,10 +114,29 @@ public class AttenteReservationServiceTest {
         assertThat(attenteReservation).isEqualTo(result);
     }
 
+    @Test
+    public void verificationFindAttenteReservationById(){
+        // arrange
+        Mockito.when(attenteReservationRepository.findById(12)).thenReturn(Optional.ofNullable(attenteReservation));
+
+        // act
+        AttenteReservation result =objetTotest.findAttenteReservationById(12);
+
+        // assert
+        assertThat(attenteReservation).isEqualTo(result);
+    }
+
 
     @Test
     public void verificationPositionUser(){
         // arrange
+        List<AttenteReservation> listAttenteReservation =new ArrayList<>();
+        listAttenteReservation.add(attenteReservation);
+        Mockito.when(attenteReservationRepository.findAllByTitreLivreAndIsactifAttenteOrderByDateAttenteReservation(newLivre.getTitre(),true)).thenReturn(listAttenteReservation);
+
+        List<AttenteReservation> listeOrdonnee = new ArrayList<>();
+        listeOrdonnee.add(attenteReservation);
+        Mockito .when(objetTotest.findAllAttenteReservationByTitreLivre(newLivre)).thenReturn(listeOrdonnee);
 
         // act
         int result = objetTotest.avoirPositionUser (newUser, newLivre);
@@ -150,9 +146,24 @@ public class AttenteReservationServiceTest {
 
         // assert
         //Assert.assertTrue("true",result);
-        assertThat("0").isEqualTo(resultString);
+        assertThat("1").isEqualTo(resultString);
+
     }
 
+    @Test
+    public void verificationUserListeDAttenteTrue() throws ParseException {
+        // arrange
+        List<AttenteReservation> listeOrdonnee = new ArrayList<>();
+        listeOrdonnee.add(attenteReservation);
+        Mockito .when(objetTotest.findAllAttenteReservationByTitreLivre(newLivre)).thenReturn(listeOrdonnee);
+
+        // act
+        Boolean result = objetTotest.verifierUserListeDAttente (newUser, newLivre);
+        logger.info(" valeur de result de verificationUserListeDAttenteTrue "+result);
+
+        // assert
+        assertThat("true").isEqualTo(result.toString());
+    }
 
 
 

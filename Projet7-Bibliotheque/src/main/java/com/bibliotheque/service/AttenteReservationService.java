@@ -59,7 +59,8 @@ public class AttenteReservationService {
 
     /*Methode pour trouver par son id une reservation dans la base de données*/
     public AttenteReservation findAttenteReservationById(int id) {
-        return  attenteReservationRepository.findById(id).get();
+        Optional<AttenteReservation> result = attenteReservationRepository.findById(id);
+        return result.orElse(null);
     }
 
 
