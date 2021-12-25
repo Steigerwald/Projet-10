@@ -31,7 +31,8 @@ public class ItemWriterFinReservation implements ItemWriter<ReservationDTO> {
             //reservationService.modifyReservationBatch(list.get(i));
             Date today = new Date();
             if (list.get(i).getInfo()!=null) {
-                Date dateLimite = new Date(list.get(i).getInfo().getTime() + 2 * (1000 * 60));
+                //date limite dépassée d'une minute'
+                Date dateLimite = new Date(list.get(i).getInfo().getTime() + (1000 * 60));
                 //Date dateLimite = new Date(list.get(i).getInfo().getTime()+2*(1000*60*60*24));
                 if (today.after(dateLimite)) {
                     list.get(i).setEtatReservation("jamais retiree");

@@ -26,7 +26,8 @@ public class ItemProcessorFinReservation implements ItemProcessor<ReservationDTO
         System.out.println("le mail est: " + s.getUser().getMailUser());
         Date today = new Date();
        if (s.getInfo()!=null){
-           Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60));
+           //dépassement du délai à 1 min
+           Date dateLimite = new Date(s.getInfo().getTime()+(1000*60));
            //Date dateLimite = new Date(s.getInfo().getTime()+2*(1000*60*60*24));
            SimpleDateFormat simpleDateFormat02 = new SimpleDateFormat("dd-MM-yyyy");
            if(today.after(dateLimite)){

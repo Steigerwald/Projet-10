@@ -1,10 +1,10 @@
-# OpenClassRoom projet 7
+# OpenClassRoom projet 10
 
 Projet de conception d'un site Bibliothèque
 
 ## 1. Comment lancer l'application:
 ```
-git clone https://github.com/Steigerwald/Projet7-Bibliotheque.git
+git clone https://github.com/Steigerwald/Projet-10/Projet7-Bibliotheque.git
 cd Projet7-Bibliotheque
 mvn spring-boot:run
 ```
@@ -30,3 +30,14 @@ role admin:
 role user: 
 - identifiant: user@gmail.com
 - password: coco
+
+## 5. Il faudra lancer les applications
+L'application nécessite une application front end pour visualiser les données de l'application avec les informations suivantes:
+Voir https://github.com/Steigerwald/Projet-10/FrontEnd.git
+- nom de l'application: frontEnd
+- port: 3030
+depuis le net : localhost:3030/home
+
+L'application est aussi upgradée par une application batch pour traiter des données de façon horodatée et automatique:
+Voir https://github.com/Steigerwald/Projet-10/batchMail.git
+- nom de l'application: batchmail

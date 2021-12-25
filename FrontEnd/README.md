@@ -1,11 +1,11 @@
-# Projet7-FrontEnd
+# Projet10-FrontEnd
 
 Projet de conception d'un site Bibliothèque, partie FrontEnd
 
 ## 1. Comment lancer l'application:
 Après avoir lancé l'application du backEnd selon le README de Projet7-Bibliotheque
-voir https://github.com/Steigerwald/Projet7-Bibliotheque.git
-et https://github.com/Steigerwald/batchMail.git
+voir https://github.com/Steigerwald/Projet-10/Projet7-Bibliotheque.git
+et https://github.com/Steigerwald/Projet-10/batchMail.git
 
 ```
 git clone https://github.com/Steigerwald/FrontEnd.git

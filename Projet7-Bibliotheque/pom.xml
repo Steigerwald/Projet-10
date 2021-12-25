@@ -125,9 +125,7 @@
             <version>3.18.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
     <build>
         <finalName>mapstruct</finalName>
         <plugins>
@@ -159,6 +157,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
